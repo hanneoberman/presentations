@@ -1,6 +1,6 @@
 ---
-title: "shiny101"
-subtitle: "MSBBSS guest lecture"
+title: "Some Shiny Stuff"
+subtitle: "building (web)apps with the `R` package `shiny`"
 author: "Based on an aDAV presentation <br> Edited and presented by Hanne Oberman"
 date: "08-12-2021"
 output: 
@@ -9,10 +9,15 @@ output:
     incremental: yes
     logo: ../logo.png
     widescreen: yes
-    keep_md: yes
 ---
 
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(shiny)
+library(ggplot2)
+library(dplyr)
+library(psych)
+```
 
 ## What we'll discuss
 
@@ -86,8 +91,7 @@ A. Create a file called `app.R` and add `shiny` components (file name and compon
     
 You can see this in the default `shiny` structure:
 
-
-```r
+```{r, echo=TRUE, eval=FALSE}
 library(shiny)
 ui <- fluidPage()
 server <- function(input, output) {}
@@ -100,17 +104,9 @@ shinyApp(ui = ui, server = server)
 
 Data on products sold by BC Liquor Store (source: [OpenDataBC](https://catalogue.data.gov.bc.ca/dataset/bc-liquor-store-product-price-list-historical-prices)).
 
-
-```
-## Rows: 6,132
-## Columns: 7
-## $ Type            <chr> "WINE", "WINE", "WINE", "WINE", "WINE", "WINE", "WINE"~
-## $ Subtype         <chr> "TABLE WINE RED", "TABLE WINE WHITE", "TABLE WINE RED"~
-## $ Country         <chr> "CANADA", "CANADA", "CANADA", "CANADA", "UNITED STATES~
-## $ Name            <chr> "COPPER MOON - MALBEC", "DOMAINE D'OR - DRY", "SOMMET ~
-## $ Alcohol_Content <dbl> 14.0, 11.5, 12.0, 11.0, 13.5, 11.0, 12.5, 12.0, 11.5, ~
-## $ Price           <dbl> 30.99, 32.99, 29.99, 33.99, 36.99, 34.99, 119.00, 32.9~
-## $ Sweetness       <int> 0, 0, 0, 1, 0, 0, 0, 0, 0, NA, 0, NA, NA, 0, 0, 2, 0, ~
+```{r, echo=FALSE}
+bcl <- read.csv("../bcl-data.csv")
+dplyr::glimpse(bcl)
 ```
 
 
@@ -120,8 +116,7 @@ We're going to create a `shiny` app to visualize these data interactively.
 
 Let's start with the empty `shiny` structure:
 
-
-```r
+```{r, echo=TRUE, eval=FALSE}
 library(shiny)
 ui <- fluidPage()
 server <- function(input, output) {}
@@ -138,8 +133,7 @@ shinyApp(ui = ui, server = server)
 
 ## Adding a title
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 ui <- fluidPage(
   titlePanel("BC Liquor Store prices")
 )
@@ -160,8 +154,7 @@ The `shiny` function `titlePanel()`
 
 To render text in our app, we can just add character/string objects inside `fluidPage()`:
 
-
-```r
+```{r, echo=TRUE, eval=FALSE}
 ui <- fluidPage(
   titlePanel("BC Liquor Store prices"),
   "BC Liquor Store", 
@@ -193,8 +186,7 @@ For formatted text, `shiny` has many functions that are wrappers around HTML tag
 
 Let's replace the UI part of our code with the following:
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 ui <- fluidPage(
   titlePanel("BC Liquor Store prices"),
   h2("BC"),
@@ -220,8 +212,7 @@ The simple sidebar layout:
 
 We'll replace the formatted text by a sidebar layout:
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 ui <- fluidPage(
   titlePanel("BC Liquor Store prices"),
   sidebarLayout(
@@ -270,8 +261,7 @@ If we want to add an input element for the variable price in our app, which func
 - `radioButtons()`: choosing a specific number;
 - `sliderInput()`: choosing a range of values on the slider.
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 sliderInput(
   inputId = "priceInput", 
   label = "Price", 
@@ -291,8 +281,7 @@ All input functions have the same first two arguments:
 
 These argument names are typically dropped from the `...Input()` function call: 
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 sliderInput("priceInput", "Price", min = 0, max = 100, value = c(25, 40), pre = "$")
 ```
 
@@ -302,8 +291,8 @@ sliderInput("priceInput", "Price", min = 0, max = 100, value = c(25, 40), pre = 
 
 The resulting UI code looks like:
 
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 
-```r
 ui <- fluidPage(
   titlePanel("BC Liquor Store prices"),
   sidebarLayout(
@@ -314,6 +303,7 @@ ui <- fluidPage(
     mainPanel("[outputs]")
   )
 )
+
 ```
 
 ## Our app
@@ -328,16 +318,14 @@ Let's create input elements for the variables country and product type as well. 
 
 We'll use a dropdown list for the countries Canada, France and Italy with `selectInput()`:
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 selectInput("countryInput", "Country",
             choices = c("CANADA", "FRANCE", "ITALY"))
 ```
 
 And for product type, we'll specify choices with `radioButtons()`:
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 radioButtons("typeInput", "Product type",
             choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
             selected = "WINE")
@@ -347,8 +335,7 @@ radioButtons("typeInput", "Product type",
 
 The full UI code is now: 
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 ui <- fluidPage(
   titlePanel("BC Liquor Store prices"),
   sidebarLayout(
@@ -386,8 +373,7 @@ Placeholders:
 
 Let's add a figure as output in our app: 
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 mainPanel(
   plotOutput("coolplot")
 )
@@ -406,22 +392,21 @@ The placeholder doesn't show anything, because we haven't created any figure yet
 
 But first, let's add another output element:
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 mainPanel(
   plotOutput("coolplot"),
   br(),
   br(),
   tableOutput("our_table")
 )
+
 ```
 
 <div class="small">Note: we added a few line breaks `br()` between the two outputs, so that they aren't crammed on top of each other.</div>
 
 ## The complete UI
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 ui <- fluidPage(
   titlePanel("BC Liquor Store prices"),
   sidebarLayout(
@@ -456,8 +441,7 @@ ui <- fluidPage(
 
 <!-- The server is the part where the output is created, so it can be displayed in the UI.  -->
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 library(shiny)
 ui <- fluidPage()
 server <- function(input, output) {}
@@ -478,8 +462,7 @@ Let's use the exception to the rule to develop our server step-by-step.
 
 Instead of input from the UI, we'll use static data to fill in the placeholder plot:
 
-
-```r
+```{r eval = FALSE, echo=TRUE, eval=FALSE}
 server <- function(input, output) {
   output$coolplot <- renderPlot({
   ggplot() +
@@ -502,8 +485,7 @@ To make the figure interactive, we have to link the server to the UI inputs.
 
 Let's use the price input to create some random data, interactively: 
 
-
-```r
+```{r eval = FALSE, echo=TRUE, eval=FALSE}
 server <- function(input, output) {
   output$coolplot <- renderPlot({
   ggplot() +
@@ -530,8 +512,7 @@ We'll create a histogram of the percentage alcohol in the beverages.
 
 Ultimately, the plot should match the input elements interactively. But first, we'll plot a static version (briefly ignoring the inputs again):
 
-
-```r
+```{r fig.keep='none', results='hide', echo=TRUE, eval=FALSE}
 server <- function(input, output) {
   output$coolplot <- renderPlot({
     bcl %>% 
@@ -553,8 +534,8 @@ server <- function(input, output) {
 
 To incorporate interactivity, we're going to filter the data based on the values of `priceInput`, `typeInput`, and `countryInput`:
 
+```{r fig.keep='none', results='hide', echo=TRUE, eval=FALSE}
 
-```r
 server <- function(input, output) {
   output$coolplot <- renderPlot({
   bcl %>%
@@ -568,6 +549,7 @@ server <- function(input, output) {
       ggtitle("Histogram of alcohol content (interactive)")
 })
 }
+
 ```
 
 ## Our app
@@ -581,8 +563,7 @@ server <- function(input, output) {
 
 To complete our app we need to build some output for the table placeholder, and add it to the server: 
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide', message=FALSE, warning=FALSE}
 output$our_table <- renderTable({
   bcl %>%
     filter(Price >= input$priceInput[1],
@@ -613,8 +594,7 @@ On the most basic level, it means that when the value of a variable `x` changes,
 
 Consider the following code
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 x <- 5
 y <- x + 1
 x <- 10
@@ -626,8 +606,7 @@ What is the value of `y`?
 
 What is the value of `y`?
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 x <- 5
 y <- x + 1
 x <- 10
@@ -643,8 +622,7 @@ Reactivity is the foundation for the responsiveness of `shiny` apps.
 
 In our server, we implicitly use reactivity when we filter the data for our outputs: 
 
-
-```r
+```{r eval=FALSE, include=TRUE, echo=TRUE, results='hide'}
 bcl %>%
   filter(Price >= input$priceInput[1],
          Price <= input$priceInput[2],
@@ -662,8 +640,7 @@ We can avoid code duplication by:
 - defining a reactive variable that will hold the filtered dataset; 
 - using that variable in the `render...()` functions.
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide'}
 filtered <- reactive({
   bcl %>%
     filter(Price >= input$priceInput[1],
@@ -698,8 +675,7 @@ This can be visualized in a dependency tree, to show what value depends on what 
 
 ## The final app
 
-
-```r
+```{r, echo=TRUE, eval=FALSE, results='hide', message=FALSE, warning=FALSE}
 server <- function(input, output) {
   filtered <- reactive({
     bcl %>%
