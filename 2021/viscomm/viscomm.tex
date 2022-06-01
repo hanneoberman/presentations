@@ -1,0 +1,219 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={test},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{test}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\hypertarget{requirements}{%
+\section{Requirements}\label{requirements}}
+
+Topics:
+
+\begin{itemize}
+\item
+  How should visualization adapt to its new, more diverse audience?
+  Visualization for communication addresses an audience that is much
+  more varied in demographics and literacy than visualization for
+  analysis. When do visualizations communicate successfully, and how can
+  we measure that success? Methods might include web analytics,
+  behavioral studies, eye tracking, or even galvanic skin response.
+\item
+  How can practitioners build visualizations that communicate
+  successfully? Are there models that can guide effective communicative
+  visualization, possibly derived from theories of aesthetics, memory,
+  metaphor, or persuasion?
+\item
+  Are there certain visualization techniques (like ``chart junk'') that
+  are particularly helpful for communication? How well do they work in
+  concert? What tools do practitioners need to help them build
+  visualizations for communication? What are typical practitioner
+  workflows, and which parts of them are most challenging?
+\item
+  Which application areas are still emerging for communicative
+  visualization? How would the success of new tools be measured? What
+  new lessons about visualization for communication are being revealed
+  by the COVID-19 pandemic? For example, should physical distancing and
+  economic disruption change communicative visualizations? How can data
+  visualization help to fight against misleading facts and
+  disinformation? What tools, platforms, and approaches have been useful
+  to dispel untruths?
+\item
+  We particularly encourage contributors to address and illustrate
+  issues like these with visual case studies that demonstrate the
+  success or failure of communicative visualization projects in data
+  journalism, public health and more. Our goal is to consider a broad
+  range of examples and learn from their design decisions and process.
+\item
+  We invite contributions from any discipline, but particularly
+  encourage journalists and designers to submit their work involving
+  data-based communication or reporting. Scientific contributions
+  concerning visualization for communication are of course welcome, as
+  well.
+\end{itemize}
+
+Late-Breaking Works in Progress
+
+\begin{itemize}
+\item
+  The purpose of this category is to present work in progress and
+  receive feedback from attendees.
+\item
+  For research that is in progress, this session will provide a
+  supportive atmosphere for helpful feedback and fresh perspectives on
+  your aims and/or methods. Recommended structure for your one-page
+  submission is: introduction, preliminary methods, preliminary findings
+  (if applicable), and questions for attendees.
+\item
+  For practitioners, this is an opportunity to present contributions
+  that showcase innovative visualizations or provide provocations for
+  new ideas to emerge. Your one-page brief should include project
+  background, design objectives, methods or design process, links to
+  visualization design alternatives, preliminary findings (if
+  available), and questions for attendees.
+\end{itemize}
+
+\hypertarget{content}{%
+\section{Content}\label{content}}
+
+Aim:
+
+\begin{itemize}
+\item
+  visualizing uncertainty
+\item
+  important aspect of visualization for analysis. while often ignored in
+  visualization for communication.
+\item
+  it's already challenging to express uncertainty in the context of
+  prediction of future events, such as election polls or COVID-19
+  prognoses. but what if there's uncertainty in something that we
+  consider to be `facts'?
+\item
+  for example, in headline ``17\% of phd students experience burnout
+  symptoms'', the percentage is an estimate. the real value may lay
+  within a bound of uncertainty. that's because we infer something from
+  a sample to a population. we can visualize this uncertainty with error
+  bars on bar charts or shaded areas in line graphs.
+\item
+  but if we measure an entire population, such as the US census, there
+  are no error bars in the figures. yet still, there may be uncertainty.
+\item
+  this type of uncertainty is the topic of this project: uncertainty due
+  to missing data. missing data may occur across observations (e.g.,
+  some people have no home address and cannot be reached) or within
+  observations (e.g., some topics are sensitive and will not elicit
+  responses). whatever the reason of the missingness, it may influence
+  any {[}subsequent{]} estimates {[}down the line{]}.
+\item
+  what are intuitive ways to express uncertainty due to missing data to
+  non-expert audiences?
+\end{itemize}
+
+Methods:
+
+\begin{itemize}
+\item
+  missing data is ubiquitous and often ignored
+\item
+  but it can gravely influence estimates
+\item
+  gold standard in science is to `impute' (i.e., fill in) the missing
+  entries before analyzing the data.
+\item
+  motivating example: relation between height and weight. quite trivial,
+  but apparent that there should be some coherence.
+\item
+  developing an online evaluation suite to inspect missing data, impute
+  it, and run analyses. We need visualizations for each step of this
+  process. Visualizations for the first two steps exist, but not for the
+  third.
+\item
+  \url{hanneoberman.shinyapps.io/shinymice-demo}
+\end{itemize}
+
+Question for attendees:
+
+\begin{itemize}
+\tightlist
+\item
+\end{itemize}
+
+\hypertarget{todo}{%
+\section{TODO}\label{todo}}
+
+\begin{itemize}
+\item
+  look up mckinley (tableau -\textgreater{} gerkovink.com/slvrepo),
+  tuftee (message of dataviz), wilkinson (grammar of graph)
+\item
+  add misleading facts/disinformation?
+\item
+  add link to public health/data journalism
+\end{itemize}
+
+\end{document}

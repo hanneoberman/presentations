@@ -1,0 +1,117 @@
+---
+title: "Visualizing Uncertainty due to Missing Data"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+---
+
+<!-- # Requirements -->
+
+<!-- Topics: -->
+
+<!-- - How should visualization adapt to its new, more diverse audience? Visualization for communication addresses an audience that is much more varied in demographics and literacy than visualization for analysis. -->
+<!-- When do visualizations communicate successfully, and how can we measure that success? Methods might include web analytics, behavioral studies, eye tracking, or even galvanic skin response. -->
+
+<!-- - How can practitioners build visualizations that communicate successfully? Are there models that can guide effective communicative visualization, possibly derived from theories of aesthetics, memory, metaphor, or persuasion? -->
+
+<!-- - Are there certain visualization techniques (like “chart junk”) that are particularly helpful for communication? How well do they work in concert? -->
+<!-- What tools do practitioners need to help them build visualizations for communication? What are typical practitioner workflows, and which parts of them are most challenging? -->
+
+<!-- - Which application areas are still emerging for communicative visualization? How would the success of new tools be measured? -->
+<!-- What new lessons about visualization for communication are being revealed by the COVID-19 pandemic? For example, should physical distancing and economic disruption change communicative visualizations? -->
+<!-- How can data visualization help to fight against misleading facts and disinformation? What tools, platforms, and approaches have been useful to dispel untruths? -->
+
+<!-- - We particularly encourage contributors to address and illustrate issues like these with visual case studies that demonstrate the success or failure of communicative visualization projects in data journalism, public health and more. Our goal is to consider a broad range of examples and learn from their design decisions and process. -->
+
+<!-- - We invite contributions from any discipline, but particularly encourage journalists and designers to submit their work involving data-based communication or reporting. Scientific contributions concerning visualization for communication are of course welcome, as well. -->
+
+<!-- Late-Breaking Works in Progress -->
+
+<!-- - The purpose of this category is to present work in progress and receive feedback from attendees. -->
+
+<!-- - For research that is in progress, this session will provide a supportive atmosphere for helpful feedback and fresh perspectives on your aims and/or methods. Recommended structure for your one-page submission is: introduction, preliminary methods, preliminary findings (if applicable), and questions for attendees. -->
+
+<!-- - For practitioners, this is an opportunity to present contributions that showcase innovative visualizations or provide provocations for new ideas to emerge. Your one-page brief should include project background, design objectives, methods or design process, links to visualization design alternatives, preliminary findings (if available), and questions for attendees. -->
+
+<!-- # Content -->
+## Abstract
+
+Scientific uncertainty is often omitted from data visualization for communication, while it may enable audiences to assess study results more fairly. One source of uncertainty is of particular interest in this project: missing data. Missingness is ubiquitous, typically ignored, and poses a major threat to the validity of scientific results. We aim to find intuitive ways to express uncertainty due to missing data, and would like your feedback on the visualization tools in our online pilot app. 
+
+## Introduction
+
+Familiarity with visualized uncertainty is one of the few unexpected positive effects of the COVID-19 crisis on society at large. The average layperson was never before exposed to so many scientific data visualizations. Whether it is in daily updates of COVID prognoses, or in comparing models for potential restrictions to implement--each is expressed with a proper range of 'unknowns'. Media consumers might have seen ranges in predictions before, such as in exit polls of electoral votes, but never was uncertainty so omnipresent. This societal need for *and* interest in visualized uncertainty is unprecedented. 
+
+Now that expressing uncertainty has breached the gap between visualizations made for analysis purposes and visualizations for communication, we should keep the ball rolling. The obscurity about future developments that is apparent in (COVID) prediction models is not the only possible source of uncertainty one could plot. Take for example confidence intervals, with which scientists express uncertainty about their hypotheses when extrapolating from their sample to a greater population. These are often represented by error ranges in study results. In a study investigating the efficacy of two different treatment options one could plot a bar graph with confidence intervals as error bars on the treatment effects. This is an intuitive way of showing the audience something about the strength of the evidence presented. Much more so than reporting confidence intervals and other statistics textually. And unsurprisingly, such expressions of uncertainty rarely make the headlines. With that, the magnitude of the uncertainty stays exclusively known to the scientific community. Which, in turn, may cause the wider public to distrust scientific studies. This gives us all the more reason to express uncertainty visually.
+
+But, even if there is no uncertainty due to study design, such as in de US census, there may still be unknown factors that should be expressed visually. A ubiquitous and often ignored problem in data analyses is missing data. Missingness can lead to severely biased results and increased room for erroneous conclusions (Little & Rubin, 2002). Missing data may occur across observations (e.g., some people have no home address and cannot be reached) or within observations (e.g., some topics are deemed too sensitive and will not elicit complete  responses). Whatever the reason of the missingness, it may gravely influence any subsequent estimates (Graham, 2012). Uncertainty due to missingness should therefore be expressed in any visualization for communication.
+
+## Methods
+
+In this project, we focus on intuitive ways to express uncertainty due to missing data to non-expert audiences. There have been many methodological advancements in the area of missing data, but none have specifically focused on visualization. We base our work on the method that has become the 'gold standard' for mitigating missingness: 'imputing' (i.e., filling in) any missing entries before analyzing incomplete datasets (Rubin, 1976; Schafer & Graham, 2002; van Buuren, 2018). How this method works exactly is not the focus of the current project. Instead, we aim to develop an online evaluation suite to inspect missing data, impute it, and evaluate it. At each of these three steps, there should be data visualization tools that are understandable for novice and lay audiences. This is where we would love your help: what do *you* think are intuitive ways to express uncertainty due to missing data?
+
+## Question for attendees
+
+Could you please provide feedback on our tools for visualizing missing data? We have developed a pilot version of our missing data evaluation app, which is available at [hanneoberman.shinyapps.io/shinymice-demo](hanneoberman.shinyapps.io/shinymice-demo). We do not assume that you, attendee to this conference, are in any way familiar with the methodology in this app. The intended audience of the app is researchers who are faced with missing data. We want to enable them to easily produce understandable graphical presentations of the uncertainty in their data. What we would like to know from you is whether these visualizations are indeed understandable. At some point, you might encounter these figures in visualizations for communication. But before that, we would like feedback from an audience that is not an expert in methodology, but rather in data visualization. What aspects are unclear to you? What could we do to improve our missing data visualization app?
+
+Please navigate to the pilot app, at [hanneoberman.shinyapps.io/shinymice-demo](hanneoberman.shinyapps.io/shinymice-demo), and look around. As a motivating example, the pilot  includes incomplete data on child development. The most instructive variables to use, arguably, are height (`hgt`) and weight (`wgt`). These variables have an intuitive, apparent relationship, and do not share overlapping missing values. Feel free to click around and enjoy! For the interested reader there is more information available at [stefvanbuuren.name/fimd](stefvanbuuren.name/fimd).
+
+## References
+
+Graham, J. W. (2012). Missing data: Analysis and design. Springer Science & Business Media.
+
+Little, R. J. A., & Rubin, D. B. (2002). Statistical Analysis with Missing Data (2nd ed.). John Wiley & Sons, Ltd. https://doi.org/10.1002/9781119013563
+
+Rubin, D. B. (1976). Inference and Missing Data. Biometrika, 63(3), 581–592. JSTOR. https://doi.org/10.2307/2335739
+
+Schafer, J. L., & Graham, J. W. (2002). Missing data: Our view of the state of the art. Psychological Methods, 7(2), 147.
+
+Van Buuren, S. (2018). Flexible imputation of missing data. Chapman and Hall/CRC. https://stefvanbuuren.name/fimd/
+
+
+
+
+<!-- - visualizing uncertainty -->
+
+<!-- - important aspect of visualization for analysis. while often ignored in visualization for communication.  -->
+
+<!-- - it's already challenging to express uncertainty in the context of prediction of future events, such as election polls or COVID-19 prognoses. but what if there's uncertainty in something that we consider to be 'facts'? -->
+
+<!-- - for example, in headline "17% of phd students experience burnout symptoms", the percentage is an estimate. the real value may lay within a bound of uncertainty. that's because we infer something from a sample to a population. we can visualize this uncertainty with error bars on bar charts or shaded areas in line graphs. -->
+
+<!-- - but if we measure an entire population, such as the US census, there are no error bars in the figures. yet still, there may be uncertainty.  -->
+
+<!-- -  this type of uncertainty is the topic of this project: uncertainty due to missing data. missing data may occur across observations (e.g., some people have no home address and cannot be reached) or within observations (e.g., some topics are sensitive and will not elicit responses). whatever the reason of the missingness, it may influence any [subsequent] estimates [down the line].   -->
+
+<!-- - what are intuitive ways to express uncertainty due to missing data to non-expert audiences? -->
+
+
+<!-- Methods: -->
+
+<!-- - missing data is ubiquitous and often ignored -->
+
+<!-- - but it can gravely influence estimates -->
+
+<!-- - gold standard in science is to 'impute' (i.e., fill in) the missing entries before analyzing the data. -->
+
+<!-- - motivating example: relation between height and weight. quite trivial, but apparent that there should be some coherence. -->
+
+<!-- - developing an online evaluation suite to inspect missing data, impute it, and run analyses. We need visualizations for each step of this process. Visualizations for the first two steps exist, but not for the third. -->
+
+<!-- -  -->
+
+
+<!-- Question for attendees: -->
+
+<!-- -  -->
+
+
+
+## TODO 
+
+- look up mckinley (tableau -> gerkovink.com/slvrepo), tuftee (message of dataviz), wilkinson (grammar of graph)
+
+- add misleading facts/disinformation?
+
+- add link to public health/data journalism
