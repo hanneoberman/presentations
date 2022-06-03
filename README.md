@@ -1,6 +1,6 @@
 # Presentations
 
-Some of my research talks and lecture slides.
+Some of my research talks and lecture slides. See [hanneoberman.github.io/presentations](https://hanneoberman.github.io/presentations).
 
 ## 2021
 
