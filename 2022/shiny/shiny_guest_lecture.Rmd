@@ -26,7 +26,8 @@ library(psych)
 1. The `shiny` framework
 2. The user interface (UI)
 3. The server
-4. Take-aways
+4. Advanced topics
+5. Take aways
 
 # The `shiny` framework
 
@@ -56,45 +57,16 @@ Why use `shiny`?
     - reproducible for non-coders;
     - look instantly professional.
 
-<!-- ## What does a `shiny` app look like? {.build} -->
-
-<!-- - It depends...  -->
-<!-- - But typically it includes: -->
-<!--     - some input parameter(s); -->
-<!--     - some invisible process(es); -->
-<!--     - some output(s). -->
-<!-- - Let's look at the `shiny` template app -->
-
-## The package 
-
-What does `shiny` offer?
-
-- A collection of wrapper functions to write "app languages":
-    - geared toward `R` users who have zero experience with web development;
-    - no knowledge of  HTML / CSS / JavaScript required;
-    - but you *can* extend it with CSS themes, htmlwidgets, and JavaScript actions. 
-- Developed by RStudio, so documentation and support are more or less guaranteed.
-
-## The components {.build}
-
-How is a `shiny` app built?
-
-- A user interface (UI):
-    - the visible, interactive part;
-    - e.g., a web app or dashboard.
-- A server:
-    - the invisible, processing part;
-    - e.g., your own computer or [shinyapps.io](shinyapps.io).
-
-
 ## The template app
 
 <div style="float: left; width: 50%;">
-We have two options:
+How to build a `shiny` app?
 
-A. Create a file called `app.R` and add `shiny` components (file name and components are non-negotiable!) 
+A. Create a file called `app.R` and add `shiny` components* 
 
 <div class = "green"> __B. In RStudio: File &rarr; New file &rarr; R Markdown &rarr; Shiny__ </div>
+
+<div class="small"> <br><br><br> *file name and components are non-negotiable!</div>
 </div>
 
 <div style="float: right; width: 50%;">
@@ -124,7 +96,18 @@ renderPlot({
 ```
 
 
+<!-- ## What does a `shiny` app look like? {.build} -->
+
+<!-- - It depends...  -->
+<!-- - But typically it includes: -->
+<!--     - some input parameter(s); -->
+<!--     - some invisible process(es); -->
+<!--     - some output(s). -->
+<!-- - Let's look at the `shiny` template app -->
+
 ## The components {.build}
+
+How does a `shiny` app work?
 
 - A user interface (UI):
     - the visible, interactive part;
@@ -132,34 +115,26 @@ renderPlot({
 - A server:
     - the invisible, processing part;
     - e.g., your own computer or [shinyapps.io](shinyapps.io).
-    
-You can see this in the default `shiny` structure:
 
-```{r, echo=TRUE}
+```
 library(shiny)
-ui <- fluidPage()
-server <- function(input, output) {}
+ui <- # some code to generate the UI
+server <- # some code to generate the UI
 shinyApp(ui = ui, server = server)
 ```
+
+## The package 
+
+What does `shiny` offer?
+
+- A collection of wrapper functions to write "app languages":
+    - geared toward `R` users who have zero experience with web development;
+    - no knowledge of  HTML / CSS / JavaScript required;
+    - but you *can* extend it with CSS themes, htmlwidgets, and JavaScript actions. 
+- Developed by RStudio, so documentation and support are more or less guaranteed.
 
 
 ## Case study
-
-We're going to create a `shiny` app to visualize some data interactively.
-
-Let's start with the empty `shiny` structure:
-
-```{r, echo=TRUE}
-library(shiny)
-ui <- fluidPage()
-server <- function(input, output) {}
-shinyApp(ui = ui, server = server)
-```
-
-## Our app
-
-
-## The data
 
 Data on products sold by BC Liquor Store (source: [OpenDataBC](https://catalogue.data.gov.bc.ca/dataset/bc-liquor-store-product-price-list-historical-prices)).
 
@@ -168,28 +143,51 @@ bcl <- read.csv("bcl-data.csv")
 dplyr::glimpse(bcl)
 ```
 
-<!-- <div class="small">Note: to make sure `R` can find the data for your app (e.g., load it on the server side, or let the user upload a dataset)!</div> -->
+<!-- <div class="small">Note. to make sure `R` can find the data for your app (e.g., load it on the server side, or let the user upload a dataset)!</div> -->
+
+## Starting point
+
+<!-- We're going to create a `shiny` app to visualize some data interactively. -->
+
+```{r, echo=TRUE}
+library(shiny)
+ui <- fluidPage()
+server <- function(input, output) {}
+shinyApp(ui = ui, server = server)
+```
+
+
+## Our app
 
 
 ## Tips
 
 Before building a `shiny` app, think about:
 
-- What is the app aimed to show?
+- What is the app aimed at?
 - Who are the end users of your app? Are they tech-literate?
 - In what context will the app be used? On what machines (e.g., because of screen size)? 
 
-
 ## Tips
 
-In general: 
+While building a `shiny` app: 
 
 - Keep It Simple, Stupid;
 - Don't rush into coding when you should be thinking;
-- Use a design/UI-first approach;
-- If you copy something just ONCE, make it a function;
+- Use a design/UI first approach;
+- Build the front-end and the back-end separately;
+- If you copy something just *once*, make it a function;
 - Avoid unnecessary complexity and 'feature creep'.
 
+## Tips
+
+After building a `shiny` app:
+
+- Share the app;
+- Make it last.
+
+<br><br>
+<div class="small">Note. We'll get back to this later!</div>
 
 # The UI
 
@@ -262,7 +260,7 @@ For formatted text, `shiny` has many functions that are wrappers around HTML tag
 - `img()`: image;
 - `a()`: hyperlink, etc.
 
-<div class="small">Note: if you already know HTML, you don't need to use these wrapper functions!</div>
+<div class="small">Note. If you already know HTML, you don't need to use these wrapper functions!</div>
 
 ## Adding formatted text
 
@@ -402,7 +400,7 @@ These argument names are typically dropped from the `...Input()` function call:
 sliderInput("priceInput", "Price", min = 0, max = 100, value = c(25, 40), pre = "$")
 ```
 
-<div class="small">Note: Every input in your app *must* have a unique `inputId`; the app will not work properly otherwise! So keep your `inputId`s simple and sensible.</div>
+<div class="small">Note. Every input in your app *must* have a unique `inputId`; the app will not work properly otherwise! So keep your `inputId`s simple and sensible.</div>
 
 ## Adding an input element 
 
@@ -565,7 +563,7 @@ mainPanel(
 
 ```
 
-<div class="small">Note: we added a few line breaks `br()` between the two outputs, so that they aren't crammed on top of each other.</div>
+<div class="small">Note. We added a few line breaks `br()` between the two outputs, so that they aren't crammed on top of each other.</div>
 
 ## The complete UI
 
@@ -615,6 +613,15 @@ server <- function(input, output) {}
 
 shinyApp(ui = ui, server = server)
 ```
+
+## Tips
+
+When building the front-end of your app:
+
+- Work on the general appearance first, anything that does not rely on computation (e.g., tabs, inputs, outputs);
+- Use mock data and/or text (build an 'ipsum-app');
+- Make the app self-evident; the main usage of the app should not require reading any manual.
+
 
 # The server
 
@@ -1098,55 +1105,34 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
-
-
-## Advanced topics
-
-Make your app more advanced:
-
-- Change input element options from the server side with `update...()` functions;
-- Use more complex layouts, such as tabs or dashboards;
-- Modularize your app;
-- Make the output elements 'clickable' with `plotly` and `datatable`.
-
-
-# Take aways
-
-## Tips
-
-In general: 
-
-- Keep It Simple, Stupid;
-- Don't rush into coding when you should be thinking;
-- Use a design/UI-first approach;
-- If you copy something just ONCE, make it a function;
-- Avoid unnecessary complexity and 'feature creep'.
-
-Before building a `shiny` app, think about:
-
-- Who are the end users of your app? Are they tech-literate?
-- In what context will the app be used? On what machines (e.g., because of screen size)? 
-
-## Tips
-
-Build the front-end and the back-end separately.
-
-Front-end:
-
-- Work on the general appearance first, anything that does not rely on computation (e.g., tabs, inputs, outputs);
-- Use mock data and/or text (build an 'ipsum-app');
-- Make the app self-evident; the main usage of the app should not require reading any manual.
-
 ## Tips 
 
-Back-end:
+When building the back-end of your app:
 
 - Use sensible non-reactive defaults while developing (e.g., `data <- mtcars` instead of `data <- reactive(...).`);
 - Think about what could to be 'hard coded' in the final app too, because of the reactivity vs. speed trade-off;
 - Extract the complex (but non-reactive) processing functions and put them in separate files;
 - Add user feedback to make server-side requirements explicit (e.g., input validation, pop-up messages, loading icons).
 
-## Tips
+
+# Advanced topics
+
+## Design
+
+- Use more complex layouts, such as tabs or dashboards;
+- Make the output elements 'clickable' with `plotly` and `datatable`;
+- Change input element options from the server side with `update...()` functions.
+
+## Robustness
+
+<!-- If you want your Shiny app to last, you should make it robust: -->
+- Run the app in the viewer panel, a separate window, and your browser;
+- Monkey test it (i.e., click EVERYTHING);
+- Provide the wrong inputs (e.g., a corrupt data file, a file with the 'wrong' extension, an 'impossible' numeric input, etc.);
+- Modularize your app;
+- Use the `golem` framework for production-grade `shiny` apps (but decide up-front!).
+
+## Deployment
 
 Deploy your app on [shinyapps.io](https://www.shinyapps.io/):
 
@@ -1156,19 +1142,53 @@ Deploy your app on [shinyapps.io](https://www.shinyapps.io/):
 - But, with a free account, your app will be public;
 - And if your app is too popular, you will eventually need to pay server costs.
 
+<div class="small"> Note. You could also host your app on your own website. Or don't deploy it at all (e.g., for privacy reasons).</div>
 
-<div class="small"> Note: You could also host your app on your own website. Or don't deploy it at all (e.g., for privacy reasons).</div>
 
-## Tips
+<!-- ## Tips -->
 
-If you want your Shiny app to last, you should make it robust:
+<!-- In general:  -->
 
-- Run the app in the viewer panel, a separate window, and your browser;
-- Monkey test it (i.e., click EVERYTHING);
-- Provide the wrong inputs (e.g., a corrupt data file, a file with the 'wrong' extension, an 'impossible' numeric input, etc.);
-- Advanced: Use the `golem` framework for production-grade `shiny` apps (but decide up-front!).
+<!-- - Keep It Simple, Stupid; -->
+<!-- - Don't rush into coding when you should be thinking; -->
+<!-- - Use a design/UI-first approach; -->
+<!-- - If you copy something just ONCE, make it a function; -->
+<!-- - Avoid unnecessary complexity and 'feature creep'. -->
 
-## Tips
+<!-- Before building a `shiny` app, think about: -->
+
+<!-- - Who are the end users of your app? Are they tech-literate? -->
+<!-- - In what context will the app be used? On what machines (e.g., because of screen size)?  -->
+
+<!-- ## Tips -->
+
+<!-- When building the front-end of your app: -->
+
+<!-- - Work on the general appearance first, anything that does not rely on computation (e.g., tabs, inputs, outputs); -->
+<!-- - Use mock data and/or text (build an 'ipsum-app'); -->
+<!-- - Make the app self-evident; the main usage of the app should not require reading any manual. -->
+
+<!-- Back-end: -->
+
+<!-- - Use sensible non-reactive defaults while developing (e.g., `data <- mtcars` instead of `data <- reactive(...).`); -->
+<!-- - Think about what could to be 'hard coded' in the final app too, because of the reactivity vs. speed trade-off; -->
+<!-- - Extract the complex (but non-reactive) processing functions and put them in separate files; -->
+<!-- - Add user feedback to make server-side requirements explicit (e.g., input validation, pop-up messages, loading icons). -->
+
+
+# Take aways
+
+## Summary
+
+- `shiny` allows you to build interactive (web) apps from `R`; 
+- `shiny` apps consist of two parts, the user interface (UI) and the server:
+    - In the UI, you design what is shown to the user,
+    - In the server, you do all the modeling and building of the outputs,
+    - You link the UI and the server to make the app interactive,
+    - To optimize these interactions, you can use reactive expressions;
+- This is only the tip of the iceberg, there are many more things you can do with `shiny`.
+
+## Inspiration
 
 Check out these amazing resources:
 
@@ -1178,11 +1198,11 @@ Check out these amazing resources:
 - The more advanced [Engineering Shiny](https://engineering-shiny.org/);
 - This webinar on [Modularizing Shiny](https://www.youtube.com/watch?v=ylLLVo2VL50).
 
-And look for inspiration here:
+And look for examples here:
 
 - The [Shiny Gallery](https://shiny.rstudio.com/gallery/);
-- The annual `shiny` [contest](https://www.rstudio.com/blog/winners-of-the-2nd-shiny-contest/);
-- For example, [this app](https://www.rstudio.com/blog/winners-of-the-2nd-shiny-contest/) for creating `R` package hex stickers.
+- The annual `shiny` [contest](https://www.rstudio.com/blog/winners-of-the-2nd-shiny-contest/).
+<!-- - For example, [this app](https://www.rstudio.com/blog/winners-of-the-2nd-shiny-contest/) for creating `R` package hex stickers. -->
 
 ## Check out my app!
 
@@ -1192,16 +1212,7 @@ And look for inspiration here:
 </div>
 
 
-## Final remarks and conclusions
-
-- `shiny` allows you to build interactive (web) apps from `R`; 
-- `shiny` apps consist of two parts, the user interface (UI) and the server:
-    - In the UI, you design what is shown to the user,
-    - In the server, you do all the modeling and building of the outputs,
-    - You link the UI and the server to make the app interactive,
-    - To optimize these interactions, you can use reactive expressions;
-- This is only the tip of the iceberg, there are many more things you can do with `shiny`;
-- Good luck with your assignment!
+<!-- - Good luck with your assignment! -->
 
 
 <!-- ## Errors flashing up and quickly disappearing -->
@@ -1247,25 +1258,26 @@ And look for inspiration here:
 <!-- ``` -->
 
 
-## Assignment 2
+## Your own `shiny` app
 
-In assignment 2 you will build your own R shiny app in groups of 3 or 4.
+For assignment 2 you will build your own `shiny` app in groups.
 
-The assignment is due **Thursday June 25th** before the start of your lab.
+The assignment is due **Thursday June 23rd** before the start of your lab.
 
-The assignment will be posted on the course website this Wednesday, and group composition will be announced by your lab teacher on Thursday.
+The assignment is posted on the course website and group composition will be announced by your lab teacher on Thursday.
 
-## Next class
 
-Practicals on __Thursday__ via MS Teams.
+## Planning
+
+Practicals on __Thursday__
 
 Preparation: please read and complete **Part 1. A simple example** of the lab _before_ the lab. This will make sure you can build your own app successfully during the lab. Materials for the lab can be found online now.
 
 <div>
 <br>
-Next week
+Lecture next week
 
-A new (supervised)  machine learning method: __decision trees__ and __random forests__
+A new (supervised) machine learning method: __decision trees__ and __random forests__
 </div>
 
 <div align="center">
