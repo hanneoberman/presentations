@@ -19,9 +19,6 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 library(psych)
-library(palmerpenguins)
-
-scale_color_palmer <- function(){scale_color_manual(values = c("Adelie" = "darkorange", "Chinstrap" = "darkorchid", "Gentoo" = "cyan4"))}
 ```
 
 ## What we'll discuss
@@ -131,27 +128,14 @@ What does `shiny` offer?
 
 ## Case study
 
-The [palmer penguins](https://allisonhorst.github.io/palmerpenguins/) `penguins` dataset. 
+Data on products sold by BC Liquor Store (source: [OpenDataBC](https://catalogue.data.gov.bc.ca/dataset/bc-liquor-store-product-price-list-historical-prices)).
 
-```{r}
-head(penguins)
+```{r, echo=FALSE}
+bcl <- read.csv("bcl-data.csv")
+dplyr::glimpse(bcl)
 ```
 
 <!-- <div class="small">Note. to make sure `R` can find the data for your app (e.g., load it on the server side, or let the user upload a dataset)!</div> -->
-
-## Case study
-
-<div style="float: left">
-<div align="left">
-<img src="scatter.png" width=700>
-</div>
-</div>
-
-<div style="float: right">
-<div align="right">
-<img src="penguins.png" width=200>
-</div>
-</div>
 
 ## Starting point
 
@@ -170,20 +154,18 @@ shinyApp(ui = ui, server = server)
 
 ## Tips
 
-Don't rush into coding when you should be thinking.
-
 Before building a `shiny` app, think about:
 
 - What is the app aimed at?
 - Who are the end users of your app? Are they tech-literate?
 - In what context will the app be used? On what machines (e.g., because of screen size)? 
 
-
 ## Tips
 
 While building a `shiny` app: 
 
 - Keep It Simple, Stupid;
+- Don't rush into coding when you should be thinking;
 - Use a design/UI first approach;
 - Build the front-end and the back-end separately;
 - If you copy something just *once*, make it a function;
@@ -205,7 +187,7 @@ After building a `shiny` app:
 
 ```{r, echo=TRUE, results='hide'}
 ui <- fluidPage(
-  titlePanel("Palmer penguins")
+  titlePanel("BC Liquor Store prices")
 )
 ```
 
@@ -218,9 +200,10 @@ The `shiny` function `titlePanel()`
 
 ```{r, echo=FALSE}
 library(shiny)
+bcl <- read.csv("bcl-data.csv", stringsAsFactors = FALSE)
 
 ui <- fluidPage(
-  titlePanel("Palmer penguins")
+  titlePanel("BC Liquor Store prices")
   )
 
 server <- function(input, output) {}
@@ -234,23 +217,23 @@ To render text in our app, we can just add character/string objects inside `flui
 
 ```{r, echo=TRUE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive", 
-  "visualization"
-  )
+  titlePanel("BC Liquor Store prices"),
+  "BC Liquor Store", 
+  "prices"
+)
 ```
 
 ## Our app
 
 ```{r, echo=FALSE}
 library(shiny)
-
+bcl <- read.csv("bcl-data.csv", stringsAsFactors = FALSE)
 
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive", 
-  "visualization"
-  )
+  titlePanel("BC Liquor Store prices"),
+  "BC Liquor Store", 
+  "prices"
+)
 
 server <- function(input, output) {}
 
@@ -277,11 +260,12 @@ Let's replace the UI part of our code with the following:
 
 ```{r, echo=TRUE, results='hide'}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An",
-  em("interactive"),
+  titlePanel("BC Liquor Store prices"),
+  h2("BC"),
+  "Liquor",
   br(),
-  strong("visulalization")
+  em("Store"),
+  strong("prices")
 )
 ```
 
@@ -289,14 +273,15 @@ ui <- fluidPage(
 
 ```{r, echo=FALSE}
 library(shiny)
-
+bcl <- read.csv("bcl-data.csv", stringsAsFactors = FALSE)
 
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An",
-  em("interactive"),
+  titlePanel("BC Liquor Store prices"),
+  h2("BC"),
+  "Liquor",
   br(),
-  strong("visulalization")
+  em("Store"),
+  strong("prices")
 )
 
 server <- function(input, output) {}
@@ -315,7 +300,7 @@ We'll replace the formatted text by a sidebar layout:
 
 ```{r, echo=TRUE, results='hide'}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel("[inputs]"),
     mainPanel("[outputs]")
@@ -327,10 +312,10 @@ ui <- fluidPage(
 ## Our app
 
 ```{r, echo=FALSE}
-
+bcl <- read.csv("bcl-data.csv", stringsAsFactors = FALSE)
 
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel("[inputs]"),
     mainPanel("[outputs]")
@@ -378,28 +363,21 @@ Can you guess what kind of element these input functions will create?
 
 ## Adding an input element {.build}
 
-Which function would suit an input element for the variable `island`?
+If we want to add an input element for the variable price in our app, which function should be use?
 
-```{r, echo=FALSE}
-inputPanel(
-radioButtons(
-  inputId = "location", 
-  label = "Location",
-  choices = c("Biscoe", "Dream", "Torgersen")
-  ), br()
-)
-```
-
-<br> 
+- `radioButtons()`: choosing a specific number;
+- `sliderInput()`: choosing a range of values on the slider.
 
 ```{r, echo=TRUE, results='hide'}
-radioButtons(
-  inputId = "location", 
-  label = "Location",
-  choices = c("Biscoe", "Dream", "Torgersen")
-  )
+sliderInput(
+  inputId = "priceInput", 
+  label = "Price", 
+  min = 0, 
+  max = 100, 
+  value = c(25, 40), 
+  pre = "$"
+)
 ```
-
 
 ## Adding an input element {.build}
 
@@ -411,7 +389,7 @@ All input functions have the same first two arguments:
 These argument names are typically dropped from the `...Input()` function call: 
 
 ```{r, echo=TRUE, results='hide'}
-radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen"))
+sliderInput("priceInput", "Price", min = 0, max = 100, value = c(25, 40), pre = "$")
 ```
 
 <div class="small">Note. Every input in your app *must* have a unique `inputId`; the app will not work properly otherwise! So keep your `inputId`s simple and sensible.</div>
@@ -421,27 +399,29 @@ radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")
 The resulting UI code looks like:
 
 ```{r, echo=TRUE, results='hide'}
+
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", 
-                   choices = c("Biscoe", "Dream", "Torgersen"))
+      sliderInput("priceInput", "Price", 
+                  min = 0, max = 100, value = c(25, 40), pre = "$")
       ),
     mainPanel("[outputs]")
   )
 )
+
 ```
 
 ## Our app
 
 ```{r, echo=FALSE}
+
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen"))
-    ),
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$")),
     mainPanel("[outputs]")
   )
 )
@@ -451,38 +431,40 @@ server <- function(input, output) {}
 shinyApp(ui = ui, server = server)
 ```
 
-## Adding another input element {.build}
+## Adding more input elements {.build}
 
-Let's create an input element for the variable `body_mass_g` as well. Which input function(s) should we use? 
+Let's create input elements for the variables country and product type as well. Which input function(s) should we use if we want to restrict the user to only a few choices? 
 
-```{r, echo=FALSE}
-inputPanel(
-sliderInput("weight", "Weight", 
-  min = 2, max = 7, value = c(3, 5), post = "kg"
-  )
-)
-```
-
-<br> 
+We'll use a dropdown list for the countries Canada, France and Italy with `selectInput()`:
 
 ```{r, echo=TRUE, results='hide'}
-sliderInput("weight", "Weight", 
-            min = 2, max = 7, value = c(3, 5), post = "kg")
+selectInput("countryInput", "Country",
+            choices = c("CANADA", "FRANCE", "ITALY"))
 ```
 
-## Adding another input element
+And for product type, we'll specify choices with `radioButtons()`:
+
+```{r, echo=TRUE, results='hide'}
+radioButtons("typeInput", "Product type",
+            choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+            selected = "WINE")
+```
+
+## Adding more input elements
 
 The full UI code is now: 
 
 ```{r, echo=TRUE, results='hide'}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", 
-                   choices = c("Biscoe", "Dream", "Torgersen")),
-      sliderInput("weight", "Weight", 
-                  min = 2, max = 7, value = c(3, 5), post = "kg")
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
     ),
     mainPanel("[outputs]")
   )
@@ -493,11 +475,15 @@ ui <- fluidPage(
 
 ```{r, echo=FALSE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
-      sliderInput("weight", "Weight", min = 2, max = 7, value = c(3, 5), post = "kg")
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
     ),
     mainPanel("[outputs]")
   )
@@ -524,7 +510,7 @@ Let's add a figure as output in our app:
 
 ```{r, echo=TRUE, results='hide'}
 mainPanel(
-  plotOutput("scatterplot")
+  plotOutput("coolplot")
 )
 ```
 
@@ -532,14 +518,18 @@ mainPanel(
 
 ```{r, echo=FALSE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
-      sliderInput("weight", "Weight", min = 2, max = 7, value = c(3, 5), post = "kg")
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
     ),
     mainPanel(
-      plotOutput("scatterplot")
+      plotOutput("coolplot")
       )
   )
 )
@@ -557,10 +547,10 @@ But first, let's add another output element:
 
 ```{r, echo=TRUE, results='hide'}
 mainPanel(
-  plotOutput("scatterplot"),
+  plotOutput("coolplot"),
   br(),
   br(),
-  tableOutput("descriptives")
+  tableOutput("our_table")
 )
 
 ```
@@ -571,19 +561,21 @@ mainPanel(
 
 ```{r, echo=TRUE, results='hide'}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", 
-                   choices = c("Biscoe", "Dream", "Torgersen")),
-      sliderInput("weight", "Weight", 
-                  min = 2, max = 7, value = c(3, 5), post = "kg")
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
     ),
     mainPanel(
-      plotOutput("scatterplot"),
+      plotOutput("coolplot"),
       br(), 
       br(),
-      tableOutput("descriptives")
+      tableOutput("our_table")
     )
   )
 )
@@ -593,14 +585,18 @@ ui <- fluidPage(
 
 ```{r, echo=FALSE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
-      sliderInput("weight", "Weight", min = 2, max = 7, value = c(3, 5), post = "kg")
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
     ),
     mainPanel(
-      plotOutput("scatterplot")
+      plotOutput("coolplot")
       )
   )
 )
@@ -638,41 +634,18 @@ The server function:
 
 <div class="small">*exceptions apply!</div>
 
-## Building static output {.build}
+## Building some random output {.build}
 
 Let's use the exception to the rule to develop our server step-by-step.
 
-```{r eval = FALSE, echo=TRUE}
-ggplot(penguins, 
-  aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) + 
-  scale_color_palmer() +
-  labs(title = "Flipper and bill length by species (static)")
-```
-
-## Building static output 
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(penguins, 
-  aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) + 
-  scale_color_palmer() +
-  labs(title = "Flipper and bill length by species (static)")
-```
-
-## Building static output
+Instead of input from the UI, we'll use static data to fill in the placeholder plot:
 
 ```{r eval = FALSE, echo=TRUE}
 server <- function(input, output) {
-  output$scatterplot <- renderPlot({
-    ggplot(penguins, 
-      aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
-      geom_point() +
-      geom_smooth(method = "lm", se = FALSE) + 
-      scale_color_palmer() +
-      labs(title = "Flipper and bill length by species (static)")
+  output$coolplot <- renderPlot({
+  ggplot() +
+    geom_histogram(aes(x = rnorm(100))) +
+    ggtitle("Histogram of 100 random numbers (static)")
   })
 }
 ```
@@ -680,105 +653,166 @@ server <- function(input, output) {
 ## Our app
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+bcl <- read.csv("bcl-data.csv", stringsAsFactors = FALSE)
+
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
-      sliderInput("weight", "Weight", min = 2, max = 7, value = c(3, 5), post = "kg")
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
     ),
     mainPanel(
-      plotOutput("scatterplot"),
+      plotOutput("coolplot"),
       br(), br(),
-      tableOutput("descriptives")
+      tableOutput("our_table")
     )
   )
 )
 
 server <- function(input, output) {
-  output$scatterplot <- renderPlot({
-    ggplot(penguins, 
-      aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
-      geom_point() +
-      geom_smooth(method = "lm", se = FALSE) + 
-      scale_color_palmer() +
-      labs(title = "Flipper and bill length by species (static)")
-  })
+  output$coolplot <- renderPlot({
+  ggplot() +
+  geom_histogram(aes(x = rnorm(100))) +
+    ggtitle("Histogram of 100 random numbers (static)")
+})
 }
 
 shinyApp(ui = ui, server = server)
 ```
 
-## Building interactive output {.build}
+## Building some random output {.build}
 
 To make the figure interactive, we have to link the server to the UI inputs. 
 
+Let's use the price input to create some random data, interactively: 
+
 ```{r eval = FALSE, echo=TRUE}
 server <- function(input, output) {
-  output$scatterplot <- renderPlot({
-    ggplot(penguins, 
-      aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
-      geom_point() +
-      geom_smooth(method = "lm", se = FALSE) + 
-      scale_color_palmer() +
-      labs(title = paste("Flipper and bill length at", input$location))
+  output$coolplot <- renderPlot({
+  ggplot() +
+    geom_histogram(aes(x = rnorm(input$priceInput[2]))) +
+    ggtitle(paste("Histogram of", input$priceInput[2], "random numbers (interactive)"))
   })
 }
 ```
 
-Whenever the selected location changes, the plot title will update. 
+So whenever the maximum price input changes, the plot updates and shows the specified number of points. 
 
 ## Our app
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+bcl <- read.csv("bcl-data.csv", stringsAsFactors = FALSE)
+
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
-      sliderInput("weight", "Weight", min = 2, max = 7, value = c(3, 5), post = "kg")
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
     ),
     mainPanel(
-      plotOutput("scatterplot"),
+      plotOutput("coolplot"),
       br(), br(),
-      tableOutput("descriptives")
+      tableOutput("our_table")
     )
   )
 )
 
 server <- function(input, output) {
-  output$scatterplot <- renderPlot({
-    ggplot(penguins, 
-      aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
-      geom_point() +
-      geom_smooth(method = "lm", se = FALSE) + 
-      scale_color_palmer() +
-      labs(title = paste("Flipper and bill length at", input$location))
+  output$coolplot <- renderPlot({
+  ggplot() +
+    geom_histogram(aes(x = rnorm(input$priceInput[2]))) +
+    ggtitle(paste("Histogram of", input$priceInput[2], "random numbers (interactive)"))
   })
 }
 
 shinyApp(ui = ui, server = server)
 ```
 
-## Building an interactive visualization {.build}
+## Building the actual output {.build}
 
-To incorporate interactivity in the visualization, we have to filter the data based on the input values.
+Now that we've seen the basics of interactivity, let's plot the case study data. 
+
+We'll create a histogram of the percentage alcohol in the beverages. 
+
+Ultimately, the plot should match the input elements interactively. But first, we'll plot a static version (briefly ignoring the inputs again):
 
 ```{r fig.keep='none', results='hide', echo=TRUE}
 server <- function(input, output) {
-  output$scatterplot <- renderPlot({
-    filtered <- penguins %>%
-      filter(island == input$location,
-           body_mass_g >= input$weight[1] * 1000,
-           body_mass_g <= input$weight[2] * 1000
-      )  
-    filtered %>% 
-      ggplot(aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
-        geom_point() +
-        geom_smooth(method = "lm", se = FALSE) + 
-        scale_color_palmer() +
-        labs(title = "Flipper and bill length")
+  output$coolplot <- renderPlot({
+    bcl %>% 
+      ggplot(aes(Alcohol_Content)) +
+        geom_histogram() +
+        ggtitle("Histogram of alcohol content (static)")
   })
+}
+```
+
+## Our app
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+bcl <- read.csv("bcl-data.csv", stringsAsFactors = FALSE)
+
+ui <- fluidPage(
+  titlePanel("BC Liquor Store prices"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
+    ),
+    mainPanel(
+      plotOutput("coolplot"),
+      br(), br(),
+      tableOutput("our_table")
+    )
+  )
+)
+
+server <- function(input, output) {
+  output$coolplot <- renderPlot({
+    ggplot(bcl, aes(Alcohol_Content)) +
+      geom_histogram() +
+      ggtitle("Histogram of alcohol content (static)")
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+## Building the actual output 
+
+To incorporate interactivity, we're going to filter the data based on the values of `priceInput`, `typeInput`, and `countryInput`:
+
+```{r fig.keep='none', results='hide', echo=TRUE}
+
+server <- function(input, output) {
+  output$coolplot <- renderPlot({
+  bcl %>%
+    filter(Price >= input$priceInput[1],
+           Price <= input$priceInput[2],
+           Type == input$typeInput,
+           Country == input$countryInput
+    ) %>% 
+    ggplot(aes(Alcohol_Content)) +
+      geom_histogram() +
+      ggtitle("Histogram of alcohol content (interactive)")
+})
 }
 
 ```
@@ -786,54 +820,59 @@ server <- function(input, output) {
 ## Our app
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+bcl <- read.csv("bcl-data.csv", stringsAsFactors = FALSE)
+
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
-      sliderInput("weight", "Weight", min = 2, max = 7, value = c(3, 5), post = "kg")
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
     ),
     mainPanel(
-      plotOutput("scatterplot"),
+      plotOutput("coolplot"),
       br(), br(),
-      tableOutput("descriptives")
+      tableOutput("our_table")
     )
   )
 )
 
 server <- function(input, output) {
-  output$scatterplot <- renderPlot({
-    filtered <- penguins %>%
-      filter(island == input$location,
-           body_mass_g >= input$weight[1] * 1000,
-           body_mass_g <= input$weight[2] * 1000
-      )  
-    filtered %>% 
-      ggplot(aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
-        geom_point() +
-        geom_smooth(method = "lm", se = FALSE) + 
-        scale_color_palmer() +
-        labs(title = "Flipper and bill length")
-  })
+  output$coolplot <- renderPlot({
+  filtered <-
+    bcl %>%
+    filter(Price >= input$priceInput[1],
+           Price <= input$priceInput[2],
+           Type == input$typeInput,
+           Country == input$countryInput
+    )
+  ggplot(filtered, aes(Alcohol_Content)) +
+    geom_histogram() +
+      ggtitle("Histogram of alcohol content (interactive)")
+})
 }
 
 shinyApp(ui = ui, server = server)
 ```
 
-## Building an interactive summary table
+## Building the actual output 
 
-To complete our app we need to build an interactive output for the table placeholder and add it to the server: 
+To complete our app we need to build some output for the table placeholder, and add it to the server: 
 
 ```{r, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
-output$descriptives <- renderTable({
-  filtered <- penguins %>%
-      filter(island == input$location,
-           body_mass_g >= input$weight[1] * 1000,
-           body_mass_g <= input$weight[2] * 1000
-      )
-  filtered %>% 
-    group_by(species) %>% 
-    summarise(across(c(bill_length_mm, flipper_length_mm), mean, na.rm = TRUE))
+output$our_table <- renderTable({
+  bcl %>%
+    filter(Price >= input$priceInput[1],
+           Price <= input$priceInput[2],
+           Type == input$typeInput,
+           Country == input$countryInput
+    ) %>% 
+    select(c("Name", "Price", "Type", "Country", "Alcohol_Content"))
 })
 ```
 
@@ -841,48 +880,51 @@ output$descriptives <- renderTable({
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
-
+bcl <- read.csv("bcl-data.csv", stringsAsFactors = FALSE)
 
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
-      sliderInput("weight", "Weight", min = 2, max = 7, value = c(3, 5), post = "kg")
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
     ),
     mainPanel(
-      plotOutput("scatterplot"),
+      plotOutput("coolplot"),
       br(), br(),
-      tableOutput("descriptives")
+      tableOutput("our_table")
     )
   )
 )
 
 server <- function(input, output) {
-  output$scatterplot <- renderPlot({
-    filtered <- penguins %>%
-      filter(island == input$location,
-           body_mass_g >= input$weight[1] * 1000,
-           body_mass_g <= input$weight[2] * 1000
-      )  
-    filtered %>% 
-      ggplot(aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
-        geom_point() +
-        geom_smooth(method = "lm", se = FALSE) + 
-        scale_color_palmer() +
-        labs(title = "Flipper and bill length")
-  })
-  
-  output$descriptives <- renderTable({
-    filtered <- penguins %>%
-      filter(island == input$location,
-           body_mass_g >= input$weight[1] * 1000,
-           body_mass_g <= input$weight[2] * 1000
-      )
-    filtered %>% 
-      group_by(species) %>%
-      summarise(across(c(bill_length_mm, flipper_length_mm), mean, na.rm = TRUE))
-  })
+  output$coolplot <- renderPlot({
+  filtered <-
+    bcl %>%
+    filter(Price >= input$priceInput[1],
+           Price <= input$priceInput[2],
+           Type == input$typeInput,
+           Country == input$countryInput
+    )
+  ggplot(filtered, aes(Alcohol_Content)) +
+    geom_histogram() +
+      ggtitle("Histogram of alcohol content")
+ })
+  output$our_table <- renderTable({
+  filtered <-
+    bcl %>%
+    filter(Price >= input$priceInput[1],
+           Price <= input$priceInput[2],
+           Type == input$typeInput,
+           Country == input$countryInput
+    )
+  filtered %>% 
+    select(c("Name", "Price", "Type", "Country", "Alcohol_Content"))
+})
 }
 
 shinyApp(ui = ui, server = server)
@@ -929,11 +971,11 @@ Reactivity is the foundation for the responsiveness of `shiny` apps.
 In our server, we implicitly use reactivity when we filter the data for our outputs: 
 
 ```{r eval=FALSE, include=TRUE, echo=TRUE, results='hide'}
-filtered <- penguins %>%
-    filter(island == input$location,
-         body_mass_g >= input$weight[1] * 1000,
-         body_mass_g <= input$weight[2] * 1000
-    )
+bcl %>%
+  filter(Price >= input$priceInput[1],
+         Price <= input$priceInput[2],
+         Type == input$typeInput,
+         Country == input$countryInput
   )
 ```
 
@@ -948,11 +990,12 @@ We can avoid code duplication by:
 
 ```{r, echo=TRUE, results='hide'}
 filtered <- reactive({
- penguins %>%
-    filter(island == input$location,
-           body_mass_g >= input$weight[1] * 1000,
-           body_mass_g <= input$weight[2] * 1000
-      )
+  bcl %>%
+    filter(Price >= input$priceInput[1],
+           Price <= input$priceInput[2],
+           Type == input$typeInput,
+           Country == input$countryInput
+    )
 })
 ```
 
@@ -978,31 +1021,26 @@ This can be visualized in a dependency tree, to show what value depends on what 
 
 # The server (continued)
 
-## The final app {.smaller}
+## The final app
 
 ```{r, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 server <- function(input, output) {
   filtered <- reactive({
-    penguins %>%
-      filter(island == input$location,
-             body_mass_g >= input$weight[1] * 1000,
-             body_mass_g <= input$weight[2] * 1000
-             )
+    bcl %>%
+      filter(Price >= input$priceInput[1],
+             Price <= input$priceInput[2],
+             Type == input$typeInput,
+             Country == input$countryInput
+      )
   })
-  
-  output$scatterplot <- renderPlot({
-    filtered() %>% 
-      ggplot(aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
-        geom_point() +
-        geom_smooth(method = "lm", se = FALSE) + 
-        scale_color_palmer() +
-        labs(title = "Flipper and bill length")
+  output$coolplot <- renderPlot({
+    ggplot(filtered(), aes(Alcohol_Content)) +
+      geom_histogram() +
+      ggtitle("Histogram of alcohol content")
   })
-  
-  output$descriptives <- renderTable({
+  output$our_table <- renderTable({
     filtered() %>% 
-      group_by(species) %>%
-      summarise(across(c(bill_length_mm, flipper_length_mm), mean, na.rm = TRUE))
+      select(c("Name", "Price", "Type", "Country", "Alcohol_Content"))
   })
 }
 ```
@@ -1010,43 +1048,47 @@ server <- function(input, output) {
 ## Our app 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+bcl <- read.csv("bcl-data.csv", stringsAsFactors = FALSE)
+
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
+  titlePanel("BC Liquor Store prices"),
   sidebarLayout(
     sidebarPanel(
-      radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
-      sliderInput("weight", "Weight", min = 2, max = 7, value = c(3, 5), post = "kg")
+      sliderInput("priceInput", "Price", 0, 100, c(25, 40), pre = "$"),
+      radioButtons("typeInput", "Product type",
+                  choices = c("BEER", "REFRESHMENT", "SPIRITS", "WINE"),
+                  selected = "WINE"),
+      selectInput("countryInput", "Country",
+                  choices = c("CANADA", "FRANCE", "ITALY"))
     ),
     mainPanel(
-      plotOutput("scatterplot"),
+      plotOutput("coolplot"),
       br(), br(),
-      tableOutput("descriptives")
+      tableOutput("our_table")
     )
   )
 )
 
 server <- function(input, output) {
   filtered <- reactive({
-   penguins %>%
-      filter(island == input$location,
-             body_mass_g >= input$weight[1] * 1000,
-             body_mass_g <= input$weight[2] * 1000
-        )
+    bcl %>%
+      filter(Price >= input$priceInput[1],
+             Price <= input$priceInput[2],
+             Type == input$typeInput,
+             Country == input$countryInput
+      )
   })
   
-  output$scatterplot <- renderPlot({
-    filtered() %>% 
-      ggplot(aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
-        geom_point() +
-        geom_smooth(method = "lm", se = FALSE) + 
-        scale_color_palmer() +
-        labs(title = "Flipper and bill length")
+  output$coolplot <- renderPlot({
+    ggplot(filtered(), aes(Alcohol_Content)) +
+      geom_histogram() +
+      ggtitle("Histogram of alcohol content")
   })
 
-  output$descriptives <- renderTable({
+  output$our_table <- renderTable({
     filtered() %>%
-      group_by(species) %>%
-      summarise(across(c(bill_length_mm, flipper_length_mm), mean, na.rm = TRUE))
+    select(c("Name", "Price", "Type", "Country", "Alcohol_Content"))
   })
 }
 
@@ -1151,9 +1193,6 @@ Lecture next week
 Assignment 2
 
 - Build your own `shiny` app before June 23rd.
-
-## Thank you!
-
 
 <!-- <div align="center"> -->
 <!-- <br> -->
