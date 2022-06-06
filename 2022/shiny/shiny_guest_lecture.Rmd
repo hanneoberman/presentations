@@ -1,7 +1,7 @@
 ---
 title: "Building interactive web apps"
 subtitle: "with the `R` package `shiny`"
-author: "Applied Data Analysis and Visualization <br> Presented by Hanne Oberman"
+author: "Applied Data Analysis and Visualization <br> Presented by Hanne Oberman <br> Slides available from [tinyurl.com/shiny2022](https://tinyurl.com/shiny2022)"
 date: "07-06-2022"
 output: 
   ioslides_presentation: 
