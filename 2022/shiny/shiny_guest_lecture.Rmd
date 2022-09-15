@@ -32,21 +32,21 @@ scale_color_palmer <- function(){scale_color_manual(values = c("Adelie" = "darko
 4. Advanced topics
 5. Take-aways
 
-# The `shiny` framework
+# The `shiny` framework {.build}
 
 ## The basics
 
 What is `shiny`?
  
-- An `R` package for building web apps.
+- An `R` package for building `shiny` apps.
 
 <br> 
 
 What is a `shiny` app?
 
-- A fully interactive application, which can be:
+- A fully interactive (web) application, which can be:
     - build as a dashboard;
-    - hosted on a webpage;
+    - hosted online on a webpage;
     - included in `R` Markdown documents.
 
 ## The aim 
@@ -60,6 +60,17 @@ Why use `shiny`?
     - interactive (point-and-click style);
     - reproducible for non-coders;
     - look instantly professional.
+
+## The package 
+
+What does `shiny` offer?
+
+- A collection of wrapper functions to write "app languages":
+    - geared toward `R` users who have zero experience with web development;
+    - no knowledge of  `HTML`/`CSS`/`JavaScript` required;
+    - but you *can* extend it with `CSS` themes, `HTML` widgets, and `JavaScript` actions. 
+- Developed by RStudio, so documentation and support are more or less guaranteed.
+
 
 ## The template app
 
@@ -99,10 +110,9 @@ renderPlot({
 })
 ```
 
-
 ## The components {.build}
 
-How does a `shiny` app work?
+What does a `shiny` app consist of?
 
 - A user interface (UI):
     - the visible, interactive part;
@@ -111,22 +121,27 @@ How does a `shiny` app work?
     - the invisible, processing part;
     - e.g., your own computer or [shinyapps.io](shinyapps.io).
 
-```
+```{r, echo=TRUE, eval=FALSE}
 library(shiny)
 ui <- # some code to generate the UI
 server <- # some code to generate the server
 shinyApp(ui = ui, server = server)
 ```
 
-## The package 
 
-What does `shiny` offer?
+## Starting point
 
-- A collection of wrapper functions to write "app languages":
-    - geared toward `R` users who have zero experience with web development;
-    - no knowledge of  HTML / CSS / JavaScript required;
-    - but you *can* extend it with CSS themes, htmlwidgets, and JavaScript actions. 
-- Developed by RStudio, so documentation and support are more or less guaranteed.
+<!-- We're going to create a `shiny` app to visualize some data interactively. -->
+
+```{r, echo=TRUE}
+library(shiny)
+ui <- fluidPage()
+server <- function(input, output) {}
+shinyApp(ui = ui, server = server)
+```
+
+
+## Our app
 
 
 ## Case study
@@ -153,19 +168,6 @@ head(penguins)
 </div>
 </div>
 
-## Starting point
-
-<!-- We're going to create a `shiny` app to visualize some data interactively. -->
-
-```{r, echo=TRUE}
-library(shiny)
-ui <- fluidPage()
-server <- function(input, output) {}
-shinyApp(ui = ui, server = server)
-```
-
-
-## Our app
 
 
 ## Tips
