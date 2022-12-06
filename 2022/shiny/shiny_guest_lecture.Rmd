@@ -963,8 +963,8 @@ filtered <- reactive({
 
 What is going on behind the scenes?
 
-- The price input changes &rarr;
-- `shiny` 'looks' at the reactive(s) that depend on price &rarr;
+- The location input changes &rarr;
+- `shiny` 'looks' at the reactive(s) that depend on location &rarr;
 - `filtered()` is re-evaluated &rarr;
 - `shiny` 'looks' at the reactive(s) that depend on `filtered()` &rarr;
 - The two `render...()` functions are re-executed &rarr;

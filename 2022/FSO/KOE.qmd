@@ -1,0 +1,33 @@
+---
+title: "KOE"
+format: 
+  revealjs:
+    incremental: true  
+editor: visual
+---
+
+## Kenniscentrum Open Educatie (KOE)
+
+[Gerko Vink, Duco Veen, Hanne Oberman]{.smallcaps}
+
+<br>
+
+-   open science
+
+-   kenniscentrum open educatie
+
+-   *community of practice* = samen leren en delen
+
+-   voorlichting, verbinding, toegankelijkheid
+
+-   docentprofessionalisering & gemeenschapsvorming
+
+-   [github.com/gerkovink/FUSO2022](https://github.com/gerkovink/FUSO2022)
+
+::: notes
+-   UU wereldwijd frontrunner op open science, maar onderwijs krijgt niet altijd de rol die het verdient tov onderzoek
+
+-   recente ontwikkeling tracé 'open science in education', 2 FUSO projecten, oa een vb van open educational materials voor elke afdeling
+
+-   KOE
+:::
