@@ -255,8 +255,6 @@ shinyApp(ui = ui, server = server)
 ui <- fluidPage()
 ```
 
-<br> 
-
 The `shiny` function `fluidPage()` 
 
 - generates an 'empty canvas' for `shiny` apps;
@@ -341,8 +339,7 @@ shinyApp(ui = ui, server = server)
 
 ```{r, echo=TRUE, results='hide'}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization"
+  titlePanel("Palmer penguins: An interactive visualization")
 )
 ```
 
@@ -359,8 +356,7 @@ The `shiny` function `titlePanel()`
 library(shiny)
 
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization"
+  titlePanel("Palmer penguins: An interactive visualization")
   )
 
 server <- function(input, output) {}
@@ -377,12 +373,9 @@ The simple sidebar layout:
 - with a smaller sidebar and a larger main panel; 
 - visually separates the input and output of the app.
 
-We'll replace the formatted text by a sidebar layout:
-
 ```{r, echo=TRUE, results='hide'}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel("[inputs]"),
     mainPanel("[outputs]")
@@ -397,8 +390,7 @@ ui <- fluidPage(
 
 
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel("[inputs]"),
     mainPanel("[outputs]")
@@ -416,8 +408,8 @@ Inputs allow users to interact with a `shiny` app.
 
 We've seen two types already:
 
-- `selectInput()` creates a dropdown menu (e.g., number of bins in the template app);
-- `sliderInput()` creates a numeric scale (e.g., bandwidth adjustment in the template app).
+- `selectInput()` creates a drop-down menu;
+- `sliderInput()` creates a numeric scale.
 
 ```{r, echo=FALSE}
 inputPanel(
@@ -445,6 +437,24 @@ Can you guess what kind of element these input functions will create?
 </div>
 
 ## Adding an input element {.build}
+
+<!-- Which function would suit an input element for the weight of the penguins, the variable `body_mass_g`?  -->
+
+<!-- ```{r, echo=FALSE} -->
+<!-- inputPanel( -->
+<!-- sliderInput("weight", "Weight",  -->
+<!--   min = 2, max = 7, value = c(3, 5), post = "kg" -->
+<!--   ) -->
+<!-- ) -->
+<!-- ``` -->
+
+<!-- <br>  -->
+
+<!-- ```{r, echo=TRUE, results='hide'} -->
+<!-- sliderInput("weight", "Weight",  -->
+<!--             min = 2, max = 7, value = c(3, 5), post = "kg") -->
+<!-- ``` -->
+
 
 Which function would suit an input element for the variable `island`?
 
@@ -490,8 +500,7 @@ The resulting UI code looks like:
 
 ```{r, echo=TRUE, results='hide'}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", 
@@ -506,8 +515,7 @@ ui <- fluidPage(
 
 ```{r, echo=FALSE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen"))
@@ -546,8 +554,7 @@ The full UI code is now:
 
 ```{r, echo=TRUE, results='hide'}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", 
@@ -564,8 +571,7 @@ ui <- fluidPage(
 
 ```{r, echo=FALSE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
@@ -604,8 +610,7 @@ mainPanel(
 
 ```{r, echo=FALSE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
@@ -644,8 +649,7 @@ mainPanel(
 
 ```{r, echo=TRUE, results='hide'}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", 
@@ -667,8 +671,7 @@ ui <- fluidPage(
 
 ```{r, echo=FALSE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
@@ -766,8 +769,7 @@ server <- function(input, output) {
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
@@ -818,8 +820,7 @@ Whenever the selected location changes, the plot title will update.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
@@ -874,8 +875,7 @@ server <- function(input, output) {
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
@@ -932,8 +932,7 @@ output$descriptives <- renderTable({
 
 
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
@@ -1100,8 +1099,7 @@ server <- function(input, output) {
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ui <- fluidPage(
-  titlePanel("Palmer penguins"),
-  "An interactive visualization",
+  titlePanel("Palmer penguins: An interactive visualization"),
   sidebarLayout(
     sidebarPanel(
       radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
