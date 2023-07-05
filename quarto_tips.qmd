@@ -1,0 +1,73 @@
+---
+title: ""
+subtitle: "Towards a standardized evaluation of imputation methodology:<br>Potential pitfalls in simulation studies and a proposed course of action"
+author: "H.I. Oberman"
+format:
+  revealjs:
+    logo: logo.png
+    footer: "Hanne Oberman"
+    incremental: true
+    smaller: true
+    scrollable: true
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+
+## Bullets
+
+When you click the **Render** button a document will be generated that includes:
+
+-   Content authored with markdown
+-   Output from executable code
+
+::: {.incremental}
+- test
+:::
+
+. . .
+
+pause
+
+## Columns
+
+:::: {.columns}
+
+::: {.column width="40%"}
+contents...
+:::
+
+::: {.column width="60%"}
+contents...
+:::
+
+::::
+
+## Footer
+
+- Green ^[A footnote]
+- Brown
+- Purple
+
+::: aside
+Some additional commentary of more peripheral interest.
+:::
+
+## Code
+
+When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+## Figures
+
+Referencing figures:
+
+![Howard is glamorous](images/howard-glamour.jpg){#fig-glamour}
+
+Resize resp. to fit entire slide:
+
+![](image.png){.r-stretch}
