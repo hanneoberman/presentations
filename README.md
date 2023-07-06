@@ -1,7 +1,5 @@
 # Presentations
 
-Some of my research talks and lecture slides. See [hanneoberman.github.io/presentations](https://hanneoberman.github.io/presentations).
+Some of my research talks and lecture slides. Ordered per year. See [hanneoberman.github.io/presentations](https://hanneoberman.github.io/presentations) for an overview.
 
-## 2021
-
-- Guest lecture MSc Methodology and Statistics, Utrecht University, *Some Shiny Stuff: building (web)apps with the `R` package `shiny`*. Slides [here](https://hanneoberman.github.io/presentations/2021/shiny/static/shiny_guest_lecture_static.html).
+This work is licensed under [`CC-BY` 4.0](https://creativecommons.org/licenses/by/4.0/).
