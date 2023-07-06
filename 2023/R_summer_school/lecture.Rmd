@@ -1,13 +1,15 @@
 ---
 title: "Building interactive web apps"
 subtitle: "with the `R` package `shiny`"
-author: "Hanne Oberman <br> Slides available from [tinyurl.com/shiny2023](https://tinyurl.com/shiny2023)"
-date: "30-05-2023"
+author: "Hanne Oberman <br> Slides available from [hanneoberman.github.io/presentations](https://hanneoberman.github.io/presentations/)"
+institute: "Utrecht University"
+date: "07-07-2023"
 output: 
   ioslides_presentation: 
     css: style.css
     incremental: true
     logo: logo.png
+    footer: "hanneoberman.github.io/presentations"
     widescreen: yes
     keep_md: yes
 runtime: shiny
@@ -20,16 +22,27 @@ library(ggplot2)
 library(dplyr)
 library(psych)
 library(palmerpenguins)
+library(plotly)
 
 scale_color_palmer <- function(){scale_color_manual(values = c("Adelie" = "darkorange", "Chinstrap" = "darkorchid", "Gentoo" = "cyan4"))}
 ```
+
+##
+
+<a href="https://gallery.shinyapps.io/063-superzip-example/"><img src="superzip.png" alt="SuperZip example app" style="width: 99%;"></a>
+
+<!-- <img src="superzip.png" style="width: 100%"/> -->
+
+<!-- <div class="small">[gallery.shinyapps.io](https://gallery.shinyapps.io/063-superzip-example/)</div>  -->
+
+<!-- Code: https://shiny.posit.co/r/gallery/interactive-visualizations/superzip-example/ -->
 
 ## What we'll discuss
 
 1. The `shiny` framework
 2. The user interface (UI)
 3. The server
-4. Advanced topics
+4. ~~Advanced topics~~
 5. Take-aways
 
 
@@ -48,9 +61,17 @@ The [palmer penguins](https://allisonhorst.github.io/palmerpenguins/) `penguins`
 
 ## Case study
 
-```{r echo=TRUE}
+```{r eval=FALSE, echo=TRUE}
 library(palmerpenguins)
-head(penguins)
+head(penguins) 
+```
+
+```{r results='asis'}
+library(palmerpenguins)
+library(kableExtra)
+head(penguins) %>% 
+  kable() %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), font_size = 14)
 ```
 
 <!-- <div class="small">Note. to make sure `R` can find the data for your app (e.g., load it on the server side, or let the user upload a dataset)!</div> -->
@@ -70,6 +91,10 @@ head(penguins)
 </div>
 
 ---
+
+##
+
+<div class="small"> Slides available from [hanneoberman.github.io/presentations](https://hanneoberman.github.io/presentations/)</div>
 
 # The `shiny` framework {.build}
 
@@ -1173,6 +1198,53 @@ When building the back-end of your app:
 ---
 
 # Advanced topics
+
+## Extended app 
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ui <- fluidPage(
+  titlePanel("Palmer penguins: An interactive visualization"),
+  sidebarLayout(
+    sidebarPanel(
+      radioButtons("location", "Location", choices = c("Biscoe", "Dream", "Torgersen")),
+      sliderInput("weight", "Weight", min = 2, max = 7, value = c(3, 5), post = "kg")
+    ),
+    mainPanel(
+      plotlyOutput("scatterplot"),
+      br(), br(),
+      tableOutput("descriptives")
+    )
+  )
+)
+
+server <- function(input, output) {
+  filtered <- reactive({
+   penguins %>%
+      filter(island == input$location,
+             body_mass_g >= input$weight[1] * 1000,
+             body_mass_g <= input$weight[2] * 1000
+        )
+  })
+  
+  output$scatterplot <- renderPlotly({
+    filtered() %>% 
+      ggplot(aes(x = flipper_length_mm, y = bill_length_mm, color = species)) +
+        geom_point() +
+        geom_smooth(method = "lm", se = FALSE) + 
+        scale_color_palmer() +
+        labs(title = "Flipper and bill length")
+  })
+
+  output$descriptives <- renderTable({
+    filtered() %>%
+      group_by(species) %>%
+      summarise(mean_bill = mean(bill_length_mm, na.rm = TRUE),
+              mean_flip = mean(flipper_length_mm, na.rm = TRUE))
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
 
 ## Design
 

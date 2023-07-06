@@ -2,10 +2,11 @@
 title: "Towards a standardized evaluation <br> of imputation methodology"
 subtitle: "Potential pitfalls in simulation studies and a proposed course of action"
 author: "H.I. Oberman & G. Vink"
+institute: "Utrecht University"
 format:
   revealjs:
     logo: logo.png
-    footer: "Hanne Oberman"
+    footer: "Hanne Oberman, hanneoberman.github.io/presentations"
     incremental: true
 css: style.css
 ---

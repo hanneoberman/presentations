@@ -2,6 +2,7 @@
 title: ""
 subtitle: "Towards a standardized evaluation of imputation methodology:<br>Potential pitfalls in simulation studies and a proposed course of action"
 author: "H.I. Oberman"
+institute: "Utrecht University"
 format:
   revealjs:
     logo: logo.png

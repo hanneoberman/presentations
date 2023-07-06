@@ -26,3 +26,13 @@ figcaption {
   padding: .5em;
   font-size: 0.7em;
 }
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  padding: 1.5em;
+  font-size: smaller;
+}
