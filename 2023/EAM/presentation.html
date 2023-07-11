@@ -333,39 +333,187 @@
 <div class="quarto-title-author-name">
 H.I. Oberman &amp; G. Vink 
 </div>
-</div>
+        <p class="quarto-title-affiliation">
+            Utrecht University
+          </p>
+    </div>
 </div>
 
 </section>
-<section>
-<section id="section" class="title-slide slide level1 center">
-<h1></h1>
+<section id="missing-data-in-the-wild" class="title-slide slide level1 center">
+<h1>Missing data in the wild</h1>
+<aside class="notes">
+<p>Who of you has ever done some statistical consulting for empirical researchers?</p>
+<p>And of you who has *never* come across a real-world dataset with missing values?</p>
+<p>It’s always nice to be able to suggest something better than a biasing default such as list-wise deletion,</p>
+<p>but *however advanced* the missing data method that you suggest may be, the issue remains:</p>
+<p>missing values are by definition missing.</p>
+<p>It is seldom possible to recover the unobserved true data that is obfuscated by the missingness.</p>
+<p>So you may never be certain that the solution you suggested, was the right one.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 
+<section id="making-up-missing-data" class="title-slide slide level1 center">
+<h1>Making up missing data</h1>
+<aside class="notes">
+<p>That is, unless you’re doing a simulation study.</p>
+<p>In simulation studies, it is possible to start out with a complete dataset and impose missingness yourself.</p>
+<p>Then, as the simulator, you’re able to determine exactly how well your suggested solution fixes the problem at hand,</p>
+<p>within the confined space of the simulation design.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="introduction" class="slide level2">
-<h2>Introduction</h2>
-<ul>
-<li class="fragment">missing data are ubiquitous</li>
-<li class="fragment">missing data problems may be solved by imputing missing values</li>
-<li class="fragment">imputation methods are evaluated through simulation studies</li>
-<li class="fragment">there is no consensus on the evaluation of imputation methodology</li>
-</ul>
+
+<section id="lack-of-common-ground" class="title-slide slide level1 center">
+<h1>Lack of common ground</h1>
+<aside class="notes">
+<p>But that brings us the the *real* problem I’d like to discuss today:</p>
+<p>simulators create their own missing data problems,</p>
+<p>and they do not sufficiently report their simulation designs.</p>
+<p>The lack of common ground in evaluating imputation methodology</p>
+<p>may lead to suboptimal use in practice,</p>
+<p>because simulation results are not comparable</p>
+<p>and hard to translate into real-world/empirical missing data problems</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="introduction-1" class="slide level2">
-<h2>Introduction</h2>
-<ul>
-<li class="fragment">lack of common ground in evaluating imputation methodology may lead to suboptimal use in practice</li>
-<li class="fragment">to demonstrate the need for standardization, we highlight a set of possible pitfalls</li>
-<li class="fragment">bringing forth a chain of potential problems in the objective assessment of the performance of imputation routines</li>
-<li class="fragment">we suggest a (non-exhaustive) course of action for simulating and evaluating missing data problems</li>
-<li class="fragment">and propose a move toward a standardized evaluation of imputation methodology</li>
-</ul>
-<!-- Developing new imputation methodology has become a very active field. Unfortunately, there is no consensus on how to perform simulation studies to evaluate the properties of imputation methods. In part, this may be due to different aims between fields and studies. For example, when evaluating imputation techniques aimed at prediction, different aims may be formulated than when statistical inference is of interest. The lack of consensus may also stem from different personal preferences or scientific backgrounds. All in all, the lack of common ground in evaluating imputation methodology may lead to suboptimal use in practice. In this paper, we propose a move toward a standardized evaluation of imputation methodology. To demonstrate the need for standardization, we highlight a set of possible pitfalls that bring forth a chain of potential problems in the objective assessment of the performance of imputation routines. Additionally, we suggest a course of action for simulating and evaluating missing data problems. Our suggested course of action is by no means meant to serve as a complete cookbook, but rather meant to incite critical thinking and a move to objective and fair evaluations of imputation methodology. We invite the readers of this paper to contribute to the suggested course of action. -->
-<!-- We encourage simulators to carefully consider and document their choices in the evaluation of imputation methodology. Simulation studies should not only be well executed, but also properly reported. -->
-</section></section>
+
+<section id="requiring-reporting-guidelines" class="title-slide slide level1 center">
+<h1>Requiring reporting guidelines?</h1>
+<aside class="notes">
+<p>Then just require simulators to report on their designs?</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+
 <section>
-<section id="section-1" class="title-slide slide level1 center">
-<h1></h1>
+<section id="the-case-of-spurious-missingness" class="title-slide slide level1 center">
+<h1>The case of spurious missingness</h1>
+<aside class="notes">
+<p>MAR may be spurious.</p>
+<p>All of them validly generated, but only two are valid missingness</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+
+<!-- ![](plot.pdf){fig-alt="Three scatterplots with the probability to be missing on the y-axis and the amputed variable on the x-axis" fig-align="center"} -->
+<img data-src="presentation_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section></section>
+<section id="standardizing-the-evaluation" class="title-slide slide level1 center">
+<h1>Standardizing the evaluation</h1>
+<aside class="notes">
+<p>Standardizing the evaluation of the simulation studies!</p>
+<p>With standardized evaluation, simulation studies may be</p>
+<p>1) better documented</p>
+<p>2) more comparable</p>
+<p>3) easier to interpret/extrapolate from</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+
+<section id="developing-a-checklist" class="title-slide slide level1 center">
+<h1>Developing a checklist</h1>
+<aside class="notes">
+<p>And sharing (pseudo) code.</p>
+<p>To aid fellow simulators, we are developing a checklist.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+
+<section id="take-aways" class="title-slide slide level1 center">
+<h1>Take-aways</h1>
+<aside class="notes">
+<p>And hopefully, with this standardized evaluation,</p>
+<p>you will have more confidence in the suggestions you do as missing data consultant!</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+
+<section id="references" class="title-slide slide level1 center">
+<h1>References</h1>
+<p>Morris, T. P., White, I. R., &amp; Crowther, M. J. (2019). <a href="https://onlinelibrary.wiley.com/doi/10.1002/sim.8086">Using simulation studies to evaluate statistical methods</a>. Statistics in Medicine, 38(11), 2074– 2102.</p>
+<p>Oberman, H. I., &amp; Vink, G. (2023). <a href="https://doi.org/10.1002/bimj.202200107">Toward a standardized evaluation of imputation methodology</a>. Biometrical Journal, e2200107.</p>
+<p>Checklist on <a href="https://doi.org/10.53962/vrd3-8h76">Research Equals</a>.</p>
+<p>Publication archive on <a href="https://zenodo.org/badge/latestdoi/449704829">Zenodo</a>. <a href="https://zenodo.org/badge/latestdoi/449704829"><img data-src="https://zenodo.org/badge/449704829.svg" alt="DOI"></a></p>
+</section>
+
+<section>
+<section id="the-checklist" class="title-slide slide level1 center">
+<h1>The checklist</h1>
 
 </section>
 <section id="aims" class="slide level2">
@@ -406,25 +554,23 @@ H.I. Oberman &amp; G. Vink
 <li class="fragment">statistical properties (incl.&nbsp;comparative performance, if applicable)</li>
 <li class="fragment">validity of imputations (incl.&nbsp;imputation model fit and distributional characteristics) <!-- − Does the imputation model fit well to the observed values? (e.g., posterior predictive check) --> <!-- − Are there unrealistic values in the data? (e.g., negative where positive expected) --> <!-- − Are there implausible combinations in the data? (e.g., pregnant grandfathers) --></li>
 </ul>
-</section></section>
-<section id="summary" class="title-slide slide level1 center">
-<h1>Summary</h1>
-<ul>
-<li class="fragment">checklist cf.&nbsp;ADEMP (Morris et al., 2019)</li>
-</ul>
-</section>
+<!-- ## Missing data are ubiquituous -->
+<!-- - missing data problems may be solved by imputing missing values -->
+<!-- - imputation methods are evaluated through simulation studies -->
+<!-- - there is no consensus on the evaluation of imputation methodology -->
+<!-- ## Lack of common ground -->
+<!-- - lack of common ground in evaluating imputation methodology may lead to suboptimal use in practice -->
+<!-- - to demonstrate the need for standardization, we highlight a set of possible pitfalls -->
+<!-- - bringing forth a chain of potential problems in the objective assessment of the performance of imputation routines -->
+<!-- - we suggest a (non-exhaustive) course of action for simulating and evaluating missing data problems -->
+<!-- - and propose a move toward a standardized evaluation of imputation methodology -->
+<!-- Developing new imputation methodology has become a very active field. Unfortunately, there is no consensus on how to perform simulation studies to evaluate the properties of imputation methods. In part, this may be due to different aims between fields and studies. For example, when evaluating imputation techniques aimed at prediction, different aims may be formulated than when statistical inference is of interest. The lack of consensus may also stem from different personal preferences or scientific backgrounds. All in all, the lack of common ground in evaluating imputation methodology may lead to suboptimal use in practice. In this paper, we propose a move toward a standardized evaluation of imputation methodology. To demonstrate the need for standardization, we highlight a set of possible pitfalls that bring forth a chain of potential problems in the objective assessment of the performance of imputation routines. Additionally, we suggest a course of action for simulating and evaluating missing data problems. Our suggested course of action is by no means meant to serve as a complete cookbook, but rather meant to incite critical thinking and a move to objective and fair evaluations of imputation methodology. We invite the readers of this paper to contribute to the suggested course of action. -->
+<!-- We encourage simulators to carefully consider and document their choices in the evaluation of imputation methodology. Simulation studies should not only be well executed, but also properly reported. -->
 
-<section id="references" class="title-slide slide level1 center">
-<h1>References</h1>
-<p>Morris, T. P., White, I. R., &amp; Crowther, M. J. (2019). Using simulation studies to evaluate statistical methods. Statistics in Medicine, 38(11), 2074– 2102.</p>
-<p>Oberman, H. I., &amp; Vink, G. (2023). Toward a standardized evaluation of imputation methodology. Biometrical Journal, e2200107. https://doi.org/10.1002/bimj.202200107</p>
-<p>Publication archive via <a href="https://zenodo.org/badge/latestdoi/449704829"><img data-src="https://zenodo.org/badge/449704829.svg" alt="DOI"></a></p>
-<p>Checklist via <a href="https://doi.org/10.53962/vrd3-8h76">Research Equals</a></p>
-<p><img src="logo.png" class="slide-logo"></p>
-<div class="footer footer-default">
-<p>Hanne Oberman</p>
+<img src="logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
+<p>Hanne Oberman, hanneoberman.github.io/presentations</p>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
@@ -636,6 +782,44 @@ H.I. Oberman &amp; G. Vink
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

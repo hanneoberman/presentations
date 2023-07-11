@@ -1,0 +1,58 @@
+EAM
+
+- pull them in: 
+Who of you has ever done some statistical consulting for empirical researchers? 
+And of you who has *never* come across a real-world dataset with missing values? 
+It's always nice to be able to suggest something better than a biasing default such as list-wise deletion, 
+but *however advanced* the missing data method that you suggest may be, the issue remains:
+missing values are by definition missing. 
+It is seldom possible to recover the unobserved true data that is obfuscated by the missingness.
+So you may never be certain that the solution you suggested, was the right one.
+
+- build up towards: 
+That is, unless you're doing a simulation study. 
+In simulation studies, it is possible to start out with a complete dataset and impose missingness yourself.
+Then, as the simulator, you're able to determine exactly how well your suggested solution fixes the problem at hand,
+within the confined space of the simulation design.
+
+- the big problem: 
+But that brings us the the *real* problem I'd like to discuss today: 
+simulators create their own missing data problems,
+and they do not sufficiently report their simulation designs.
+The lack of common ground in evaluating imputation methodology
+may lead to suboptimal use in practice, 
+because simulation results are not comparable 
+and hard to translate into real-world/empirical missing data problems
+
+- explain potential solutions: 
+Then just require simulators to report on their designs?
+
+- explain why these are not sufficient: 
+MAR may be spurious.
+
+- present the big solution: 
+Standardizing the evaluation of the simulation studies!
+And sharing (pseudo) code.
+To aid fellow simulators, we are developing a checklist.
+
+- and how it solves the problem: 
+With standardized evaluation, simulation studies may be
+1) better documented
+2) more comparable
+3) easier to interpret/extrapolate from
+
+- coda: 
+And hopefully, with this standardized evaluation, 
+you will have more confidence in the suggestions you do as missing data consultant!
+
+---
+
+# evaluating imputation routines is hard
+
+# come to you with missing data problems.
+
+# one of the nice things about missing data research is creating your own problems
+
+# the empirical researchers you are consulting present you with incomplete data? 
+
+# the simulator is free to create their own missing data problem.
