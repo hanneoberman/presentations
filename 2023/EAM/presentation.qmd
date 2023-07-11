@@ -87,7 +87,6 @@ p +
   labs(x = "Y (amputed based on X)")
 ```
 
-<!-- ![](plot.pdf){fig-alt="Three scatterplots with the probability to be missing on the y-axis and the amputed variable on the x-axis" fig-align="center"} -->
 
 # Standardizing the evaluation
 
@@ -120,8 +119,6 @@ you will have more confidence in the suggestions you do as missing data consulta
 :::
 
 # References
-
-Morris, T. P., White, I. R., & Crowther, M. J. (2019). [Using simulation studies to evaluate statistical methods](https://onlinelibrary.wiley.com/doi/10.1002/sim.8086). Statistics in Medicine, 38(11), 2074-- 2102.
 
 Oberman, H. I., & Vink, G. (2023). [Toward a standardized evaluation of imputation methodology](https://doi.org/10.1002/bimj.202200107). Biometrical Journal, e2200107. 
 
@@ -158,36 +155,11 @@ e.g., missing data methods, analytic method and inference pooling rules
 
 -   imputation methods (incl. parameters such as the number of imputations)
 -   estimation method (incl. reference methods such as complete case analysis)
--   methods used to construct standard errors and confidence intervals <!-- Such as rules by Barnard and Rubin (1999); Rubin (1987); Reiter (2003), etc. -->
+-   methods used to construct standard errors and confidence intervals 
 
 ## Performance measures
 
 e.g., evaluation of estimates and imputed values
 
 -   statistical properties (incl. comparative performance, if applicable)
--   validity of imputations (incl. imputation model fit and distributional characteristics) <!-- − Does the imputation model fit well to the observed values? (e.g., posterior predictive check) --> <!-- − Are there unrealistic values in the data? (e.g., negative where positive expected) --> <!-- − Are there implausible combinations in the data? (e.g., pregnant grandfathers) -->
-
-
-<!-- ## Missing data are ubiquituous -->
-
-<!-- - missing data problems may be solved by imputing missing values -->
-
-<!-- - imputation methods are evaluated through simulation studies -->
-
-<!-- - there is no consensus on the evaluation of imputation methodology -->
-
-<!-- ## Lack of common ground -->
-
-<!-- - lack of common ground in evaluating imputation methodology may lead to suboptimal use in practice -->
-
-<!-- - to demonstrate the need for standardization, we highlight a set of possible pitfalls -->
-
-<!-- - bringing forth a chain of potential problems in the objective assessment of the performance of imputation routines -->
-
-<!-- - we suggest a (non-exhaustive) course of action for simulating and evaluating missing data problems -->
-
-<!-- - and propose a move toward a standardized evaluation of imputation methodology -->
-
-<!-- Developing new imputation methodology has become a very active field. Unfortunately, there is no consensus on how to perform simulation studies to evaluate the properties of imputation methods. In part, this may be due to different aims between fields and studies. For example, when evaluating imputation techniques aimed at prediction, different aims may be formulated than when statistical inference is of interest. The lack of consensus may also stem from different personal preferences or scientific backgrounds. All in all, the lack of common ground in evaluating imputation methodology may lead to suboptimal use in practice. In this paper, we propose a move toward a standardized evaluation of imputation methodology. To demonstrate the need for standardization, we highlight a set of possible pitfalls that bring forth a chain of potential problems in the objective assessment of the performance of imputation routines. Additionally, we suggest a course of action for simulating and evaluating missing data problems. Our suggested course of action is by no means meant to serve as a complete cookbook, but rather meant to incite critical thinking and a move to objective and fair evaluations of imputation methodology. We invite the readers of this paper to contribute to the suggested course of action. -->
-
-<!-- We encourage simulators to carefully consider and document their choices in the evaluation of imputation methodology. Simulation studies should not only be well executed, but also properly reported. -->
+-   validity of imputations (incl. imputation model fit and distributional characteristics) 
