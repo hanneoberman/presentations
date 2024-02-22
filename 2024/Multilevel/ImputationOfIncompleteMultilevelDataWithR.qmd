@@ -1,0 +1,78 @@
+---
+title: "Imputation of Incomplete Multilevel Data with R"
+author: "Hanne Oberman"
+institute: "PhD candidate at Utrecht University"
+format:
+  revealjs:
+    logo: logo.png
+    footer: "Hanne Oberman, hanneoberman.github.io/presentations"
+    incremental: true
+    toc: true
+css: style.css
+---
+
+```{r setup}
+library(knitr)
+library(ggplot2)
+```
+
+## Problem statement
+
+1. missing data occur often in data with human subjects
+2. missing data may be resolved, but need to be handled in accordance with the analysis of scientific interest
+3. in human-subjects research, there is often clustering, which may be captured with multilevel modeling techniques
+4. if the analysis of scientific interest is a multilevel model, the missing data handling method should accommodate the multilevel structure of the data
+4. both missingness and multilevel structures require advanced statistical techniques
+5. this tutorial sets out to facilitate empirical researchers in accommodating both multilevel structures as well as missing data.
+6. we illustrate the use of the software by means of three case studies from the social and biomedical sciences.
+
+## Missingness
+
+```{r}
+dat <- expand.grid(rows = 1:7, cols = 1:6) |>
+  cbind(
+    text = c("1", "1", "2", "2", "3", "", "N", rep("", 35)),
+    miss = c(rep("", 16), "NA", "NA", "", "", "", "NA", "", "", "NA", rep("", 17))
+  )
+ggplot(dat, aes(x = cols, y = rows, fill = ifelse(miss == "NA", "#B61A51B3", "#006CC2B3"))) +
+  geom_tile(color = "black",
+            alpha = 0.6,
+            linewidth = 0.5) +
+  geom_text(aes(label = text), color = "black", size = 3, fontface = "bold") +
+  geom_text(
+    aes(label = miss),
+    color = "black",
+    family = "mono",
+    fontface = "bold"
+  ) +
+  scale_x_continuous(
+    breaks = 1:6,
+    labels = c(
+      "cluster",
+      expression(X[1]),
+      expression(X[2]),
+      expression(X[3]),
+      "...",
+      expression(X[p])
+    ),
+    name = NULL,
+    position = "top"
+  ) +
+  scale_y_continuous(
+    breaks = 1:7,
+    labels = c(1:5, "...", "n"),
+    name = NULL,
+    trans = "reverse"
+  ) +
+  scale_fill_identity() +
+  # coord_cartesian(expand = c(0,0)) +
+  theme_minimal() +
+  theme(panel.grid = element_blank(),
+        plot.margin = unit(c(0, 0, 0, 0), "pt"))
+```
+
+## Case study
+
+
+
+## References
