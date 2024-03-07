@@ -73,6 +73,14 @@ ggplot(dat, aes(x = cols, y = rows, fill = ifelse(miss == "NA", "#B61A51B3", "#0
 
 ## Case study
 
+```{r}
+library(lme4)
+# sleepstudy
+library(nlme)
+# MathAchieve
+library(palmerpenguins)
+penguins
+```
 
 
 ## References

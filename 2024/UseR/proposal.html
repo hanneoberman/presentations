@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>proposal</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="proposal_files/libs/clipboard/clipboard.min.js"></script>
+<script src="proposal_files/libs/quarto-html/quarto.js"></script>
+<script src="proposal_files/libs/quarto-html/popper.min.js"></script>
+<script src="proposal_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="proposal_files/libs/quarto-html/anchor.min.js"></script>
+<link href="proposal_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="proposal_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="proposal_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="proposal_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="proposal_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="user-conference-proposal" class="level1">
+<h1>UseR! conference proposal</h1>
+<p>In-person tutorial (3 hours)</p>
+<section id="requirements" class="level2">
+<h2 class="anchored" data-anchor-id="requirements">Requirements</h2>
+<ul>
+<li>Talks should be new to useR!</li>
+<li>Talks should be original and directly related to the speaker’s work.</li>
+<li>Talks backed by open source materials (R package, git repository, etc.) are especially welcome.</li>
+<li>Your presentation should be directly related to R. General data science talks are not typically appropriate for regular talks.</li>
+</ul>
+<p>Please include details on the expected takeaways attendees will gain from the session.</p>
+<section id="description-max-1200w" class="level3">
+<h3 class="anchored" data-anchor-id="description-max-1200w">Description (max 1200w)</h3>
+<ul>
+<li>What are you hoping to get from your presentation?</li>
+<li>What do you expect the audience to gain from your presentation?</li>
+<li>How will your presentation help better the ecosystem?</li>
+</ul>
+<p>Missing data are ubiquitous in nearly every data analytic enterprise. Simple ad-hoc techniques for dealing with missing values such as ignoring incomplete cases (with <code>na.rm = TRUE</code>) can cause a host of hidden problems. In this tutorial session, we will first cover some basic missing data theory and then provide hands on tools for handling incomplete datasets in <code>R</code>.</p>
+<p>All materials will be distributed as OER (Open Educational Resources) and will be made available on GitHub/Zenodo. The tutorial will be based on the book “Flexible Imputation of Missing Data” by Stef van Buuren (2nd edition, Chapman &amp; Hall, 2018). The book can be read online for free at https://stefvanbuuren.name/fimd/.</p>
+</section>
+<section id="learning-outcomes" class="level3">
+<h3 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h3>
+<p>Participants will learn to make informed decisions on how to handle incomplete data in a scientifically valid way. During the session, attendees will gain practical experience with missing data exploration and imputation. Attendees will gain knowledge on missing data methodology and skills to validly tackle missing data problems using multiple imputation by chained equations. They will be able to implement the approach taken using state-of-the-art <code>mice</code> package in <code>R</code>. [TODO: add visualization!]</p>
+<ul>
+<li>recognize problems with missing data</li>
+<li>visualize and evaluate incomplete data with <code>ggmice</code></li>
+<li>impute missing data with <code>mice</code></li>
+<li>evaluate the quality of imputations (e.g.&nbsp;non-convergence)</li>
+<li></li>
+</ul>
+</section>
+</section>
+<section id="existing-texts" class="level2">
+<h2 class="anchored" data-anchor-id="existing-texts">Existing texts</h2>
+<section id="winter-school" class="level3">
+<h3 class="anchored" data-anchor-id="winter-school">Winter school</h3>
+<p>Missing data are ubiquitous in nearly every data analytic enterprise. Simple ad-hoc techniques for dealing with missing values such as deleting incomplete cases or replacing missing values with the item mean can cause a host of (hidden) problems. We will cover some basic missing data theory and two principled methods for treating missing data: multiple imputation (MI) and full information maximum likelihood (FIML). Participants will practice what they learn via practical exercises.</p>
+<p>The workshop content will be presented via a combination of short lectures and live R analysis demonstrations. Workshop participants will practice what they learn on-the-fly by following along with the demonstration scripts and completing in-situ practical exercises. If the schedule permits, the participants are also welcome to ask the instructor for advice on their own data analyses.</p>
+<p>After completing this course, participants can:</p>
+<p>Describe the most important characteristics of a missing data problem and choose appropriate statistics, metrics, or visualizations to quantify/illustrate those characteristics. Describe multiple imputation (MI): what it is, why it works, and why it is superior to traditional, ad-hoc techniques. Describe full information maximum likelihood (FIML): what it is, why it works, and why it is superior to traditional ad-hoc techniques. Compare and contrast the relative strengths and weaknesses of MI and FIML.</p>
+<p>Write basic R scripts to do the following:</p>
+<ul>
+<li><p>Explore a missing data problem with appropriate statistics, metrics, and visualizations.</p></li>
+<li><p>Conduct an MI-based analysis.</p></li>
+<li><p>Conduct a FIML-based analysis.</p></li>
+</ul>
+</section>
+<section id="summer-school" class="level3">
+<h3 class="anchored" data-anchor-id="summer-school">Summer school</h3>
+<p>This four-day course teaches you the basics in solving your own missing data problems appropriately. Participants will learn how to form imputation models, how to combine data sets, how to model non-response, how to use diagnostics to inspect the imputed values, how to obtain valid inference on incomplete data and how to avoid many of the pitfalls associated with real-life missing data problems.</p>
+<p>Most researchers in the social and behavioural sciences have encountered the problem of missing data: It seriously complicates the statistical analysis of data, and simply ignoring it is not a good strategy. A general and statistically valid technique to analyse incomplete data is multiple imputation, which is rapidly becoming the standard in social and behavioural science research.</p>
+<p>This course will explain a modern and flexible imputation technique that is able to preserve important features in the data. The aim of this course is to enhance participants’ knowledge in imputation methodology and to provide a flexible solution to their incomplete data problems using R. The course will explain the principles of missing data theory, outline a step-by-step approach toward creating high quality imputations, and provide guidelines how the results can be reported. The course will use the authors’ MICE package in R.</p>
+<p>Participants will learn how to form imputation models, how to combine data sets, how to model non-response, how to use diagnostics to inspect the imputed values, how to obtain valid inference on incomplete data and how to avoid many of the pitfalls associated with real-life missing data problems. While there will be plenty of opportunity to ask the experts for help and advice throughout the course, we end the course with the opportunity to consult us on your own specific missing data problem.</p>
+<p>Most researchers need to deal with incomplete data. Missing data complicate the statistical analysis of data. Simply removing the missing data is not a good strategy and can bias the results. Multiple imputation is a general and statistically valid technique to analyze incomplete data. Multiple imputation has rapidly become the standard in social and behavioural science research.</p>
+<p>This hybrid course will explain modern and flexible imputation techniques that are able to preserve salient data features. The course enhances participants’ knowledge of imputation principles and provides flexible hands-on solutions to incomplete data problems using R. The course discusses principles of missing data theory, outlines a step-by-step approach toward creating high quality imputations, and provides guidelines on how to report the results. The course will use the authors’ MICE package in R.</p>
+<p>The lectures will follow the book “Flexible Imputation of Missing Data” by Stef van Buuren ( 2nd edition, Chapman &amp; Hall, 2018). The book can be read online for free at https://stefvanbuuren.name/fimd/.</p>
+<p>We iterate short lectures with hands-on practical sessions and plenary discussion of the practicals. This ensures that we form an interactive group of participants that learn the theory and practice of multiple imputation in bite-size blocks. Each block builds up to the next one. We invite participants to share their own experience and challenges during these blocks so that we can foster a collaborative learning environment.</p>
+<p>This course is relevant for applied researchers or statistical researchers that would like to get acquainted with incomplete data theory and the practice of multiple imputation. Participants should have a basic understanding of statistical techniques (such as analysis of variance and (non)linear regression) and the concept of statistical inference.</p>
+<p>This course is suitable for students at master, advanced master, and PhD level</p>
+<p>The aim of this course is:</p>
+<p>To enhance participants’ knowledge of imputation methodology; To get comfortable with flexible solutions to deal with incomplete data using R. Learning goals:</p>
+<p>Participants will learn to make informed decisions on how to handle incomplete data in a scientifically valid way; Participants will be able to implement the approach taken using state-of-the-art R technology.</p>
+</section>
+<section id="mdce" class="level3">
+<h3 class="anchored" data-anchor-id="mdce">MDCE</h3>
+<p>Missing data seriously complicate statistical data analysis, and the means by which missing data are treated can substantially impact statistical results. Yet, missing data are not always a simple data quality issue. Indeed, many statistical inference and estimation problems can be reframed as missing data problems. Causal effects estimation is a prime example. This course will introduce the fundamentals of missing data theory and causal effects theory and explore the connections between these fields. Students will learn how to define a causal effect and how to estimate that effect from data. With these skills, students will be able to critically evaluate any causal effects they may estimate in their own work as well as the strength of causal claims reported in the literature. Students will also learn how to evaluate the extent of a missing data problem and solve the missing data problem via (multiple) imputation. With these techniques in hand, students will be able to apply familiar statistical methods (e.g., regression, ANOVA) to incomplete data while minimizing the deleterious effects of the missing data.</p>
+<p>Students who successfully complete this course will be able to: Describe fundamental concepts in missing data theory and apply these concepts in hypothetical research scenarios. Missing data mechanisms and missing data diagnostics Ad hoc missing data treatments and their consequences The multiple imputation (MI) algorithm and the procedure for MI-based data analysis The strengths and weaknesses of MI relative to ad hoc missing data treatments Describe fundamental concepts in causal effects estimation and apply these concepts in hypothetical research scenarios</p>
+<p>Use the R statistical programming language to apply basic methodological and statistical techniques for treating missing data Apply appropriate diagnostic techniques to evaluate a missing data problem in a real dataset Apply MI to replace the missing values in a real dataset Analyze the multiply imputed data and interpret the results</p>
+</section>
+<section id="generated-text" class="level3">
+<h3 class="anchored" data-anchor-id="generated-text">Generated text</h3>
+<p>Title: Mastering Missing Data Analysis with R: A Hands-On Tutorial</p>
+<p>Abstract: Missing data is a pervasive issue in scientific research, particularly in the social and behavioral sciences, and addressing it appropriately is crucial for accurate statistical analysis. Traditional methods such as complete case analysis or ad hoc imputation techniques may introduce bias and undermine the validity of results. This hands-on tutorial aims to empower researchers with the knowledge and skills to effectively handle missing data using modern and statistically sound techniques, with a focus on the programming language R.</p>
+<p>Session Overview: In this comprehensive three-hour tutorial, participants will embark on a journey to master the principles and practical application of missing data analysis using R. Led by experts in the field, the session will combine theoretical insights with hands-on exercises, providing attendees with the tools they need to confidently address missing data in their own research projects.</p>
+<p>Learning Objectives:</p>
+<p>Understand the fundamentals of missing data theory, including mechanisms and diagnostics. Learn about the multiple imputation (MI) algorithm and its advantages over ad hoc methods. Gain proficiency in applying MI techniques using R, including modeling non-response and combining data sets. Develop skills in evaluating and interpreting results obtained from MI-based analyses. Explore real-world examples and case studies to reinforce learning and practical application. Session Structure:</p>
+<p>Introduction to Missing Data Analysis (30 minutes): Participants will be introduced to the fundamental concepts of missing data theory and its implications for statistical analysis. Key topics include missing data mechanisms, diagnostics, and the limitations of traditional approaches.</p>
+<p>Multiple Imputation in Theory and Practice (60 minutes): Building upon the theoretical foundation, this segment will delve into the MI algorithm and its application in practice. Through guided demonstrations and exercises, participants will learn how to implement MI techniques using R, including model specification and convergence diagnostics.</p>
+<p>Hands-On Data Analysis Session (90 minutes): In this interactive segment, participants will have the opportunity to apply their newfound knowledge to real-world datasets. Attendees are encouraged to bring their own incomplete datasets, which they will work on under the guidance of instructors. Participants will receive personalized support and feedback as they navigate the challenges of missing data analysis.</p>
+<p>Target Audience: This tutorial is suitable for researchers and practitioners at all levels who encounter missing data in their work. Whether you are a graduate student, seasoned researcher, or statistical analyst, this session will equip you with valuable skills to overcome the complexities of missing data analysis.</p>
+<p>Prerequisites: Basic familiarity with statistical concepts and the R programming language is recommended but not required. Participants are encouraged to bring their own laptops with R and relevant packages installed to maximize engagement.</p>
+<p>Conclusion: Don’t let missing data hinder the progress of your research. Join us for this immersive tutorial session and take the first step towards mastering missing data analysis with R. By the end of the session, you’ll emerge equipped with the knowledge and confidence to tackle missing data challenges head-on and produce robust, reliable results.</p>
+<p>We look forward to welcoming you to “Mastering Missing Data Analysis with R” at the upcoming conference. Let’s unlock the potential of your data together!</p>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
