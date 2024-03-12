@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="ImputationOfIncompleteMultilevelDataWithR_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="style.css">
@@ -326,7 +391,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Imputation of Incomplete Multilevel Data with R</h1>
+  <h1 class="title">Imputation of Incomplete Multilevel Data with <code>R</code></h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -341,36 +406,164 @@ Hanne Oberman
 
 </section><section id="TOC">
 <nav role="doc-toc"> 
-<h2 id="toc-title">Table of contents</h2>
+<h2 id="toc-title">Overview</h2>
 <ul>
-<li class="fragment"><a href="#/problem-statement" id="/toc-problem-statement">Problem statement</a></li>
+<li class="fragment"><a href="#/incomplete-multilevel-data" id="/toc-incomplete-multilevel-data">Incomplete multilevel data</a></li>
 <li class="fragment"><a href="#/missingness" id="/toc-missingness">Missingness</a></li>
+<li class="fragment"><a href="#/missing-data-methods" id="/toc-missing-data-methods">Missing data methods</a></li>
+<li class="fragment"><a href="#/multiple-imputation" id="/toc-multiple-imputation">Multiple imputation</a></li>
+<li class="fragment"><a href="#/ingredients" id="/toc-ingredients">Ingredients</a></li>
 <li class="fragment"><a href="#/case-study" id="/toc-case-study">Case study</a></li>
+<li class="fragment"><a href="#/setup" id="/toc-setup">Setup</a></li>
+<li class="fragment"><a href="#/missing-data-pattern" id="/toc-missing-data-pattern">Missing data pattern</a></li>
+<li class="fragment"><a href="#/imputation-model-building" id="/toc-imputation-model-building">Imputation model building</a></li>
+<li class="fragment"><a href="#/imputation-methods" id="/toc-imputation-methods">Imputation methods</a></li>
+<li class="fragment"><a href="#/outcome-variable-1" id="/toc-outcome-variable-1">Outcome variable (1)</a></li>
 <li class="fragment"><a href="#/references" id="/toc-references">References</a></li>
 </ul>
 </nav>
 </section>
-<section id="problem-statement" class="slide level2">
-<h2>Problem statement</h2>
-<ol type="1">
-<li class="fragment">missing data occur often in data with human subjects</li>
-<li class="fragment">missing data may be resolved, but need to be handled in accordance with the analysis of scientific interest</li>
-<li class="fragment">in human-subjects research, there is often clustering, which may be captured with multilevel modeling techniques</li>
-<li class="fragment">if the analysis of scientific interest is a multilevel model, the missing data handling method should accommodate the multilevel structure of the data</li>
-<li class="fragment">both missingness and multilevel structures require advanced statistical techniques</li>
-<li class="fragment">this tutorial sets out to facilitate empirical researchers in accommodating both multilevel structures as well as missing data.</li>
-<li class="fragment">we illustrate the use of the software by means of three case studies from the social and biomedical sciences.</li>
-</ol>
+<section id="incomplete-multilevel-data" class="slide level2">
+<h2>Incomplete multilevel data</h2>
+<p><br><br></p>
+<div class="r-stack">
+<p><span class="math display">\[
+\text{multilevel structure } \times \text{ missing data }
+\]</span></p>
+</div>
+<!-- 1. missing data occur often in data with human subjects -->
+<!-- 2. missing data may be resolved, but need to be handled in accordance with the analysis of scientific interest -->
+<!-- 3. in human-subjects research, there is often clustering, which may be captured with multilevel modeling techniques -->
+<!-- 4. if the analysis of scientific interest is a multilevel model, the missing data handling method should accommodate the multilevel structure of the data -->
+<!-- 4. both missingness and multilevel structures require advanced statistical techniques -->
+<!-- 5. this tutorial sets out to facilitate empirical researchers in accommodating both multilevel structures as well as missing data. -->
+<!-- 6. we illustrate the use of the software by means of three case studies from the social and biomedical sciences. -->
 </section>
 <section id="missingness" class="slide level2">
 <h2>Missingness</h2>
 
 <img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
+<section id="missing-data-methods" class="slide level2">
+<h2>Missing data methods</h2>
+<ul>
+<li class="fragment">Prevention</li>
+<li class="fragment">Ad-hoc methods, e.g., single imputation, list-wise deletion</li>
+<li class="fragment">Weighting methods</li>
+<li class="fragment">Likelihood methods, EM-algorithm</li>
+<li class="fragment">Multiple imputation</li>
+</ul>
+</section>
+<section id="multiple-imputation" class="slide level2">
+<h2>Multiple imputation</h2>
+<ul>
+<li class="fragment">Works with item non-response</li>
+<li class="fragment">Does not assume MCAR</li>
+<li class="fragment">Does not over-complicate the analysis model</li>
+</ul>
+<!-- Splits missing data problem from complete-data analysis -->
+</section>
+<section id="ingredients" class="slide level2">
+<h2>Ingredients</h2>
+<ul>
+<li class="fragment">Incomplete data</li>
+<li class="fragment">Assumed missingness mechanism</li>
+<li class="fragment">Known analysis model</li>
+</ul>
+</section>
 <section id="case-study" class="slide level2">
 <h2>Case study</h2>
+<!-- The most general analytic model to be applied to imputed data (Hox et al., 2018, p. 17, equation 2.12). -->
+<div class="smaller">
+<p><span class="math display">\[\begin{align}
+\text{popularity}_{ij} = &amp;\gamma_{00}+ \gamma_{10} \text{gender}_{ij} + \gamma_{20} \text{extraversion}_{ij} + \\
+&amp;\gamma_{01} \text{experience}_j + \gamma_{21} \text{extraversion}_{ij} \times \text{experience}_j + \\
+&amp;u_{2j} \text{extraversion}_{ij} + u_{0j}+ e_{ij}
+\end{align}\]</span></p>
+</div>
+<div class="fragment">
+<p>Popularity data (Hox et al., 2018)</p>
+</div>
+</section>
+<section id="setup" class="slide level2">
+<h2>Setup</h2>
+<!-- Setup `R` environment -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mice)         <span class="co"># for imputation</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(miceadds)     <span class="co"># for imputation</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(ggmice)       <span class="co"># for visualization</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(ggplot2)      <span class="co"># for visualization</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(dplyr)        <span class="co"># for data wrangling</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(lme4)         <span class="co"># for multilevel modeling</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(broom)        <span class="co"># for tidying model output</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">library</span>(broom.mixed)  <span class="co"># for tidying model output</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">str</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   2000 obs. of  7 variables:
+ $ unit_id        : num  1 2 3 4 5 6 7 8 9 10 ...
+ $ cluster_id     : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ popularity_ij  : num  6.3 4.9 5.3 4.7 6 4.7 5.9 NA 5.2 NA ...
+ $ gender_ij      : num  2 1 2 2 2 1 1 1 1 1 ...
+ $ extraversion_ij: num  5 7 4 3 5 4 5 NA 5 5 ...
+ $ experience_j   : num  24 NA 24 24 24 24 24 24 24 24 ...
+ $ assessment_ij  : num  6 NA 6 5 6 5 5 NA 5 3 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="missing-data-pattern" class="slide level2">
+<h2>Missing data pattern</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">plot_pattern</span>(dat, <span class="at">square =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<!-- The unit identifier and cluster identifier are observed for all cases. All other variables are incomplete. The outcome variable 'popularity' is missing for 799 cases. The cluster-level variable 'teacher experience' is missing only once. The unit-level variables 'gender', 'extraversion' and 'teacher assessment' are missing for 3, 344 and 275 cases, respectively.  -->
+<!-- Teacher assessment is not part of the analysis model, but may serve as auxiliary variable in the imputation models. This is advisable if the observed data in the teacher assessment variable is strongly related to the observed data in the incomplete variables *or* their missingness indicators (see below).   -->
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
+<section id="imputation-model-building" class="slide level2">
+<h2>Imputation model building</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">plot_corr</span>(dat, <span class="at">square =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<!-- The auxiliary variable 'teacher assessment' may be useful in the imputation for the incomplete outcome variable 'popularity'. The unit identifier is not relevant, and will be left out of the imputation models. -->
+<!-- For each incomplete variable we need to define an imputation model: 1) choose the functional form of the imputation model and 2) select the imputation model predictors.  -->
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
+<section id="imputation-methods" class="slide level2">
+<h2>Imputation methods</h2>
+<!-- Create the default methods vector, to be filled in with the appropriate imputation methods.  -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>meth <span class="ot">&lt;-</span> <span class="fu">make.method</span>(dat)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>meth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        unit_id      cluster_id   popularity_ij       gender_ij extraversion_ij 
+             ""              ""           "pmm"           "pmm"           "pmm" 
+   experience_j   assessment_ij 
+          "pmm"           "pmm" </code></pre>
+</div>
+</div>
+<!-- The complete identifier variables do not have to be imputed. The default imputation methods for the incomplete variables are not appropriate because of the multilevel structure of the data. We will fill in the methods vector with more appropriate imputation methods, based on the distribution of the incomplete variables.  -->
+<!-- The outcome variable 'popularity' is approximately normally distributed.  -->
+</section>
+<section id="outcome-variable-1" class="slide level2">
+<h2>Outcome variable (1)</h2>
+<!-- A density plot of the incomplete outcome variable 'popularity' shows that aggregated across clusters, the distribution is approximately normal. Within clusters, there is more variability. -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">ggmice</span>(dat, <span class="fu">aes</span>(popularity_ij, <span class="at">group =</span> cluster_id)) <span class="sc">+</span> </span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<!-- We can use `2l.norm`: a multilevel method using the linear mixed model with heterogeneous error variances.  -->
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>meth[<span class="st">"popularity_ij"</span>] <span class="ot">&lt;-</span> <span class="st">"2l.norm"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="references" class="slide level2">
 <h2>References</h2>
+<!-- library(lme4) -->
+<!-- # sleepstudy -->
+<!-- library(nlme) -->
+<!-- # MathAchieve -->
+<!-- library(palmerpenguins) -->
+<!-- penguins -->
 
 <img src="logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
 <p>Hanne Oberman, hanneoberman.github.io/presentations</p>
