@@ -654,6 +654,15 @@ Hanne Oberman
 <span id="cb23-5"><a href="#cb23-5"></a>  <span class="at">predictorMatrix =</span> pred,</span>
 <span id="cb23-6"><a href="#cb23-6"></a>  <span class="at">maxit =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
 <pre><code>iter imp variable
   1   1  popularity_ij  gender_ij  extraversion_ij  experience_jError in .imputation.level2(y = y, ry = ry, x = x, type = type, wy = wy,  : 
   Method 2lonly.pmm found the following clusters with partially missing
@@ -662,6 +671,9 @@ Hanne Oberman
 In addition: Warning message:
 In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
   glmer does not run. Simplify imputation model</code></pre>
+</div>
+</div>
+</div>
 </section>
 <section id="edit-the-methods-and-re-impute" class="slide level2">
 <h2>Edit the methods and re-impute</h2>
@@ -675,6 +687,19 @@ In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
 <span id="cb25-7"><a href="#cb25-7"></a>  <span class="at">predictorMatrix =</span> pred,</span>
 <span id="cb25-8"><a href="#cb25-8"></a>  <span class="at">maxit =</span> <span class="dv">1</span>,</span>
 <span id="cb25-9"><a href="#cb25-9"></a>  <span class="at">printFlag =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Succes!</strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
 </div>
 </section>
 <section id="add-iterations-and-evaluate" class="slide level2">
@@ -710,7 +735,7 @@ In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
 <img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch"><div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">range</span>(mice<span class="sc">::</span><span class="fu">complete</span>(imp)<span class="sc">$</span>popularity_ij)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0 9.2</code></pre>
+<pre><code>[1] 0.000000 9.615729</code></pre>
 </div>
 </div>
 </section>
@@ -839,32 +864,16 @@ In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
 <section id="model-with-with-cross-level-interaction" class="slide level2">
 <h2>Model with with cross-level interaction</h2>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 9 × 6
-  effect   group      term                          estimate std.error statistic
-  &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;                            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 fixed    &lt;NA&gt;       (Intercept)                    -2.33     0.312       -7.49
-2 fixed    &lt;NA&gt;       gender_ij                       1.26     0.0468      27.0 
-3 fixed    &lt;NA&gt;       extraversion_ij                 0.779    0.0462      16.8 
-4 fixed    &lt;NA&gt;       experience_j                    0.219    0.0190      11.6 
-5 fixed    &lt;NA&gt;       extraversion_ij:experience_j   -0.0239   0.00296     -8.07
-6 ran_pars cluster_id sd__(Intercept)                 0.600   NA           NA   
-7 ran_pars cluster_id cor__(Intercept).extraversio…  -0.701   NA           NA   
-8 ran_pars cluster_id sd__extraversion_ij             0.0258  NA           NA   
-9 ran_pars Residual   sd__Observation                 0.741   NA           NA   </code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
-<span id="cb43-2"><a href="#cb43-2"></a>  imp,</span>
-<span id="cb43-3"><a href="#cb43-3"></a>  <span class="fu">lmer</span>(</span>
-<span id="cb43-4"><a href="#cb43-4"></a>    popularity_ij <span class="sc">~</span> gender_ij <span class="sc">+</span> extraversion_ij <span class="sc">+</span> experience_j <span class="sc">+</span> </span>
-<span id="cb43-5"><a href="#cb43-5"></a>      extraversion_ij<span class="sc">:</span>experience_j <span class="sc">+</span> (<span class="dv">1</span>  <span class="sc">+</span> extraversion_ij <span class="sc">|</span> cluster_id),  </span>
-<span id="cb43-6"><a href="#cb43-6"></a>    <span class="at">data =</span> dat, </span>
-<span id="cb43-7"><a href="#cb43-7"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb43-8"><a href="#cb43-8"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb43-9"><a href="#cb43-9"></a>  <span class="fu">pool</span>()</span>
-<span id="cb43-10"><a href="#cb43-10"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb42-2"><a href="#cb42-2"></a>  imp,</span>
+<span id="cb42-3"><a href="#cb42-3"></a>  <span class="fu">lmer</span>(</span>
+<span id="cb42-4"><a href="#cb42-4"></a>    popularity_ij <span class="sc">~</span> gender_ij <span class="sc">+</span> extraversion_ij <span class="sc">+</span> experience_j <span class="sc">+</span> </span>
+<span id="cb42-5"><a href="#cb42-5"></a>      extraversion_ij<span class="sc">:</span>experience_j <span class="sc">+</span> (<span class="dv">1</span>  <span class="sc">+</span> extraversion_ij <span class="sc">|</span> cluster_id),  </span>
+<span id="cb42-6"><a href="#cb42-6"></a>    <span class="at">data =</span> dat, </span>
+<span id="cb42-7"><a href="#cb42-7"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb42-8"><a href="#cb42-8"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb42-9"><a href="#cb42-9"></a>  <span class="fu">pool</span>()</span>
+<span id="cb42-10"><a href="#cb42-10"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                          term    estimate   std.error statistic       p.value
 1                  (Intercept) -2.33429638 0.311701929 -7.488874  1.351136e-13

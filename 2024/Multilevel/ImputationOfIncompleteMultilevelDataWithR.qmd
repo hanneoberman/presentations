@@ -308,6 +308,7 @@ imp <- mice(
 ```
 
 
+::: {.callout-warning}
 ```
 iter imp variable
   1   1  popularity_ij  gender_ij  extraversion_ij  experience_jError in .imputation.level2(y = y, ry = ry, x = x, type = type, wy = wy,  : 
@@ -318,6 +319,7 @@ In addition: Warning message:
 In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
   glmer does not run. Simplify imputation model
 ```
+:::
 
 ```{r}
 # dat |>
@@ -338,6 +340,10 @@ imp <- mice(
   maxit = 1,
   printFlag = FALSE)
 ```
+
+::: {.callout-tip}
+## Succes!
+:::
 
 ## Add iterations and evaluate
 
@@ -410,7 +416,7 @@ fit <- with(
 tidy(fit)
 ```
 
-## Intercept-only model
+## Intercept-only model (1)
 ```{r}
 # cca <- lmer(
 #   popularity_ij ~ (1 | cluster_id), 
@@ -427,9 +433,14 @@ fit <- with(
     popularity_ij ~ (1 | cluster_id), 
     data = dat, 
     REML = FALSE)
-  ) |> 
-  pool()
-tidy(fit)
+  ) 
+pool(fit) |> tidy()
+```
+
+## Intercept-only model (2)
+
+```{r, echo=TRUE}
+mitml::testEstimates(as.mitml.result(fit), extra.pars = TRUE)
 ```
 
 ## Model with explanatory variables
@@ -450,9 +461,14 @@ fit <- with(
     popularity_ij ~ gender_ij + extraversion_ij + experience_j + (1 | cluster_id),
     data = dat, 
     REML = FALSE)
-  ) |> 
-  pool()
-tidy(fit)
+  ) 
+pool(fit) |> tidy()
+```
+
+## Model with explanatory variables (2)
+
+```{r, echo=TRUE}
+mitml::testEstimates(as.mitml.result(fit), extra.pars = TRUE)
 ```
 
 ## Model with explanatory variables, extraversion slope random
@@ -474,9 +490,14 @@ fit <- with(
       (1  + extraversion_ij | cluster_id), 
     data = dat, 
     REML = FALSE)
-  ) |> 
-  pool()
-tidy(fit)
+  ) 
+pool(fit) |> tidy()
+```
+
+## Model with explanatory variables, extraversion slope random (2)
+
+```{r, echo=TRUE}
+mitml::testEstimates(as.mitml.result(fit), extra.pars = TRUE)
 ```
 
 ## Model with with cross-level interaction
@@ -498,9 +519,14 @@ fit <- with(
       extraversion_ij:experience_j + (1  + extraversion_ij | cluster_id),  
     data = dat, 
     REML = FALSE)
-  ) |> 
-  pool()
-tidy(fit)
+  ) 
+pool(fit) |> tidy()
+```
+
+## Model with with cross-level interaction (2)
+
+```{r, echo=TRUE}
+mitml::testEstimates(as.mitml.result(fit), extra.pars = TRUE)
 ```
 
 ## Discussion
