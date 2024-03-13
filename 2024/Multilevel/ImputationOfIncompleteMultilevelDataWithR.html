@@ -404,24 +404,6 @@ Hanne Oberman
     </div>
 </div>
 
-</section><section id="TOC">
-<nav role="doc-toc"> 
-<h2 id="toc-title">Overview</h2>
-<ul>
-<li class="fragment"><a href="#/incomplete-multilevel-data" id="/toc-incomplete-multilevel-data">Incomplete multilevel data</a></li>
-<li class="fragment"><a href="#/missingness" id="/toc-missingness">Missingness</a></li>
-<li class="fragment"><a href="#/missing-data-methods" id="/toc-missing-data-methods">Missing data methods</a></li>
-<li class="fragment"><a href="#/multiple-imputation" id="/toc-multiple-imputation">Multiple imputation</a></li>
-<li class="fragment"><a href="#/ingredients" id="/toc-ingredients">Ingredients</a></li>
-<li class="fragment"><a href="#/case-study" id="/toc-case-study">Case study</a></li>
-<li class="fragment"><a href="#/setup" id="/toc-setup">Setup</a></li>
-<li class="fragment"><a href="#/missing-data-pattern" id="/toc-missing-data-pattern">Missing data pattern</a></li>
-<li class="fragment"><a href="#/imputation-model-building" id="/toc-imputation-model-building">Imputation model building</a></li>
-<li class="fragment"><a href="#/imputation-methods" id="/toc-imputation-methods">Imputation methods</a></li>
-<li class="fragment"><a href="#/outcome-variable-1" id="/toc-outcome-variable-1">Outcome variable (1)</a></li>
-<li class="fragment"><a href="#/references" id="/toc-references">References</a></li>
-</ul>
-</nav>
 </section>
 <section id="incomplete-multilevel-data" class="slide level2">
 <h2>Incomplete multilevel data</h2>
@@ -470,18 +452,16 @@ Hanne Oberman
 <li class="fragment">Known analysis model</li>
 </ul>
 </section>
-<section id="case-study" class="slide level2">
-<h2>Case study</h2>
+<section id="case-study-hox-et-al.-2018" class="slide level2">
+<h2>Case study (Hox et al., 2018)</h2>
 <!-- The most general analytic model to be applied to imputed data (Hox et al., 2018, p. 17, equation 2.12). -->
+<p><br><br></p>
 <div class="smaller">
 <p><span class="math display">\[\begin{align}
 \text{popularity}_{ij} = &amp;\gamma_{00}+ \gamma_{10} \text{gender}_{ij} + \gamma_{20} \text{extraversion}_{ij} + \\
 &amp;\gamma_{01} \text{experience}_j + \gamma_{21} \text{extraversion}_{ij} \times \text{experience}_j + \\
 &amp;u_{2j} \text{extraversion}_{ij} + u_{0j}+ e_{ij}
 \end{align}\]</span></p>
-</div>
-<div class="fragment">
-<p>Popularity data (Hox et al., 2018)</p>
 </div>
 </section>
 <section id="setup" class="slide level2">
@@ -527,8 +507,8 @@ Hanne Oberman
 <!-- The auxiliary variable 'teacher assessment' may be useful in the imputation for the incomplete outcome variable 'popularity'. The unit identifier is not relevant, and will be left out of the imputation models. -->
 <!-- For each incomplete variable we need to define an imputation model: 1) choose the functional form of the imputation model and 2) select the imputation model predictors.  -->
 <img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
-<section id="imputation-methods" class="slide level2">
-<h2>Imputation methods</h2>
+<section id="default-imputation-methods" class="slide level2">
+<h2>Default imputation methods</h2>
 <!-- Create the default methods vector, to be filled in with the appropriate imputation methods.  -->
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>meth <span class="ot">&lt;-</span> <span class="fu">make.method</span>(dat)</span>
@@ -543,21 +523,376 @@ Hanne Oberman
 <!-- The complete identifier variables do not have to be imputed. The default imputation methods for the incomplete variables are not appropriate because of the multilevel structure of the data. We will fill in the methods vector with more appropriate imputation methods, based on the distribution of the incomplete variables.  -->
 <!-- The outcome variable 'popularity' is approximately normally distributed.  -->
 </section>
-<section id="outcome-variable-1" class="slide level2">
-<h2>Outcome variable (1)</h2>
+<section id="outcome-variable-popularity" class="slide level2">
+<h2>Outcome variable: popularity</h2>
 <!-- A density plot of the incomplete outcome variable 'popularity' shows that aggregated across clusters, the distribution is approximately normal. Within clusters, there is more variability. -->
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">ggmice</span>(dat, <span class="fu">aes</span>(popularity_ij, <span class="at">group =</span> cluster_id)) <span class="sc">+</span> </span>
 <span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<!-- We can use `2l.norm`: a multilevel method using the linear mixed model with heterogeneous error variances.  -->
 <img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"><div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>meth[<span class="st">"popularity_ij"</span>] <span class="ot">&lt;-</span> <span class="st">"2l.norm"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="references" class="slide level2">
-<h2>References</h2>
+<section id="unit-level-variable-gender" class="slide level2">
+<h2>Unit-level variable: gender</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">ggmice</span>(dat, <span class="fu">aes</span>(<span class="fu">as.factor</span>(gender_ij))) <span class="sc">+</span> </span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"stack"</span>, <span class="at">fill =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>meth[<span class="st">"gender_ij"</span>] <span class="ot">&lt;-</span> <span class="st">"2l.bin"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="unit-level-variable-extraversion" class="slide level2">
+<h2>Unit-level variable: extraversion</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">ggmice</span>(dat, <span class="fu">aes</span>(extraversion_ij)) <span class="sc">+</span> </span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>meth[<span class="st">"extraversion_ij"</span>] <span class="ot">&lt;-</span> <span class="st">"2l.pmm"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="auxiliary-variable-teacher-assessment" class="slide level2">
+<h2>Auxiliary variable: teacher assessment</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">ggmice</span>(dat, <span class="fu">aes</span>(assessment_ij)) <span class="sc">+</span> </span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>meth[<span class="st">"assessment_ij"</span>] <span class="ot">&lt;-</span> <span class="st">"2l.pmm"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="cluster-level-variable-teacher-experience" class="slide level2">
+<h2>Cluster-level variable: teacher experience</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">ggmice</span>(dat, <span class="fu">aes</span>(experience_j)) <span class="sc">+</span> </span>
+<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>meth[<span class="st">"experience_j"</span>] <span class="ot">&lt;-</span> <span class="st">"2lonly.pmm"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="cross-level-interaction-pupil-extraversion-times-teacher-experience" class="slide level2">
+<h2>Cross-level interaction: pupil extraversion <span class="math inline">\(\times\)</span> teacher experience</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>dat<span class="sc">$</span>interaction <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>meth[<span class="st">"interaction"</span>] <span class="ot">&lt;-</span> <span class="st">"~ I(extraversion_ij * experience_j)"</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a>meth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                              unit_id                            cluster_id 
+                                   ""                                    "" 
+                        popularity_ij                             gender_ij 
+                            "2l.norm"                              "2l.bin" 
+                      extraversion_ij                          experience_j 
+                             "2l.pmm"                          "2lonly.pmm" 
+                        assessment_ij                           interaction 
+                             "2l.pmm" "~ I(extraversion_ij * experience_j)" </code></pre>
+</div>
+</div>
+</section>
+<section id="default-predictor-matrix" class="slide level2">
+<h2>Default predictor matrix</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">quickpred</span>(dat)</span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="fu">plot_pred</span>(pred, <span class="at">method =</span> meth, <span class="at">square =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-19-1.png" width="960" class="r-stretch"></section>
+<section id="outcome-variable-popularity-1" class="slide level2">
+<h2>Outcome variable: popularity</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># clustering variable</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>pred[<span class="st">"popularity_ij"</span>, <span class="st">"cluster_id"</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="co"># fixed effect for gender, random effect for extraversion</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a>pred[<span class="st">"popularity_ij"</span>, <span class="st">"gender_ij"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a>pred[<span class="st">"popularity_ij"</span>, <span class="st">"extraversion_ij"</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a><span class="co"># add disaggregated cluster means</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a>pred[<span class="st">"popularity_ij"</span>, <span class="st">"gender_ij"</span>] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb20-8"><a href="#cb20-8"></a>pred[<span class="st">"popularity_ij"</span>, <span class="st">"extraversion_ij"</span>] <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb20-9"><a href="#cb20-9"></a><span class="co"># cluster-level variable</span></span>
+<span id="cb20-10"><a href="#cb20-10"></a>pred[<span class="st">"popularity_ij"</span>, <span class="st">"experience_j"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a><span class="co"># interaction term</span></span>
+<span id="cb20-12"><a href="#cb20-12"></a>pred[<span class="st">"popularity_ij"</span>, <span class="st">"interaction"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb20-13"><a href="#cb20-13"></a><span class="co"># auxiliary variable</span></span>
+<span id="cb20-14"><a href="#cb20-14"></a>pred[<span class="st">"popularity_ij"</span>, <span class="st">"assessment_ij"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="predictor-variables" class="slide level2">
+<h2>Predictor variables</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># clustering variable</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>pred[, <span class="st">"cluster_id"</span>] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="co"># outcome variable</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a>pred[, <span class="st">"popularity_ij"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a><span class="co"># clean up predictor matrix</span></span>
+<span id="cb21-6"><a href="#cb21-6"></a>pred[, <span class="st">"interaction"</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb21-7"><a href="#cb21-7"></a>pred[, <span class="st">"unit_id"</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a><span class="fu">diag</span>(pred) <span class="ot">&lt;-</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="predictor-matrix" class="slide level2">
+<h2>Predictor matrix</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">plot_pred</span>(pred, <span class="at">method =</span> meth, <span class="at">square =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
+<section id="impute-the-data" class="slide level2">
+<h2>Impute the data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">mice</span>(</span>
+<span id="cb23-2"><a href="#cb23-2"></a>  dat, </span>
+<span id="cb23-3"><a href="#cb23-3"></a>  <span class="at">m =</span> <span class="dv">1</span>, </span>
+<span id="cb23-4"><a href="#cb23-4"></a>  <span class="at">method =</span> meth, </span>
+<span id="cb23-5"><a href="#cb23-5"></a>  <span class="at">predictorMatrix =</span> pred,</span>
+<span id="cb23-6"><a href="#cb23-6"></a>  <span class="at">maxit =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>iter imp variable
+  1   1  popularity_ij  gender_ij  extraversion_ij  experience_jError in .imputation.level2(y = y, ry = ry, x = x, type = type, wy = wy,  : 
+  Method 2lonly.pmm found the following clusters with partially missing
+  level-2 data: 1
+  Method 2lonly.mean can fix such inconsistencies.
+In addition: Warning message:
+In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
+  glmer does not run. Simplify imputation model</code></pre>
+</section>
+<section id="edit-the-methods-and-re-impute" class="slide level2">
+<h2>Edit the methods and re-impute</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>meth[<span class="st">"experience_j"</span>] <span class="ot">&lt;-</span> <span class="st">"2lonly.mean"</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>meth[<span class="st">"gender_ij"</span>] <span class="ot">&lt;-</span> <span class="st">"2l.pmm"</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="co"># re-impute</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a>imp <span class="ot">&lt;-</span> <span class="fu">mice</span>(</span>
+<span id="cb25-5"><a href="#cb25-5"></a>  dat, </span>
+<span id="cb25-6"><a href="#cb25-6"></a>  <span class="at">method =</span> meth, </span>
+<span id="cb25-7"><a href="#cb25-7"></a>  <span class="at">predictorMatrix =</span> pred,</span>
+<span id="cb25-8"><a href="#cb25-8"></a>  <span class="at">maxit =</span> <span class="dv">1</span>,</span>
+<span id="cb25-9"><a href="#cb25-9"></a>  <span class="at">printFlag =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="add-iterations-and-evaluate" class="slide level2">
+<h2>Add iterations and evaluate</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">mice.mids</span>(imp, <span class="at">maxit =</span> <span class="dv">9</span>, <span class="at">printFlag =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="fu">plot_trace</span>(imp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch"></section>
+<section id="non-convergence" class="slide level2">
+<h2>Non-convergence?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">plot_pattern</span>(dat, <span class="at">square =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"></section>
+<section id="evaluate-imputations" class="slide level2">
+<h2>Evaluate imputations</h2>
+<ul>
+<li class="fragment">Distribution of imputed values</li>
+<li class="fragment">Plausibility of imputed values</li>
+<li class="fragment">Variability between imputations</li>
+</ul>
+</section>
+<section id="outcome-variable-popularity-1-1" class="slide level2">
+<h2>Outcome variable: popularity (1)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">ggmice</span>(imp, <span class="fu">aes</span>(.imp, popularity_ij)) <span class="sc">+</span> </span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">geom_jitter</span>(<span class="at">height =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">range</span>(mice<span class="sc">::</span><span class="fu">complete</span>(imp)<span class="sc">$</span>popularity_ij)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0 9.2</code></pre>
+</div>
+</div>
+</section>
+<section id="outcome-variable-popularity-2" class="slide level2">
+<h2>Outcome variable: popularity (2)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">ggmice</span>(imp, <span class="fu">aes</span>(popularity_ij, <span class="at">group =</span> .imp)) <span class="sc">+</span> </span>
+<span id="cb31-2"><a href="#cb31-2"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch"></section>
+<section id="multivariate-visualization" class="slide level2">
+<h2>Multivariate visualization</h2>
+
+<img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-31-1.png" width="960" class="r-stretch"></section>
+<section id="analyze-imputed-data" class="slide level2">
+<h2>Analyze imputed data</h2>
+<ul>
+<li class="fragment">Complete case analysis</li>
+<li class="fragment">Sequential model building</li>
+</ul>
+</section>
+<section id="single-level-model" class="slide level2">
+<h2>Single-level model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>cca <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb32-2"><a href="#cb32-2"></a>  popularity_ij <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb32-3"><a href="#cb32-3"></a>  <span class="at">data =</span> dat</span>
+<span id="cb32-4"><a href="#cb32-4"></a>  )</span>
+<span id="cb32-5"><a href="#cb32-5"></a><span class="fu">tidy</span>(cca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  term        estimate std.error statistic p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)     5.03    0.0396      127.       0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb34-2"><a href="#cb34-2"></a>  imp,</span>
+<span id="cb34-3"><a href="#cb34-3"></a>  <span class="fu">lm</span>(popularity_ij <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> dat)</span>
+<span id="cb34-4"><a href="#cb34-4"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb34-5"><a href="#cb34-5"></a>  <span class="fu">pool</span>()</span>
+<span id="cb34-6"><a href="#cb34-6"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         term estimate  std.error statistic p.value b       df dfcom
+1 (Intercept) 5.033555 0.03963228  127.0065       0 0 1197.882  1200
+          fmi lambda m riv        ubar
+1 0.001665443      0 5   0 0.001570717</code></pre>
+</div>
+</div>
+</section>
+<section id="intercept-only-model" class="slide level2">
+<h2>Intercept-only model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb36-2"><a href="#cb36-2"></a>  imp,</span>
+<span id="cb36-3"><a href="#cb36-3"></a>  <span class="fu">lmer</span>(</span>
+<span id="cb36-4"><a href="#cb36-4"></a>    popularity_ij <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> cluster_id), </span>
+<span id="cb36-5"><a href="#cb36-5"></a>    <span class="at">data =</span> dat, </span>
+<span id="cb36-6"><a href="#cb36-6"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb36-7"><a href="#cb36-7"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb36-8"><a href="#cb36-8"></a>  <span class="fu">pool</span>()</span>
+<span id="cb36-9"><a href="#cb36-9"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         term estimate std.error statistic p.value b       df dfcom         fmi
+1 (Intercept) 5.021201 0.0890947  56.35802       0 0 1195.882  1198 0.001668221
+  lambda m riv        ubar
+1      0 5   0 0.007937865</code></pre>
+</div>
+</div>
+</section>
+<section id="model-with-explanatory-variables" class="slide level2">
+<h2>Model with explanatory variables</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb38-2"><a href="#cb38-2"></a>  imp,</span>
+<span id="cb38-3"><a href="#cb38-3"></a>  <span class="fu">lmer</span>(</span>
+<span id="cb38-4"><a href="#cb38-4"></a>    popularity_ij <span class="sc">~</span> gender_ij <span class="sc">+</span> extraversion_ij <span class="sc">+</span> experience_j <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cluster_id),</span>
+<span id="cb38-5"><a href="#cb38-5"></a>    <span class="at">data =</span> dat, </span>
+<span id="cb38-6"><a href="#cb38-6"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb38-7"><a href="#cb38-7"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb38-8"><a href="#cb38-8"></a>  <span class="fu">pool</span>()</span>
+<span id="cb38-9"><a href="#cb38-9"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             term    estimate   std.error statistic       p.value b       df
+1     (Intercept) -0.45459695 0.199053149 -2.283797  2.255904e-02 0 1189.882
+2       gender_ij  1.28611143 0.048112155 26.731528 1.120524e-123 0 1189.882
+3 extraversion_ij  0.44652838 0.021546495 20.723945  1.056952e-81 0 1189.882
+4    experience_j  0.08767041 0.008744419 10.025871  9.120374e-23 0 1189.882
+  dfcom         fmi lambda m riv         ubar
+1  1192 0.001676611      0 5   0 3.962216e-02
+2  1192 0.001676611      0 5   0 2.314779e-03
+3  1192 0.001676611      0 5   0 4.642515e-04
+4  1192 0.001676611      0 5   0 7.646486e-05</code></pre>
+</div>
+</div>
+</section>
+<section id="model-with-explanatory-variables-extraversion-slope-random" class="slide level2">
+<h2>Model with explanatory variables, extraversion slope random</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb40-2"><a href="#cb40-2"></a>  imp,</span>
+<span id="cb40-3"><a href="#cb40-3"></a>  <span class="fu">lmer</span>(</span>
+<span id="cb40-4"><a href="#cb40-4"></a>    popularity_ij <span class="sc">~</span> gender_ij <span class="sc">+</span> extraversion_ij <span class="sc">+</span> experience_j <span class="sc">+</span> </span>
+<span id="cb40-5"><a href="#cb40-5"></a>      (<span class="dv">1</span>  <span class="sc">+</span> extraversion_ij <span class="sc">|</span> cluster_id), </span>
+<span id="cb40-6"><a href="#cb40-6"></a>    <span class="at">data =</span> dat, </span>
+<span id="cb40-7"><a href="#cb40-7"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb40-8"><a href="#cb40-8"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb40-9"><a href="#cb40-9"></a>  <span class="fu">pool</span>()</span>
+<span id="cb40-10"><a href="#cb40-10"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             term    estimate   std.error statistic       p.value b       df
+1     (Intercept) -0.43804176 0.222237366 -1.971054  4.894959e-02 0 1187.883
+2       gender_ij  1.28026787 0.047605007 26.893555 8.201898e-125 0 1187.883
+3 extraversion_ij  0.43968176 0.028356053 15.505746  1.603530e-49 0 1187.883
+4    experience_j  0.08706721 0.008630314 10.088533  5.090619e-23 0 1187.883
+  dfcom         fmi lambda m riv         ubar
+1  1190 0.001679427      0 5   0 4.938945e-02
+2  1190 0.001679427      0 5   0 2.266237e-03
+3  1190 0.001679427      0 5   0 8.040658e-04
+4  1190 0.001679427      0 5   0 7.448233e-05</code></pre>
+</div>
+</div>
+</section>
+<section id="model-with-with-cross-level-interaction" class="slide level2">
+<h2>Model with with cross-level interaction</h2>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 6
+  effect   group      term                          estimate std.error statistic
+  &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;                            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 fixed    &lt;NA&gt;       (Intercept)                    -2.33     0.312       -7.49
+2 fixed    &lt;NA&gt;       gender_ij                       1.26     0.0468      27.0 
+3 fixed    &lt;NA&gt;       extraversion_ij                 0.779    0.0462      16.8 
+4 fixed    &lt;NA&gt;       experience_j                    0.219    0.0190      11.6 
+5 fixed    &lt;NA&gt;       extraversion_ij:experience_j   -0.0239   0.00296     -8.07
+6 ran_pars cluster_id sd__(Intercept)                 0.600   NA           NA   
+7 ran_pars cluster_id cor__(Intercept).extraversio…  -0.701   NA           NA   
+8 ran_pars cluster_id sd__extraversion_ij             0.0258  NA           NA   
+9 ran_pars Residual   sd__Observation                 0.741   NA           NA   </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb43-2"><a href="#cb43-2"></a>  imp,</span>
+<span id="cb43-3"><a href="#cb43-3"></a>  <span class="fu">lmer</span>(</span>
+<span id="cb43-4"><a href="#cb43-4"></a>    popularity_ij <span class="sc">~</span> gender_ij <span class="sc">+</span> extraversion_ij <span class="sc">+</span> experience_j <span class="sc">+</span> </span>
+<span id="cb43-5"><a href="#cb43-5"></a>      extraversion_ij<span class="sc">:</span>experience_j <span class="sc">+</span> (<span class="dv">1</span>  <span class="sc">+</span> extraversion_ij <span class="sc">|</span> cluster_id),  </span>
+<span id="cb43-6"><a href="#cb43-6"></a>    <span class="at">data =</span> dat, </span>
+<span id="cb43-7"><a href="#cb43-7"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb43-8"><a href="#cb43-8"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb43-9"><a href="#cb43-9"></a>  <span class="fu">pool</span>()</span>
+<span id="cb43-10"><a href="#cb43-10"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                          term    estimate   std.error statistic       p.value
+1                  (Intercept) -2.33429638 0.311701929 -7.488874  1.351136e-13
+2                    gender_ij  1.26491027 0.046825663 27.013184 1.162079e-125
+3              extraversion_ij  0.77879482 0.046234259 16.844540  2.986533e-57
+4                 experience_j  0.21927052 0.018952063 11.569744  2.074365e-29
+5 extraversion_ij:experience_j -0.02386015 0.002955871 -8.072122  1.681341e-15
+  b       df dfcom         fmi lambda m riv         ubar
+1 0 1186.883  1189 0.001680838      0 5   0 9.715809e-02
+2 0 1186.883  1189 0.001680838      0 5   0 2.192643e-03
+3 0 1186.883  1189 0.001680838      0 5   0 2.137607e-03
+4 0 1186.883  1189 0.001680838      0 5   0 3.591807e-04
+5 0 1186.883  1189 0.001680838      0 5   0 8.737174e-06</code></pre>
+</div>
+</div>
+</section>
+<section id="discussion" class="slide level2">
+<h2>Discussion</h2>
+<ul>
+<li class="fragment">Complete case analysis?</li>
+<li class="fragment">Types of analysis models?</li>
+<li class="fragment">Types of imputation model?</li>
+<li class="fragment">Correcting for MNAR?</li>
+<li class="fragment">Visualization of clusters?</li>
+</ul>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>Thank you!</h2>
 <!-- library(lme4) -->
 <!-- # sleepstudy -->
 <!-- library(nlme) -->

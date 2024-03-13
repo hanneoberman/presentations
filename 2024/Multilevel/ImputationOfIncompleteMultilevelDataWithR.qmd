@@ -7,7 +7,7 @@ format:
     logo: logo.png
     footer: "Hanne Oberman, hanneoberman.github.io/presentations"
     incremental: true
-    toc: true
+    toc: false
     toc-title: Overview
 css: style.css
 ---
@@ -104,9 +104,11 @@ ggplot(dat, aes(x = cols, y = rows, fill = ifelse(miss == "NA", "#B61A51B3", "#0
 - Assumed missingness mechanism
 - Known analysis model
 
-## Case study
+## Case study (Hox et al., 2018)
 
 <!-- The most general analytic model to be applied to imputed data (Hox et al., 2018, p. 17, equation 2.12). -->
+
+<br><br>
 
 ::: {.smaller}
 \begin{align}
@@ -116,9 +118,7 @@ ggplot(dat, aes(x = cols, y = rows, fill = ifelse(miss == "NA", "#B61A51B3", "#0
 \end{align}
 :::
 
-. . . 
 
-Popularity data (Hox et al., 2018)
 
 ## Setup
 
@@ -162,7 +162,7 @@ plot_corr(dat, square = FALSE)
 
 <!-- For each incomplete variable we need to define an imputation model: 1) choose the functional form of the imputation model and 2) select the imputation model predictors.  -->
 
-## Imputation methods
+## Default imputation methods
 
 <!-- Create the default methods vector, to be filled in with the appropriate imputation methods.  -->
 ```{r, echo=TRUE}
@@ -174,7 +174,7 @@ meth
 
 <!-- The outcome variable 'popularity' is approximately normally distributed.  -->
 
-## Outcome variable (1)
+## Outcome variable: popularity
 
 ```{r}
 # ggmice(dat, aes(popularity_ij)) + 
@@ -188,14 +188,330 @@ ggmice(dat, aes(popularity_ij, group = cluster_id)) +
   geom_density()
 ```
 
-<!-- We can use `2l.norm`: a multilevel method using the linear mixed model with heterogeneous error variances.  -->
 
 ```{r, echo=TRUE}
 meth["popularity_ij"] <- "2l.norm"
 ```
 
+## Unit-level variable: gender
 
-## References
+```{r, echo=TRUE}
+ggmice(dat, aes(as.factor(gender_ij))) + 
+  geom_bar(position = "stack", fill = "white")
+```
+
+
+```{r, echo=TRUE}
+meth["gender_ij"] <- "2l.bin"
+```
+
+
+## Unit-level variable: extraversion
+
+```{r, echo=TRUE}
+ggmice(dat, aes(extraversion_ij)) + 
+  geom_histogram(fill = "white")
+```
+
+
+```{r, echo=TRUE}
+meth["extraversion_ij"] <- "2l.pmm"
+```
+
+## Auxiliary variable: teacher assessment
+
+```{r, echo=TRUE}
+ggmice(dat, aes(assessment_ij)) + 
+  geom_histogram(fill = "white")
+```
+
+
+```{r, echo=TRUE}
+meth["assessment_ij"] <- "2l.pmm"
+```
+
+## Cluster-level variable: teacher experience
+
+```{r, echo=TRUE}
+ggmice(dat, aes(experience_j)) + 
+  geom_histogram(fill = "white")
+```
+
+
+```{r, echo=TRUE}
+meth["experience_j"] <- "2lonly.pmm"
+```
+
+## Cross-level interaction: pupil extraversion $\times$ teacher experience
+
+```{r, echo=TRUE}
+dat$interaction <- NA
+meth["interaction"] <- "~ I(extraversion_ij * experience_j)"
+meth
+```
+
+
+## Default predictor matrix
+
+```{r, echo=TRUE}
+pred <- quickpred(dat)
+plot_pred(pred, method = meth, square = FALSE)
+```
+
+## Outcome variable: popularity
+
+```{r, echo=TRUE}
+# clustering variable
+pred["popularity_ij", "cluster_id"] <- -2
+# fixed effect for gender, random effect for extraversion
+pred["popularity_ij", "gender_ij"] <- 1
+pred["popularity_ij", "extraversion_ij"] <- 2
+# add disaggregated cluster means
+pred["popularity_ij", "gender_ij"] <- 3
+pred["popularity_ij", "extraversion_ij"] <- 4
+# cluster-level variable
+pred["popularity_ij", "experience_j"] <- 1
+# interaction term
+pred["popularity_ij", "interaction"] <- 1
+# auxiliary variable
+pred["popularity_ij", "assessment_ij"] <- 1
+```
+
+## Predictor variables
+
+```{r, echo=TRUE}
+# clustering variable
+pred[, "cluster_id"] <- -2
+# outcome variable
+pred[, "popularity_ij"] <- 1
+# clean up predictor matrix
+pred[, "interaction"] <- 0
+pred[, "unit_id"] <- 0
+diag(pred) <- 0
+```
+
+## Predictor matrix
+
+```{r, echo=TRUE}
+plot_pred(pred, method = meth, square = FALSE)
+```
+
+## Impute the data
+
+```{r, eval=FALSE, echo=TRUE}
+imp <- mice(
+  dat, 
+  m = 1, 
+  method = meth, 
+  predictorMatrix = pred,
+  maxit = 1)
+```
+
+
+```
+iter imp variable
+  1   1  popularity_ij  gender_ij  extraversion_ij  experience_jError in .imputation.level2(y = y, ry = ry, x = x, type = type, wy = wy,  : 
+  Method 2lonly.pmm found the following clusters with partially missing
+  level-2 data: 1
+  Method 2lonly.mean can fix such inconsistencies.
+In addition: Warning message:
+In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
+  glmer does not run. Simplify imputation model
+```
+
+```{r}
+# dat |>
+#   group_by(cluster_id) |>
+#   reframe(teacher_experience = unique(experience_j))
+```
+
+## Edit the methods and re-impute
+
+```{r, echo=TRUE}
+meth["experience_j"] <- "2lonly.mean"
+meth["gender_ij"] <- "2l.pmm"
+# re-impute
+imp <- mice(
+  dat, 
+  method = meth, 
+  predictorMatrix = pred,
+  maxit = 1,
+  printFlag = FALSE)
+```
+
+## Add iterations and evaluate
+
+```{r, echo=TRUE}
+imp <- mice.mids(imp, maxit = 9, printFlag = FALSE)
+plot_trace(imp)
+```
+
+## Non-convergence?
+
+```{r, echo=TRUE}
+plot_pattern(dat, square = FALSE)
+```
+
+## Evaluate imputations
+
+- Distribution of imputed values
+- Plausibility of imputed values
+- Variability between imputations
+
+## Outcome variable: popularity (1)
+
+```{r, echo=TRUE}
+ggmice(imp, aes(.imp, popularity_ij)) + 
+  geom_jitter(height = 0)
+```
+
+
+```{r, echo=TRUE}
+range(mice::complete(imp)$popularity_ij)
+```
+
+## Outcome variable: popularity (2)
+
+```{r, echo=TRUE}
+ggmice(imp, aes(popularity_ij, group = .imp)) + 
+  geom_density()
+```
+
+## Multivariate visualization
+
+```{r}
+ggmice(imp, aes(y = popularity_ij, x = extraversion_ij, group = cluster_id)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(color = "grey", method = "lm", se = FALSE, alpha = 0.1) +
+  geom_smooth(aes(group = NULL), color = "black", method = "lm", se = FALSE, alpha = 0.1)
+```
+
+## Analyze imputed data
+
+- Complete case analysis
+- Sequential model building
+
+## Single-level model
+
+```{r, echo=TRUE}
+cca <- lm(
+  popularity_ij ~ 1, 
+  data = dat
+  )
+tidy(cca)
+```
+
+```{r, echo=TRUE}
+fit <- with(
+  imp,
+  lm(popularity_ij ~ 1, data = dat)
+  ) |> 
+  pool()
+tidy(fit)
+```
+
+## Intercept-only model
+```{r}
+# cca <- lmer(
+#   popularity_ij ~ (1 | cluster_id), 
+#   data = dat, 
+#   REML = FALSE
+#   )
+# tidy(cca)
+```
+
+```{r, echo=TRUE}
+fit <- with(
+  imp,
+  lmer(
+    popularity_ij ~ (1 | cluster_id), 
+    data = dat, 
+    REML = FALSE)
+  ) |> 
+  pool()
+tidy(fit)
+```
+
+## Model with explanatory variables
+```{r}
+# cca <- lmer(
+#   popularity_ij ~ gender_ij + extraversion_ij + experience_j + (1 | cluster_id),
+#   data = dat,
+#   REML = FALSE
+#   )
+# tidy(cca)
+```
+
+
+```{r, echo=TRUE}
+fit <- with(
+  imp,
+  lmer(
+    popularity_ij ~ gender_ij + extraversion_ij + experience_j + (1 | cluster_id),
+    data = dat, 
+    REML = FALSE)
+  ) |> 
+  pool()
+tidy(fit)
+```
+
+## Model with explanatory variables, extraversion slope random
+```{r}
+# fit <- lmer(
+#   popularity_ij ~ gender_ij + extraversion_ij + experience_j + 
+#     (1  + extraversion_ij | cluster_id), 
+#   data = dat, 
+#   REML = FALSE
+#   )
+# tidy(fit)
+```
+
+```{r, echo=TRUE}
+fit <- with(
+  imp,
+  lmer(
+    popularity_ij ~ gender_ij + extraversion_ij + experience_j + 
+      (1  + extraversion_ij | cluster_id), 
+    data = dat, 
+    REML = FALSE)
+  ) |> 
+  pool()
+tidy(fit)
+```
+
+## Model with with cross-level interaction
+```{r}
+# fit <- lmer(
+#   popularity_ij ~ gender_ij + extraversion_ij + experience_j + 
+#     extraversion_ij:experience_j + (1  + extraversion_ij | cluster_id), 
+#   data = dat, 
+#   REML = FALSE
+#   )
+# tidy(fit)
+```
+
+```{r, echo=TRUE}
+fit <- with(
+  imp,
+  lmer(
+    popularity_ij ~ gender_ij + extraversion_ij + experience_j + 
+      extraversion_ij:experience_j + (1  + extraversion_ij | cluster_id),  
+    data = dat, 
+    REML = FALSE)
+  ) |> 
+  pool()
+tidy(fit)
+```
+
+## Discussion
+
+- Complete case analysis?
+- Types of analysis models?
+- Types of imputation model?
+- Correcting for MNAR?
+- Visualization of clusters?
+
+## Thank you!
 
 <!-- library(lme4) -->
 <!-- # sleepstudy -->
