@@ -130,6 +130,7 @@ rm(popular_MAR)
 
 <!-- Setup `R` environment -->
 ```{r, message=FALSE, warning=FALSE, echo=TRUE}
+set.seed(123)         # for reproducibility
 library(mice)         # for imputation
 library(miceadds)     # for imputation
 library(ggmice)       # for visualization
@@ -309,6 +310,9 @@ imp <- mice(
 
 
 ::: {.callout-warning}
+
+## Error
+
 ```
 iter imp variable
   1   1  popularity_ij  gender_ij  extraversion_ij  experience_jError in .imputation.level2(y = y, ry = ry, x = x, type = type, wy = wy,  : 

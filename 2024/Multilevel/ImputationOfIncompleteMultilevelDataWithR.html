@@ -468,15 +468,16 @@ Hanne Oberman
 <h2>Setup</h2>
 <!-- Setup `R` environment -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(mice)         <span class="co"># for imputation</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(miceadds)     <span class="co"># for imputation</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(ggmice)       <span class="co"># for visualization</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(ggplot2)      <span class="co"># for visualization</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(dplyr)        <span class="co"># for data wrangling</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(lme4)         <span class="co"># for multilevel modeling</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(broom)        <span class="co"># for tidying model output</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">library</span>(broom.mixed)  <span class="co"># for tidying model output</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">str</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)         <span class="co"># for reproducibility</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(mice)         <span class="co"># for imputation</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(miceadds)     <span class="co"># for imputation</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(ggmice)       <span class="co"># for visualization</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(ggplot2)      <span class="co"># for visualization</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(dplyr)        <span class="co"># for data wrangling</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(lme4)         <span class="co"># for multilevel modeling</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">library</span>(broom)        <span class="co"># for tidying model output</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">library</span>(broom.mixed)  <span class="co"># for tidying model output</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="fu">str</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   2000 obs. of  7 variables:
  $ unit_id        : num  1 2 3 4 5 6 7 8 9 10 ...
@@ -660,7 +661,7 @@ Hanne Oberman
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Warning</strong></p>
+<p><strong>Error</strong></p>
 </div>
 <div class="callout-content">
 <pre><code>iter imp variable
@@ -735,7 +736,7 @@ In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
 <img data-src="ImputationOfIncompleteMultilevelDataWithR_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch"><div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">range</span>(mice<span class="sc">::</span><span class="fu">complete</span>(imp)<span class="sc">$</span>popularity_ij)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.000000 9.615729</code></pre>
+<pre><code>[1]  0.00000 10.19287</code></pre>
 </div>
 </div>
 </section>
@@ -788,8 +789,8 @@ In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
 </div>
 </div>
 </section>
-<section id="intercept-only-model" class="slide level2">
-<h2>Intercept-only model</h2>
+<section id="intercept-only-model-1" class="slide level2">
+<h2>Intercept-only model (1)</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
 <span id="cb36-2"><a href="#cb36-2"></a>  imp,</span>
@@ -797,9 +798,8 @@ In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
 <span id="cb36-4"><a href="#cb36-4"></a>    popularity_ij <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> cluster_id), </span>
 <span id="cb36-5"><a href="#cb36-5"></a>    <span class="at">data =</span> dat, </span>
 <span id="cb36-6"><a href="#cb36-6"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb36-7"><a href="#cb36-7"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb36-8"><a href="#cb36-8"></a>  <span class="fu">pool</span>()</span>
-<span id="cb36-9"><a href="#cb36-9"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-7"><a href="#cb36-7"></a>  ) </span>
+<span id="cb36-8"><a href="#cb36-8"></a><span class="fu">pool</span>(fit) <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         term estimate std.error statistic p.value b       df dfcom         fmi
 1 (Intercept) 5.021201 0.0890947  56.35802       0 0 1195.882  1198 0.001668221
@@ -808,18 +808,41 @@ In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
 </div>
 </div>
 </section>
+<section id="intercept-only-model-2" class="slide level2">
+<h2>Intercept-only model (2)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>mitml<span class="sc">::</span><span class="fu">testEstimates</span>(<span class="fu">as.mitml.result</span>(fit), <span class="at">extra.pars =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+
+mitml::testEstimates(model = as.mitml.result(fit), extra.pars = TRUE)
+
+Final parameter estimates and inferences obtained from 5 imputed data sets.
+
+             Estimate Std.Error   t.value        df   P(&gt;|t|)       RIV       FMI 
+(Intercept)     5.021     0.089    56.358       Inf     0.000     0.000     0.000 
+
+                                Estimate 
+Intercept~~Intercept|cluster_id    0.690 
+Residual~~Residual                 1.193 
+ICC|cluster_id                     0.367 
+
+Unadjusted hypothesis test as appropriate in larger samples.</code></pre>
+</div>
+</div>
+</section>
 <section id="model-with-explanatory-variables" class="slide level2">
 <h2>Model with explanatory variables</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
-<span id="cb38-2"><a href="#cb38-2"></a>  imp,</span>
-<span id="cb38-3"><a href="#cb38-3"></a>  <span class="fu">lmer</span>(</span>
-<span id="cb38-4"><a href="#cb38-4"></a>    popularity_ij <span class="sc">~</span> gender_ij <span class="sc">+</span> extraversion_ij <span class="sc">+</span> experience_j <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cluster_id),</span>
-<span id="cb38-5"><a href="#cb38-5"></a>    <span class="at">data =</span> dat, </span>
-<span id="cb38-6"><a href="#cb38-6"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb38-7"><a href="#cb38-7"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb38-8"><a href="#cb38-8"></a>  <span class="fu">pool</span>()</span>
-<span id="cb38-9"><a href="#cb38-9"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb40-2"><a href="#cb40-2"></a>  imp,</span>
+<span id="cb40-3"><a href="#cb40-3"></a>  <span class="fu">lmer</span>(</span>
+<span id="cb40-4"><a href="#cb40-4"></a>    popularity_ij <span class="sc">~</span> gender_ij <span class="sc">+</span> extraversion_ij <span class="sc">+</span> experience_j <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cluster_id),</span>
+<span id="cb40-5"><a href="#cb40-5"></a>    <span class="at">data =</span> dat, </span>
+<span id="cb40-6"><a href="#cb40-6"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb40-7"><a href="#cb40-7"></a>  ) </span>
+<span id="cb40-8"><a href="#cb40-8"></a><span class="fu">pool</span>(fit) <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             term    estimate   std.error statistic       p.value b       df
 1     (Intercept) -0.45459695 0.199053149 -2.283797  2.255904e-02 0 1189.882
@@ -834,19 +857,45 @@ In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
 </div>
 </div>
 </section>
+<section id="model-with-explanatory-variables-2" class="slide level2">
+<h2>Model with explanatory variables (2)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>mitml<span class="sc">::</span><span class="fu">testEstimates</span>(<span class="fu">as.mitml.result</span>(fit), <span class="at">extra.pars =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+
+mitml::testEstimates(model = as.mitml.result(fit), extra.pars = TRUE)
+
+Final parameter estimates and inferences obtained from 5 imputed data sets.
+
+                 Estimate Std.Error   t.value        df   P(&gt;|t|)       RIV       FMI 
+(Intercept)        -0.455     0.199    -2.284       Inf     0.022     0.000     0.000 
+gender_ij           1.286     0.048    26.732       Inf     0.000     0.000     0.000 
+extraversion_ij     0.447     0.022    20.724       Inf     0.000     0.000     0.000 
+experience_j        0.088     0.009    10.026       Inf     0.000     0.000     0.000 
+
+                                Estimate 
+Intercept~~Intercept|cluster_id    0.269 
+Residual~~Residual                 0.583 
+ICC|cluster_id                     0.316 
+
+Unadjusted hypothesis test as appropriate in larger samples.</code></pre>
+</div>
+</div>
+</section>
 <section id="model-with-explanatory-variables-extraversion-slope-random" class="slide level2">
 <h2>Model with explanatory variables, extraversion slope random</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
-<span id="cb40-2"><a href="#cb40-2"></a>  imp,</span>
-<span id="cb40-3"><a href="#cb40-3"></a>  <span class="fu">lmer</span>(</span>
-<span id="cb40-4"><a href="#cb40-4"></a>    popularity_ij <span class="sc">~</span> gender_ij <span class="sc">+</span> extraversion_ij <span class="sc">+</span> experience_j <span class="sc">+</span> </span>
-<span id="cb40-5"><a href="#cb40-5"></a>      (<span class="dv">1</span>  <span class="sc">+</span> extraversion_ij <span class="sc">|</span> cluster_id), </span>
-<span id="cb40-6"><a href="#cb40-6"></a>    <span class="at">data =</span> dat, </span>
-<span id="cb40-7"><a href="#cb40-7"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb40-8"><a href="#cb40-8"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb40-9"><a href="#cb40-9"></a>  <span class="fu">pool</span>()</span>
-<span id="cb40-10"><a href="#cb40-10"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb44-2"><a href="#cb44-2"></a>  imp,</span>
+<span id="cb44-3"><a href="#cb44-3"></a>  <span class="fu">lmer</span>(</span>
+<span id="cb44-4"><a href="#cb44-4"></a>    popularity_ij <span class="sc">~</span> gender_ij <span class="sc">+</span> extraversion_ij <span class="sc">+</span> experience_j <span class="sc">+</span> </span>
+<span id="cb44-5"><a href="#cb44-5"></a>      (<span class="dv">1</span>  <span class="sc">+</span> extraversion_ij <span class="sc">|</span> cluster_id), </span>
+<span id="cb44-6"><a href="#cb44-6"></a>    <span class="at">data =</span> dat, </span>
+<span id="cb44-7"><a href="#cb44-7"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb44-8"><a href="#cb44-8"></a>  ) </span>
+<span id="cb44-9"><a href="#cb44-9"></a><span class="fu">pool</span>(fit) <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             term    estimate   std.error statistic       p.value b       df
 1     (Intercept) -0.43804176 0.222237366 -1.971054  4.894959e-02 0 1187.883
@@ -861,19 +910,47 @@ In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
 </div>
 </div>
 </section>
+<section id="model-with-explanatory-variables-extraversion-slope-random-2" class="slide level2">
+<h2>Model with explanatory variables, extraversion slope random (2)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>mitml<span class="sc">::</span><span class="fu">testEstimates</span>(<span class="fu">as.mitml.result</span>(fit), <span class="at">extra.pars =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+
+mitml::testEstimates(model = as.mitml.result(fit), extra.pars = TRUE)
+
+Final parameter estimates and inferences obtained from 5 imputed data sets.
+
+                 Estimate Std.Error   t.value        df   P(&gt;|t|)       RIV       FMI 
+(Intercept)        -0.438     0.222    -1.971       Inf     0.049     0.000     0.000 
+gender_ij           1.280     0.048    26.894       Inf     0.000     0.000     0.000 
+extraversion_ij     0.440     0.028    15.506       Inf     0.000     0.000     0.000 
+experience_j        0.087     0.009    10.089       Inf     0.000     0.000     0.000 
+
+                                            Estimate 
+Intercept~~Intercept|cluster_id                1.283 
+extraversion_ij~~extraversion_ij|cluster_id    0.032 
+Intercept~~extraversion_ij|cluster_id         -0.183 
+Residual~~Residual                             0.548 
+ICC|cluster_id                                 0.701 
+
+Unadjusted hypothesis test as appropriate in larger samples.</code></pre>
+</div>
+</div>
+</section>
 <section id="model-with-with-cross-level-interaction" class="slide level2">
 <h2>Model with with cross-level interaction</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
-<span id="cb42-2"><a href="#cb42-2"></a>  imp,</span>
-<span id="cb42-3"><a href="#cb42-3"></a>  <span class="fu">lmer</span>(</span>
-<span id="cb42-4"><a href="#cb42-4"></a>    popularity_ij <span class="sc">~</span> gender_ij <span class="sc">+</span> extraversion_ij <span class="sc">+</span> experience_j <span class="sc">+</span> </span>
-<span id="cb42-5"><a href="#cb42-5"></a>      extraversion_ij<span class="sc">:</span>experience_j <span class="sc">+</span> (<span class="dv">1</span>  <span class="sc">+</span> extraversion_ij <span class="sc">|</span> cluster_id),  </span>
-<span id="cb42-6"><a href="#cb42-6"></a>    <span class="at">data =</span> dat, </span>
-<span id="cb42-7"><a href="#cb42-7"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb42-8"><a href="#cb42-8"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb42-9"><a href="#cb42-9"></a>  <span class="fu">pool</span>()</span>
-<span id="cb42-10"><a href="#cb42-10"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb48-2"><a href="#cb48-2"></a>  imp,</span>
+<span id="cb48-3"><a href="#cb48-3"></a>  <span class="fu">lmer</span>(</span>
+<span id="cb48-4"><a href="#cb48-4"></a>    popularity_ij <span class="sc">~</span> gender_ij <span class="sc">+</span> extraversion_ij <span class="sc">+</span> experience_j <span class="sc">+</span> </span>
+<span id="cb48-5"><a href="#cb48-5"></a>      extraversion_ij<span class="sc">:</span>experience_j <span class="sc">+</span> (<span class="dv">1</span>  <span class="sc">+</span> extraversion_ij <span class="sc">|</span> cluster_id),  </span>
+<span id="cb48-6"><a href="#cb48-6"></a>    <span class="at">data =</span> dat, </span>
+<span id="cb48-7"><a href="#cb48-7"></a>    <span class="at">REML =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb48-8"><a href="#cb48-8"></a>  ) </span>
+<span id="cb48-9"><a href="#cb48-9"></a><span class="fu">pool</span>(fit) <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                          term    estimate   std.error statistic       p.value
 1                  (Intercept) -2.33429638 0.311701929 -7.488874  1.351136e-13
@@ -887,6 +964,36 @@ In mice.impute.2l.bin(y = c(2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2,  :
 3 0 1186.883  1189 0.001680838      0 5   0 2.137607e-03
 4 0 1186.883  1189 0.001680838      0 5   0 3.591807e-04
 5 0 1186.883  1189 0.001680838      0 5   0 8.737174e-06</code></pre>
+</div>
+</div>
+</section>
+<section id="model-with-with-cross-level-interaction-2" class="slide level2">
+<h2>Model with with cross-level interaction (2)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>mitml<span class="sc">::</span><span class="fu">testEstimates</span>(<span class="fu">as.mitml.result</span>(fit), <span class="at">extra.pars =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+
+mitml::testEstimates(model = as.mitml.result(fit), extra.pars = TRUE)
+
+Final parameter estimates and inferences obtained from 5 imputed data sets.
+
+                              Estimate Std.Error   t.value        df   P(&gt;|t|)       RIV       FMI 
+(Intercept)                     -2.334     0.312    -7.489       Inf     0.000     0.000     0.000 
+gender_ij                        1.265     0.047    27.013       Inf     0.000     0.000     0.000 
+extraversion_ij                  0.779     0.046    16.845       Inf     0.000     0.000     0.000 
+experience_j                     0.219     0.019    11.570       Inf     0.000     0.000     0.000 
+extraversion_ij:experience_j    -0.024     0.003    -8.072       Inf     0.000     0.000     0.000 
+
+                                            Estimate 
+Intercept~~Intercept|cluster_id                0.360 
+extraversion_ij~~extraversion_ij|cluster_id    0.001 
+Intercept~~extraversion_ij|cluster_id         -0.011 
+Residual~~Residual                             0.550 
+ICC|cluster_id                                 0.396 
+
+Unadjusted hypothesis test as appropriate in larger samples.</code></pre>
 </div>
 </div>
 </section>
