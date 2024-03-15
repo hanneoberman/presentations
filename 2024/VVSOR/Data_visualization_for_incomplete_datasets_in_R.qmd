@@ -1,0 +1,140 @@
+---
+title: "Data visualization"
+subtitle: "for incomplete datasets in `R`"
+author: "Hanne Oberman"
+institute: "PhD candidate at Utrecht University"
+format:
+  revealjs:
+    logo: ../logo.png
+    footer: "Hanne Oberman, hanneoberman.github.io/presentations"
+    incremental: true
+    toc: false
+    toc-title: Overview
+css: ../style.css
+---
+
+## Missingness
+
+![](https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png)
+
+<!-- In many data analysis efforts, missing data are conveniently ignored. With default settings such as ‘listwise deletion’ in analysis software, analysts need not even bother with the ubiquitous problem of incomplete data. I argue that this is wasteful: not only can missing data bias analysis results if not addressed well, but moreover, missing data can provide valuable insights into the phenomena of interest. The visualization of incomplete data can uncover associations and intricacies between variables that may otherwise go overlooked. Which, in turn, can be leveraged in amending the missingness by means of imputation. The R package ggmice aids data analysts in exploring the missing parts of their data. In this presentation, I will showcase the use and usefulness of a data visualization workflow for incomplete datasets in R. -->
+
+## Case study
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+set.seed(123)
+library(palmerpenguins)
+library(mice)
+library(ggmice)
+library(ggplot2)
+```
+
+## Incomplete data
+
+```{r, echo=TRUE}
+str(penguins)
+```
+
+## Response indicator
+
+```{r, echo=TRUE}
+is.na(penguins)
+```
+
+## Missing data pattern
+
+```{r, echo=TRUE}
+plot_pattern(penguins, square = FALSE)
+```
+
+## Scatter plot
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(body_mass_g, flipper_length_mm)) +
+  geom_point()
+```
+
+## Scatter plot
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(sex, flipper_length_mm)) +
+  geom_point()
+```
+
+## Scatter plot
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(sex, flipper_length_mm)) +
+  geom_point() +
+  facet_wrap(~species)
+```
+
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(flipper_length_mm)) +
+  geom_histogram(fill = "white") +
+  facet_grid(~species)
+```
+
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(flipper_length_mm)) +
+  geom_histogram(fill = "white") +
+  facet_grid(
+    factor(is.na(sex) == 0, labels = c("observed sex", "missing sex")) ~ species)
+```
+
+## Correlation 
+
+```{r, echo=TRUE}
+plot_corr(penguins, square = FALSE)
+```
+
+## Flux plot
+
+```{r, echo=TRUE}
+plot_flux(penguins, label = FALSE)
+```
+
+## Imputation models
+
+```{r, echo=TRUE}
+pred <- quickpred(penguins)
+meth <- make.method(penguins)
+plot_pred(pred, method = meth)
+```
+
+## Impute
+
+```{r, echo=TRUE}
+imp <- mice(penguins, pred = pred, method = meth, m = 10, print = FALSE)
+plot_trace(imp)
+```
+
+## Boxplot
+
+```{r, echo=TRUE}
+ggmice(imp, aes(x = .imp, y = flipper_length_mm)) +
+  geom_point() +
+  labs(x = "Imputation number")
+```
+
+## Scatter plot
+
+```{r, echo=TRUE}
+ggmice(imp, aes(sex, flipper_length_mm)) +
+  geom_point() +
+  facet_grid(~species)
+```
+
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(imp, aes(flipper_length_mm)) +
+  geom_histogram(fill = "white") +
+  facet_grid(~ species)
+```
+
+## Thank you!

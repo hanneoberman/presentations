@@ -5,6 +5,7 @@ Selection of presentation slides for research talks and lectures.
 ## 2024
 
 - Presentation Multilevel Conference, Utrecht, *Imputation of Incomplete Multilevel Data with R*. Slides available [here](https://hanneoberman.github.io/presentations/2024/Multilevel/ImputationOfIncompleteMultilevelDataWithR.html).
+- Presentation Annual Meeting of the Netherlands Society for Statistics and Operations Research (VVSOR), Utrecht, *Data visualization for incomplete datasets in R*. Slides available [here](https://hanneoberman.github.io/presentations/2024/VVSOR/Data_visualization_for_incomplete_datasets_in_R.html)
 
 
 ## 2023
