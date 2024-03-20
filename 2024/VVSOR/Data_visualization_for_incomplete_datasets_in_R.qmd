@@ -5,7 +5,7 @@ author: "Hanne Oberman"
 institute: "PhD candidate at Utrecht University"
 format:
   revealjs:
-    logo: ../logo.png
+    logo: logo.png
     footer: "Hanne Oberman, hanneoberman.github.io/presentations"
     incremental: true
     toc: false
@@ -15,18 +15,41 @@ css: ../style.css
 
 ## Missingness
 
-![](https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png)
+![](https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png){fig-align="center"}
 
 <!-- In many data analysis efforts, missing data are conveniently ignored. With default settings such as ‘listwise deletion’ in analysis software, analysts need not even bother with the ubiquitous problem of incomplete data. I argue that this is wasteful: not only can missing data bias analysis results if not addressed well, but moreover, missing data can provide valuable insights into the phenomena of interest. The visualization of incomplete data can uncover associations and intricacies between variables that may otherwise go overlooked. Which, in turn, can be leveraged in amending the missingness by means of imputation. The R package ggmice aids data analysts in exploring the missing parts of their data. In this presentation, I will showcase the use and usefulness of a data visualization workflow for incomplete datasets in R. -->
 
 ## Case study
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
+#| code-line-numbers: "2"
 set.seed(123)
 library(palmerpenguins)
 library(mice)
 library(ggmice)
 library(ggplot2)
+```
+
+![](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png){fig-align="center"}
+## Penguin populations
+
+```{r, echo=TRUE}
+#| code-fold: true
+ggplot(penguins, aes(x = year, fill = sex, group = sex)) +
+  geom_bar(position = "dodge") + 
+  scale_x_continuous(breaks = c(2007, 2008, 2009)) +
+  theme_classic()
+```
+
+## Penguin populations
+
+```{r, echo=TRUE}
+#| code-fold: true
+ggplot(penguins, aes(x = year, fill = sex, group = sex)) +
+  geom_bar(position = "dodge") + 
+  facet_wrap(~species) + 
+  scale_x_continuous(breaks = c(2007, 2008, 2009)) +
+  theme_classic()
 ```
 
 ## Incomplete data
@@ -35,55 +58,58 @@ library(ggplot2)
 str(penguins)
 ```
 
+## Incomplete data
+
+```{r, echo=TRUE}
+visdat::vis_dat(penguins)
+```
+
 ## Response indicator
 
 ```{r, echo=TRUE}
 is.na(penguins)
 ```
 
+## Response indicator
+
+```{r, echo=TRUE}
+naniar::vis_miss(penguins)
+```
+
+## Missingness rate
+
+```{r, echo=TRUE}
+colSums(is.na(penguins))
+```
+
+## Missingness rate
+
+```{r, echo=TRUE}
+VIM::aggr(penguins, numbers = TRUE, prop = FALSE)
+```
+
 ## Missing data pattern
 
 ```{r, echo=TRUE}
-plot_pattern(penguins, square = FALSE)
+md.pattern(penguins)
 ```
 
-## Scatter plot
+## Missing data pattern
 
 ```{r, echo=TRUE}
-ggmice(penguins, aes(body_mass_g, flipper_length_mm)) +
-  geom_point()
+plot_pattern(penguins)
 ```
 
-## Scatter plot
+## Imputation workflow
+
+![](https://stefvanbuuren.name/fimd/fig/ch01-miflow-1.png){fig-align="center"}
+
+## Imputation models
 
 ```{r, echo=TRUE}
-ggmice(penguins, aes(sex, flipper_length_mm)) +
-  geom_point()
-```
-
-## Scatter plot
-
-```{r, echo=TRUE}
-ggmice(penguins, aes(sex, flipper_length_mm)) +
-  geom_point() +
-  facet_wrap(~species)
-```
-
-## Faceted distribution
-
-```{r, echo=TRUE}
-ggmice(penguins, aes(flipper_length_mm)) +
-  geom_histogram(fill = "white") +
-  facet_grid(~species)
-```
-
-## Faceted distribution
-
-```{r, echo=TRUE}
-ggmice(penguins, aes(flipper_length_mm)) +
-  geom_histogram(fill = "white") +
-  facet_grid(
-    factor(is.na(sex) == 0, labels = c("observed sex", "missing sex")) ~ species)
+pred <- quickpred(penguins, mincor = 0.4)
+meth <- make.method(penguins)
+plot_pred(pred, method = meth)
 ```
 
 ## Correlation 
@@ -92,24 +118,69 @@ ggmice(penguins, aes(flipper_length_mm)) +
 plot_corr(penguins, square = FALSE)
 ```
 
-## Flux plot
+## Scatter plot
 
 ```{r, echo=TRUE}
-plot_flux(penguins, label = FALSE)
+ggplot(penguins, aes(sex, flipper_length_mm)) +
+  geom_point(size = 2)
 ```
 
-## Imputation models
+## Scatter plot
 
 ```{r, echo=TRUE}
-pred <- quickpred(penguins)
-meth <- make.method(penguins)
+ggmice(penguins, aes(sex, flipper_length_mm)) +
+  geom_point(size = 2)
+```
+
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(flipper_length_mm)) +
+  geom_histogram(fill = "white") +
+  facet_grid(factor(
+    is.na(sex), 
+    levels = c(TRUE, FALSE), 
+    labels = c("missing sex", "observed sex")
+    ) ~ .)
+```
+
+## Faceted scatter plot
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(sex, flipper_length_mm)) +
+  geom_point(size = 2) +
+  facet_wrap(~species)
+```
+
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(flipper_length_mm)) +
+  geom_histogram(fill = "white") +
+  facet_grid(factor(
+    is.na(sex), 
+    levels = c(TRUE, FALSE), 
+    labels = c("missing sex", "observed sex")
+    ) ~ species)
+```
+
+## Adjust imputation models
+
+```{r, echo=TRUE}
+pred["sex", c("species", "flipper_length_mm")] <- 1
+meth["sex"] <- "pmm"
 plot_pred(pred, method = meth)
 ```
 
 ## Impute
 
 ```{r, echo=TRUE}
-imp <- mice(penguins, pred = pred, method = meth, m = 10, print = FALSE)
+imp <- mice(
+  penguins, 
+  pred = pred, 
+  method = meth, 
+  m = 20,
+  print = FALSE)
 plot_trace(imp)
 ```
 
@@ -121,6 +192,14 @@ ggmice(imp, aes(x = .imp, y = flipper_length_mm)) +
   labs(x = "Imputation number")
 ```
 
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(imp, aes(flipper_length_mm)) +
+  geom_histogram(fill = "white") +
+  facet_grid(~ species)
+```
+
 ## Scatter plot
 
 ```{r, echo=TRUE}
@@ -129,12 +208,24 @@ ggmice(imp, aes(sex, flipper_length_mm)) +
   facet_grid(~species)
 ```
 
-## Faceted distribution
+## Scatter plot with boxplot
 
 ```{r, echo=TRUE}
-ggmice(imp, aes(flipper_length_mm)) +
-  geom_histogram(fill = "white") +
-  facet_grid(~ species)
+ggmice(imp, aes(sex, flipper_length_mm)) +
+  geom_point() +
+  geom_boxplot() +
+  facet_grid(~species)
+```
+
+## Populations after imputation
+
+```{r, echo=TRUE}
+#| code-fold: true
+ggplot(complete(imp), aes(x = year, fill = sex, group = sex)) +
+  geom_bar(position = "dodge") +
+  facet_wrap( ~ species) +
+  scale_x_continuous(breaks = c(2007, 2008, 2009)) +
+  theme_classic()
 ```
 
 ## Thank you!

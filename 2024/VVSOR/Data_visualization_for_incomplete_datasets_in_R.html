@@ -410,21 +410,48 @@ Hanne Oberman
 <h2>Missingness</h2>
 
 <!-- In many data analysis efforts, missing data are conveniently ignored. With default settings such as ‘listwise deletion’ in analysis software, analysts need not even bother with the ubiquitous problem of incomplete data. I argue that this is wasteful: not only can missing data bias analysis results if not addressed well, but moreover, missing data can provide valuable insights into the phenomena of interest. The visualization of incomplete data can uncover associations and intricacies between variables that may otherwise go overlooked. Which, in turn, can be leveraged in amending the missingness by means of imputation. The R package ggmice aids data analysts in exploring the missing parts of their data. In this presentation, I will showcase the use and usefulness of a data visualization workflow for incomplete datasets in R. -->
-<img data-src="https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png" class="r-stretch"></section>
+<img data-src="https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png" class="r-stretch quarto-figure-center"></section>
 <section id="case-study" class="slide level2">
 <h2>Case study</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(palmerpenguins)</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(mice)</span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(ggmice)</span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><img data-src="https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png" data-fig-align="center"> ## Penguin populations</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">fill =</span> sex, <span class="at">group =</span> sex)) <span class="sc">+</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span> </span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">2007</span>, <span class="dv">2008</span>, <span class="dv">2009</span>)) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
+</div>
+</div>
 </section>
+<section id="penguin-populations" class="slide level2">
+<h2>Penguin populations</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">fill =</span> sex, <span class="at">group =</span> sex)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span> </span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>species) <span class="sc">+</span> </span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">2007</span>, <span class="dv">2008</span>, <span class="dv">2009</span>)) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
 <section id="incomplete-data" class="slide level2">
 <h2>Incomplete data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">str</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">str</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [344 × 8] (S3: tbl_df/tbl/data.frame)
  $ species          : Factor w/ 3 levels "Adelie","Chinstrap",..: 1 1 1 1 1 1 1 1 1 1 ...
@@ -438,10 +465,17 @@ Hanne Oberman
 </div>
 </div>
 </section>
+<section id="incomplete-data-1" class="slide level2">
+<h2>Incomplete data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>visdat<span class="sc">::</span><span class="fu">vis_dat</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
 <section id="response-indicator" class="slide level2">
 <h2>Response indicator</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">is.na</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">is.na</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       species island bill_length_mm bill_depth_mm flipper_length_mm
   [1,]   FALSE  FALSE          FALSE         FALSE             FALSE
@@ -1136,119 +1170,206 @@ Hanne Oberman
 </div>
 </div>
 </section>
-<section id="missing-data-pattern" class="slide level2">
-<h2>Missing data pattern</h2>
+<section id="response-indicator-1" class="slide level2">
+<h2>Response indicator</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">plot_pattern</span>(penguins, <span class="at">square =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
-<section id="scatter-plot" class="slide level2">
-<h2>Scatter plot</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">ggmice</span>(penguins, <span class="fu">aes</span>(body_mass_g, flipper_length_mm)) <span class="sc">+</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
-<section id="scatter-plot-1" class="slide level2">
-<h2>Scatter plot</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">ggmice</span>(penguins, <span class="fu">aes</span>(sex, flipper_length_mm)) <span class="sc">+</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
-<section id="scatter-plot-2" class="slide level2">
-<h2>Scatter plot</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">ggmice</span>(penguins, <span class="fu">aes</span>(sex, flipper_length_mm)) <span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>naniar<span class="sc">::</span><span class="fu">vis_miss</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
-<section id="faceted-distribution" class="slide level2">
-<h2>Faceted distribution</h2>
+<section id="missingness-rate" class="slide level2">
+<h2>Missingness rate</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">ggmice</span>(penguins, <span class="fu">aes</span>(flipper_length_mm)) <span class="sc">+</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(penguins))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          species            island    bill_length_mm     bill_depth_mm 
+                0                 0                 2                 2 
+flipper_length_mm       body_mass_g               sex              year 
+                2                 2                11                 0 </code></pre>
 </div>
-<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
-<section id="faceted-distribution-1" class="slide level2">
-<h2>Faceted distribution</h2>
+</div>
+</section>
+<section id="missingness-rate-1" class="slide level2">
+<h2>Missingness rate</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">ggmice</span>(penguins, <span class="fu">aes</span>(flipper_length_mm)) <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fu">facet_grid</span>(</span>
-<span id="cb11-4"><a href="#cb11-4"></a>    <span class="fu">factor</span>(<span class="fu">is.na</span>(sex) <span class="sc">==</span> <span class="dv">0</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"observed sex"</span>, <span class="st">"missing sex"</span>)) <span class="sc">~</span> species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>VIM<span class="sc">::</span><span class="fu">aggr</span>(penguins, <span class="at">numbers =</span> <span class="cn">TRUE</span>, <span class="at">prop =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section>
-<section id="correlation" class="slide level2">
-<h2>Correlation</h2>
+<section id="missing-data-pattern" class="slide level2">
+<h2>Missing data pattern</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">plot_corr</span>(penguins, <span class="at">square =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">md.pattern</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
+<div class="cell-output cell-output-stdout">
+<pre><code>    species island year bill_length_mm bill_depth_mm flipper_length_mm
+333       1      1    1              1             1                 1
+9         1      1    1              1             1                 1
+2         1      1    1              0             0                 0
+          0      0    0              2             2                 2
+    body_mass_g sex   
+333           1   1  0
+9             1   0  1
+2             0   0  5
+              2  11 19</code></pre>
+</div>
 </div>
 <img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
-<section id="flux-plot" class="slide level2">
-<h2>Flux plot</h2>
+<section id="missing-data-pattern-1" class="slide level2">
+<h2>Missing data pattern</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">plot_flux</span>(penguins, <span class="at">label =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">plot_pattern</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
+<section id="imputation-workflow" class="slide level2">
+<h2>Imputation workflow</h2>
+
+<img data-src="https://stefvanbuuren.name/fimd/fig/ch01-miflow-1.png" class="r-stretch quarto-figure-center"></section>
 <section id="imputation-models" class="slide level2">
 <h2>Imputation models</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">quickpred</span>(penguins)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>meth <span class="ot">&lt;-</span> <span class="fu">make.method</span>(penguins)</span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="fu">plot_pred</span>(pred, <span class="at">method =</span> meth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">quickpred</span>(penguins, <span class="at">mincor =</span> <span class="fl">0.4</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>meth <span class="ot">&lt;-</span> <span class="fu">make.method</span>(penguins)</span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="fu">plot_pred</span>(pred, <span class="at">method =</span> meth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
-<section id="impute" class="slide level2">
-<h2>Impute</h2>
+<section id="correlation" class="slide level2">
+<h2>Correlation</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">mice</span>(penguins, <span class="at">pred =</span> pred, <span class="at">method =</span> meth, <span class="at">m =</span> <span class="dv">10</span>, <span class="at">print =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="fu">plot_trace</span>(imp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">plot_corr</span>(penguins, <span class="at">square =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
-<section id="boxplot" class="slide level2">
-<h2>Boxplot</h2>
+<section id="scatter-plot" class="slide level2">
+<h2>Scatter plot</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">ggmice</span>(imp, <span class="fu">aes</span>(<span class="at">x =</span> .imp, <span class="at">y =</span> flipper_length_mm)) <span class="sc">+</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Imputation number"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(sex, flipper_length_mm)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
-<section id="scatter-plot-3" class="slide level2">
+<section id="scatter-plot-1" class="slide level2">
 <h2>Scatter plot</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">ggmice</span>(imp, <span class="fu">aes</span>(sex, flipper_length_mm)) <span class="sc">+</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">ggmice</span>(penguins, <span class="fu">aes</span>(sex, flipper_length_mm)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
-<section id="faceted-distribution-2" class="slide level2">
+<section id="faceted-distribution" class="slide level2">
 <h2>Faceted distribution</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">ggmice</span>(imp, <span class="fu">aes</span>(flipper_length_mm)) <span class="sc">+</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span> species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">ggmice</span>(penguins, <span class="fu">aes</span>(flipper_length_mm)) <span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a>  <span class="fu">facet_grid</span>(<span class="fu">factor</span>(</span>
+<span id="cb20-4"><a href="#cb20-4"></a>    <span class="fu">is.na</span>(sex), </span>
+<span id="cb20-5"><a href="#cb20-5"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>), </span>
+<span id="cb20-6"><a href="#cb20-6"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"missing sex"</span>, <span class="st">"observed sex"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7"></a>    ) <span class="sc">~</span> .)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section>
+<section id="faceted-scatter-plot" class="slide level2">
+<h2>Faceted scatter plot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">ggmice</span>(penguins, <span class="fu">aes</span>(sex, flipper_length_mm)) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-17-1.png" width="960" class="r-stretch"></section>
+<section id="faceted-distribution-1" class="slide level2">
+<h2>Faceted distribution</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">ggmice</span>(penguins, <span class="fu">aes</span>(flipper_length_mm)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a>  <span class="fu">facet_grid</span>(<span class="fu">factor</span>(</span>
+<span id="cb22-4"><a href="#cb22-4"></a>    <span class="fu">is.na</span>(sex), </span>
+<span id="cb22-5"><a href="#cb22-5"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>), </span>
+<span id="cb22-6"><a href="#cb22-6"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"missing sex"</span>, <span class="st">"observed sex"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7"></a>    ) <span class="sc">~</span> species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section>
+<section id="adjust-imputation-models" class="slide level2">
+<h2>Adjust imputation models</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>pred[<span class="st">"sex"</span>, <span class="fu">c</span>(<span class="st">"species"</span>, <span class="st">"flipper_length_mm"</span>)] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>meth[<span class="st">"sex"</span>] <span class="ot">&lt;-</span> <span class="st">"pmm"</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="fu">plot_pred</span>(pred, <span class="at">method =</span> meth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-19-1.png" width="960" class="r-stretch"></section>
+<section id="impute" class="slide level2">
+<h2>Impute</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">mice</span>(</span>
+<span id="cb24-2"><a href="#cb24-2"></a>  penguins, </span>
+<span id="cb24-3"><a href="#cb24-3"></a>  <span class="at">pred =</span> pred, </span>
+<span id="cb24-4"><a href="#cb24-4"></a>  <span class="at">method =</span> meth, </span>
+<span id="cb24-5"><a href="#cb24-5"></a>  <span class="at">m =</span> <span class="dv">20</span>,</span>
+<span id="cb24-6"><a href="#cb24-6"></a>  <span class="at">print =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb24-7"><a href="#cb24-7"></a><span class="fu">plot_trace</span>(imp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-20-1.png" width="960" class="r-stretch"></section>
+<section id="boxplot" class="slide level2">
+<h2>Boxplot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">ggmice</span>(imp, <span class="fu">aes</span>(<span class="at">x =</span> .imp, <span class="at">y =</span> flipper_length_mm)) <span class="sc">+</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Imputation number"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-21-1.png" width="960" class="r-stretch"></section>
+<section id="faceted-distribution-2" class="slide level2">
+<h2>Faceted distribution</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">ggmice</span>(imp, <span class="fu">aes</span>(flipper_length_mm)) <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span> species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
+<section id="scatter-plot-2" class="slide level2">
+<h2>Scatter plot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">ggmice</span>(imp, <span class="fu">aes</span>(sex, flipper_length_mm)) <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section>
+<section id="scatter-plot-with-boxplot" class="slide level2">
+<h2>Scatter plot with boxplot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">ggmice</span>(imp, <span class="fu">aes</span>(sex, flipper_length_mm)) <span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
+<section id="populations-after-imputation" class="slide level2">
+<h2>Populations after imputation</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">ggplot</span>(<span class="fu">complete</span>(imp), <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">fill =</span> sex, <span class="at">group =</span> sex)) <span class="sc">+</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> species) <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">2007</span>, <span class="dv">2008</span>, <span class="dv">2009</span>)) <span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="Data_visualization_for_incomplete_datasets_in_R_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"></section>
 <section id="thank-you" class="slide level2">
 <h2>Thank you!</h2>
 
-<img src="../logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
+<img src="logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
 <p>Hanne Oberman, hanneoberman.github.io/presentations</p>
 </div>
 </section>
