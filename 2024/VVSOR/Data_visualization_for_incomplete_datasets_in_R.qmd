@@ -30,7 +30,8 @@ library(ggmice)
 library(ggplot2)
 ```
 
-![](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png){fig-align="center"}
+![](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png){fig-align="center" width=60%}
+
 ## Penguin populations
 
 ```{r, echo=TRUE}
@@ -109,20 +110,13 @@ plot_pattern(penguins)
 ```{r, echo=TRUE}
 pred <- quickpred(penguins, mincor = 0.4)
 meth <- make.method(penguins)
-plot_pred(pred, method = meth)
+plot_pred(pred, method = meth, square = FALSE)
 ```
 
 ## Correlation 
 
 ```{r, echo=TRUE}
 plot_corr(penguins, square = FALSE)
-```
-
-## Scatter plot
-
-```{r, echo=TRUE}
-ggplot(penguins, aes(sex, flipper_length_mm)) +
-  geom_point(size = 2)
 ```
 
 ## Scatter plot
@@ -184,7 +178,7 @@ imp <- mice(
 plot_trace(imp)
 ```
 
-## Boxplot
+## Stripplot
 
 ```{r, echo=TRUE}
 ggmice(imp, aes(x = .imp, y = flipper_length_mm)) +
@@ -192,12 +186,12 @@ ggmice(imp, aes(x = .imp, y = flipper_length_mm)) +
   labs(x = "Imputation number")
 ```
 
-## Faceted distribution
+## Stripplot
 
 ```{r, echo=TRUE}
-ggmice(imp, aes(flipper_length_mm)) +
-  geom_histogram(fill = "white") +
-  facet_grid(~ species)
+ggmice(imp, aes(x = .imp, y = sex)) +
+  geom_jitter(width = 0.05) +
+  labs(x = "Imputation number")
 ```
 
 ## Scatter plot
@@ -215,6 +209,14 @@ ggmice(imp, aes(sex, flipper_length_mm)) +
   geom_point() +
   geom_boxplot() +
   facet_grid(~species)
+```
+
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(imp, aes(sex, group = .imp)) +
+  geom_histogram(fill = "white", stat="count") +
+  facet_grid(~ species)
 ```
 
 ## Populations after imputation
