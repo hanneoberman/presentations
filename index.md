@@ -4,6 +4,7 @@ Selection of presentation slides for research talks and lectures.
 
 ## 2024
 
+- Lecture Applied Data Analysis and Visualization, Utrecht University,  *Building interactive web apps with the `R` package `shiny`*. Slides available [here](https://hanneoberman.github.io/presentations/2024/ADAV/shiny.pdf).
 - Tutorial at EMLAR, Utrecht, *Open Science using the statistical package JASP*. Slides available [here](https://hanneoberman.github.io/presentations/2024/EMLAR/OpenYourScience.pdf). Download all materials from [here](https://hanneoberman.github.io/presentations/2024/EMLAR/EMLAR.zip).
 - Presentation Annual Meeting of the Netherlands Society for Statistics and Operations Research (VVSOR), Utrecht, *Data visualization for incomplete datasets in R*. Slides available [here](https://hanneoberman.github.io/presentations/2024/VVSOR/Data_visualization_for_incomplete_datasets_in_R.html)
 - Presentation Multilevel Conference, Utrecht, *Imputation of Incomplete Multilevel Data with R*. Slides available [here](https://hanneoberman.github.io/presentations/2024/Multilevel/ImputationOfIncompleteMultilevelDataWithR.html).
