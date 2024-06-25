@@ -3,7 +3,7 @@ title: "Building interactive web apps"
 subtitle: "with the `R` package `shiny`"
 author: "Hanne Oberman <br> Slides available from [hanneoberman.github.io/presentations](https://hanneoberman.github.io/presentations/)"
 institute: "Utrecht University"
-date: "28-05-2023"
+date: "28-05-2024"
 output: 
   ioslides_presentation: 
     css: style.css
