@@ -1,9 +1,8 @@
 ---
-title: "Missing data"
-subtitle: "exploration, imputation, and evaluation"
-# subtitle: "with `palmerpenguins` and `mice`"
+title: "Missing data <h2>exploration, imputation,<br>and evaluation</h2>"
+# subtitle: "with `mice` and `ggmice`"
 author: "Hanne Oberman"
-institute: "Utrecht University, Utrecht, The Netherlands"
+institute: "PhD candidate at Utrecht University"
 format:
   revealjs:
     logo: logo.png
@@ -11,24 +10,309 @@ format:
     incremental: true
     toc: false
     toc-title: Overview
-    code-fold: false    
+    code-fold: false  
     df-print: kable
     embed-resources: true
+    mermaid:
+      theme: neutral
 execute:
   echo: true
 css: ../style.css
 ---
 
-## Missingness
+## Missing data
 
 ```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
 #| context: setup
+set.seed(1)
 options(scipen = 999, digits = 3)
+your_dataset <- data.frame(Y = c(NA, -4:4), X = rnorm(10))
 ```
+
+<!-- Missing data are ubiquitous, pervasive, and often ignored in statistical analyses. Unfortunately, default methods such as complete case analysis may lead to biased and invalid results. -->
+
+<!-- This hands-on tutorial aims to equip data analysts with knowledge and skills to validly handle missing data using the popular R package {mice}. {mice} implements multiple imputation by chained equations, a flexible method for imputing (i.e. filling in) missing entries. -->
+
+<!-- The session will combine theoretical insights with hands-on exercises. Attendees will first learn the fundamentals of missing data theory, and then gain practical experience in addressing real-world missing data problems through guided demonstrations and exercises. Attendees are encouraged to bring their own incomplete datasets, to implement and evaluate their newfound skills. By the end of the session, attendees will be able to make informed decisions on how to validly handle missing data in their own data analysis projects. -->
 
 ![](https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png){fig-align="center"}
 
-<!-- In many data analysis efforts, missing data are conveniently ignored. With default settings such as ‘listwise deletion’ in analysis software, analysts need not even bother with the ubiquitous problem of incomplete data. I argue that this is wasteful: not only can missing data bias analysis results if not addressed well, but moreover, missing data can provide valuable insights into the phenomena of interest. The visualization of incomplete data can uncover associations and intricacies between variables that may otherwise go overlooked. Which, in turn, can be leveraged in amending the missingness by means of imputation. The R package ggmice aids data analysts in exploring the missing parts of their data. In this presentation, I will showcase the use and usefulness of a data visualization workflow for incomplete datasets in R. -->
+::: {.notes}
+Missing data. Reward: unbiased and optimal model performance.
+:::
+
+<!-- > Obviously the best way to treat missing data is not to have them. (Orchard and Woodbury 1972) -->
+
+<!-- . . . -->
+
+<!-- > Sooner or later (usually sooner), anyone who does statistical analysis runs into problems with missing data. (Allison, 2002) -->
+
+## `NA`s
+
+<br>
+
+::: {.notes}
+You open `R`, ready to extract useful insights from your carefully collected data. Maybe you spend months or even years on the data collection process. Now, you're finally ready to analyze your data. 
+
+You load the data into the `R` environment, and check the range of your outcome variable...
+:::
+
+```{r}
+range(your_dataset$Y)
+```
+
+::: {.notes}
+... only to find out that the minimum and maximum values are undefined.
+:::
+
+## Complete-case analysis (CCA)
+
+::: {.notes}
+Even a simple statistic such as the mean is undefined if there are missing values present in the data.
+:::
+
+<br>
+
+```{r}
+mean(your_dataset$Y)
+```
+
+::: {.notes}
+Statistics require complete data. So, what do you do? That's easy! You can just ignore the incomplete observations by adding `na.rm = TRUE` to your function call!
+:::
+
+<br>
+
+```{r}
+mean(your_dataset$Y, na.rm = TRUE)
+```
+
+::: {.notes}
+Problem solved! Or is it?
+:::
+
+## CCA decreases sample size
+
+![](mdpattern.png){width="400"}
+
+::: {.notes}
+By excluding the `NA`s  from the data analysis, you are ignoring a apart of the data. This will decrease the valid sample size (the number of observations actually used in the analysis), and thus the power of the statistical analyses. This means that it becomes harder to detect an effect when it is present in the data.
+
+But more importantly, ignoring the incomplete observations may introduce bias in the results of you analysis and lead to incorrect conclusions.
+:::
+
+## CCA biases estimates
+
+![](mdpattern.png){width="400"}
+
+::: {.notes}
+Why can ignoring missing data lead to biased results? If there are differences between complete cases and incomplete cases, and you only analyze the complete cases, then there will be a systematic bias towards the complete cases. 
+
+For example, if you are studying the severity of side-effects in a medical trial, but patients drop out of your study precisely due to these side-effects, then your assessment of the severity of the side-effects will be underestimated when you only analyze the data of patients who completed the entire study.
+:::
+
+## CCA yields invalid inferences
+
+![](mdpattern.png){width="400"}
+
+::: {.notes}
+Any time there is a relation between the cause of the missingness and the effect you are trying to measure, the missingness is 'data-dependent'. Or in Rubin's words, the assumption of 'missing completely at random'(MCAR) does not hold. Complete-case analysis will then be biased, even for 'simple' statistics such as the mean.
+:::
+
+## Notation
+
+- $Y$ random variable with missing data
+  - $Y^\mathrm{obs}$ true and observed values of $Y$
+  - $Y^\mathrm{mis}$ true but unobserved values of $Y$
+
+- $X$ complete covariate
+
+- $R$ response indicator
+  - $R = 1$ if $Y$ is observed
+  - $R = 0$ if $Y$ is missing
+
+
+## Missing data model
+
+<!-- Process that governs which $Y$s are observed and which $Y$s are unobserved (Rubin, 1976) -->
+
+<!-- Model by response probability $P(R | Y^\mathrm{obs}, Y^\mathrm{mis}, X)$, also called 'missing data model' -->
+
+
+$$
+P(R|Y^\mathrm{obs}, Y^\mathrm{mis}, X, \psi)
+$$
+
+```{mermaid}
+%%| echo: false
+%%{
+init: {
+  "flowchart": {"useMaxWidth": "true", "htmlLabels": "true", "theme": "neutral"},
+  "securityLevel": "loose"
+}}%%
+flowchart TD
+    subgraph incomplete variable
+          A[Y<sup>obs</sup>]
+          B[Y<sup>mis</sup>]
+    end
+    subgraph covariate
+          C[X]
+    end
+    D(ψ)
+    E(R)
+    A -.-> E
+    B -.-> E    
+    C -.-> E 
+    D --> E 
+```
+
+## MCAR: Missing Completely at Random
+
+<!-- Probability to be missing is not related to any data: -->
+
+$$
+P(R|Y^\mathrm{obs}, Y^\mathrm{mis}, X, \psi) = P(R|\psi)
+$$
+
+. . . 
+
+<!-- Examples: -->
+
+<!--   - data transmission error -->
+<!--   - random sample -->
+
+
+```{mermaid}
+%%| echo: false
+%%{
+init: {
+  "flowchart": {"useMaxWidth": "true", "htmlLabels": "true", "theme": "neutral"},
+  "securityLevel": "loose"
+}}%%
+flowchart TD
+    subgraph incomplete variable
+          A[Y<sup>obs</sup>]
+          B[Y<sup>mis</sup>]
+    end
+    subgraph covariate
+          C[X]
+    end
+    D(ψ)
+    E(R)
+    D --> E 
+```
+
+## MAR: Missing at Random
+
+<!-- Probability to be missing depends on known data: -->
+
+$$
+P(R|Y^\mathrm{obs}, Y^\mathrm{mis}, X, \psi) = P(R|Y^\mathrm{obs}, X, \psi)
+$$
+
+. . . 
+
+<!-- Examples: -->
+
+<!--   - income, where we have $X$ related to wealth -->
+<!--   - branch patterns (e.g. how old are your children?) -->
+
+
+```{mermaid}
+%%| echo: false
+%%{
+init: {
+  "flowchart": {"useMaxWidth": "true", "htmlLabels": "true", "theme": "neutral"},
+  "securityLevel": "loose"
+}}%%
+flowchart TD
+    subgraph incomplete variable
+          A[Y<sup>obs</sup>]
+          B[Y<sup>mis</sup>]
+    end
+    subgraph covariate
+          C[X]
+    end
+    D(ψ)
+    E(R)
+    A --> E
+    C --> E 
+    D --> E 
+```
+
+## MNAR: Missing Not at Random
+
+<!-- Probability to be missing depends on unknown data: -->
+
+$$
+P(R|Y^\mathrm{obs}, Y^\mathrm{mis}, X, \psi) \text{ does not simplify
+}
+$$
+. . . 
+
+<!-- Examples: -->
+
+<!--   - income, without covariates related to income -->
+<!--   - self-reported body weight  -->
+  
+
+```{mermaid}
+%%| echo: false
+%%{
+init: {
+  "flowchart": {"useMaxWidth": "true", "htmlLabels": "true", "theme": "neutral"},
+  "securityLevel": "loose"
+}}%%
+flowchart TD
+    subgraph incomplete variable
+          A[Y<sup>obs</sup>]
+          B[Y<sup>mis</sup>]
+    end
+    subgraph covariate
+          C[X]
+    end
+    D(ψ)
+    E(R)
+    A --> E
+    B --> E    
+    C --> E 
+    D --> E 
+```
+
+## Implications
+
+- Missing Completely At Random (MCAR) $\approx$ not data dependent 
+  <!-- - missing for reasons unrelated to the data -->
+  <!-- - probability to be missing is constant for all units -->
+  <!-- - relatively easy to deal with -->
+- Missing At Random (MAR) $\approx$ seen data dependent 
+  <!-- - missing for reasons related to data you have got -->
+  <!-- - probability to be missing depends on *observed* data -->
+  <!-- - widely used for principled analysis -->
+- Missing Not At Random (MNAR) $\approx$ unseen data dependent 
+  <!-- - missing because of the values you would have obtained -->
+  <!-- - probability to be missing depends on *unobserved* data -->
+  <!-- - cannot detect this from the data -->
+  <!-- - difficult to deal with, need context information -->
+
+## Imputation
+
+![](https://stefvanbuuren.name/fimd/fig/ch01-miflow-1.png){fig-align="center"}
+
+::: {.notes}
+Multiple imputation is a principled approach to handling missing data. It is based on the idea that the missing data are filled in multiple times, creating multiple completed datasets. Each of these datasets is analyzed separately, and the results are combined to obtain valid statistical inferences.
+
+This splits the missing data problem from the analysis of scientific interest.
+:::
+
+
+## MICE
+
+![](mdpattern.png){width="400"}
+
+::: {.notes}
+{mice} implements multiple imputation by chained equations, a flexible method for imputing (i.e. filling in) missing entries on a variable-by-variable basis.
+:::
 
 ## Case study
 
@@ -55,48 +339,14 @@ ggplot(penguins, aes(body_mass_g, flipper_length_mm, color = species)) +
   theme_classic()
 ```
 
-## Research question
-
-```{r}
-# fit <- lme4::lmer(flipper_length_mm ~ body_mass_g + (1 | species), data = penguins)
-# broom.mixed::tidy(fit, conf.int = TRUE)
-# fit <- lm(flipper_length_mm ~ species*body_mass_g, data = penguins)
-# broom::tidy(fit)
-```
-
-```{r}
-# ggplot(penguins, aes(year, body_mass_g)) + 
-#   geom_jitter() +
-#   stat_summary(geom = "line", fun = "mean") +
-#   theme_classic()
-# fit <- lm(body_mass_g ~ year, data = penguins)
-```
 
 ## Research question
 
 ```{r}
+#| code-fold: true
 ggmice(penguins, aes(body_mass_g, flipper_length_mm, group = species)) + 
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) 
-```
-
-```{r}
-#| code-fold: true
-# ggplot(penguins, aes(x = year, fill = sex, group = sex)) +
-#   geom_bar(position = "dodge") + 
-#   scale_x_continuous(breaks = c(2007, 2008, 2009)) +
-#   theme_classic()
-```
-
-## Penguin populations
-
-```{r}
-#| code-fold: true
-# ggplot(penguins, aes(x = sex, fill = sex, group = sex)) +
-#   geom_bar(position = "dodge") + 
-#   facet_wrap(~species) + #, scales = "free_y") + 
-#   # scale_x_continuous(breaks = c(2007, 2008, 2009)) +
-#   theme_classic()
 ```
 
 ## Incomplete data
@@ -154,8 +404,15 @@ plot_pattern(penguins)
 ## Imputation models
 
 ```{r}
-pred <- quickpred(penguins, mincor = 0.4)
 meth <- make.method(penguins)
+pred <- make.predictorMatrix(penguins)
+plot_pred(pred, method = meth, square = FALSE)
+```
+
+## Imputation models
+
+```{r}
+pred <- quickpred(penguins, mincor = 0.4)
 plot_pred(pred, method = meth, square = FALSE)
 ```
 
@@ -165,67 +422,52 @@ plot_pred(pred, method = meth, square = FALSE)
 plot_corr(penguins, square = FALSE)
 ```
 
-## Scatter plot
+## Plot $Y$ by auxiliary variable
 
 ```{r}
 ggmice(penguins, aes(sex, flipper_length_mm)) +
   geom_point(size = 2)
 ```
 
-## Faceted distribution
+## Plot $Y$ by auxiliary variable
+
+```{r}
+ggmice(penguins, aes(x = sex, y = flipper_length_mm)) +
+  geom_jitter(height = 0, width = 0.25) +
+  geom_boxplot(alpha = 0.1)
+```
+
+## Plot $Y$ by missingness indicator
 
 ```{r}
 ggmice(penguins, aes(flipper_length_mm)) +
   geom_histogram(fill = "white") +
   facet_grid(factor(
-    is.na(sex), 
-    levels = c(TRUE, FALSE), 
-    labels = c("missing sex", "observed sex")
-    ) ~ ., scales = "free_y")
+  is.na(sex), 
+  levels = c(TRUE, FALSE), 
+  labels = c("missing sex", "observed sex")
+  ) ~ ., scales = "free_y")
 ```
 
-## Faceted scatter plot
-
-```{r}
-ggmice(penguins, aes(sex, flipper_length_mm)) +
-  geom_point(size = 2) +
-  facet_wrap(~species)
-```
-
-## Faceted distribution
+## Plot $Y$ by auxiliary variables
 
 ```{r}
 ggmice(penguins, aes(flipper_length_mm)) +
   geom_histogram(fill = "white") +
   facet_grid(factor(
-    is.na(sex), 
-    levels = c(TRUE, FALSE), 
-    labels = c("missing sex", "observed sex")
-    ) ~ species)
+  is.na(sex), 
+  levels = c(TRUE, FALSE), 
+  labels = c("missing sex", "observed sex")
+  ) ~ species)
 ```
 
-## Boxplot
-
-```{r}
-ggmice(penguins, aes(x = sex, body_mass_g, group = sex)) + 
-  geom_boxplot() 
-```
-
-## Bar graph
-
-```{r}
-ggplot(penguins, aes(x = sex, fill = sex, group = sex)) +
-  geom_bar(position = "dodge") +
-  facet_wrap(~species) + #, scales = "free_y") +
-  # scale_x_continuous(breaks = c(2007, 2008, 2009)) +
-  theme_classic()
-```
 
 ## Adjust imputation models
 
 ```{r}
-pred["sex", c("species", "flipper_length_mm")] <- 1
-meth["sex"] <- "pmm"
+meth["flipper_length_mm"] <- "norm"
+pred["flipper_length_mm", c("species", "sex")] <- 1
+pred["sex", "flipper_length_mm"] <- 1
 plot_pred(pred, method = meth, square = FALSE)
 ```
 
@@ -236,7 +478,7 @@ imp <- mice(
   penguins, 
   pred = pred, 
   method = meth, 
-  m = 20)
+  m = 10)
 ```
 
 ## Trace plot
@@ -245,7 +487,19 @@ imp <- mice(
 plot_trace(imp)
 ```
 
-## Stripplot
+## Add iterations
+
+```{r}
+imp <- mice.mids(imp, maxit = 25)
+```
+
+## Trace plot after iterating
+
+```{r}
+plot_trace(imp)
+```
+
+## Stripplot of the outcome 
 
 ```{r}
 ggmice(imp, aes(x = .imp, y = flipper_length_mm)) +
@@ -253,57 +507,90 @@ ggmice(imp, aes(x = .imp, y = flipper_length_mm)) +
   labs(x = "Imputation number")
 ```
 
-## Stripplot
+## Distribution of the outcome
 
 ```{r}
-ggmice(imp, aes(x = .imp, y = sex)) +
-  geom_jitter(width = 0.05) +
+ggmice(imp, aes(x = flipper_length_mm, group = .imp)) +
+  geom_density()
+```
+
+## Stripplot of predictor variable 
+
+```{r}
+ggmice(imp, aes(x = .imp, y = body_mass_g)) +
+  geom_point() +
   labs(x = "Imputation number")
 ```
 
-## Scatter plot
+## Stripplot of covariate
 
 ```{r}
-ggmice(imp, aes(sex, flipper_length_mm)) +
-  geom_point() +
-  facet_grid(~species)
+ggmice(imp, aes(x = .imp, y = sex)) +
+  geom_jitter(height = 0.1, width = 0.05) +
+  labs(x = "Imputation number")
 ```
 
-## Scatter plot with boxplot
+## Analysis results
+
+![](https://stefvanbuuren.name/fimd/fig/ch01-miflow-1.png){fig-align="center"}
+
+## Research question after imputation
 
 ```{r}
-ggmice(imp, aes(sex, flipper_length_mm)) +
-  geom_point() +
-  geom_boxplot() +
-  facet_grid(~species)
-```
-
-## Faceted distribution
-
-```{r}
-ggmice(imp, aes(sex, group = .imp)) +
-  geom_histogram(fill = "white", stat="count") +
-  facet_grid(~ species)
-```
-
-## Populations after imputation
-
-```{r}
-#| code-fold: true
-ggplot(complete(imp), aes(x = year, fill = sex, group = sex)) +
-  geom_bar(position = "dodge") +
-  facet_wrap( ~ species) +
-  scale_x_continuous(breaks = c(2007, 2008, 2009)) +
-  theme_classic()
+ggmice(imp, aes(x = body_mass_g, y = flipper_length_mm)) +
+  geom_point()
 ```
 
 ## Research question after imputation
 
 ```{r}
-imp_list <- complete(imp, "all")
-est_list <- purrr::map(imp_list, ~{
-  lm(flipper_length_mm ~ species*body_mass_g, data = .x)
-})
+fit <- with(imp, lm(flipper_length_mm ~ body_mass_g))
+est <- pool(fit) 
+est$pooled
 ```
 
+## Research question after imputation
+
+```{r}
+fit <- purrr::map(
+  complete(imp, "all"), 
+  ~lm(flipper_length_mm ~ body_mass_g, data = .x)
+  )
+est <- pool(fit) 
+est$pooled
+```
+
+## Pooled results
+
+![](https://stefvanbuuren.name/fimd/fig/ch01-miflow-1.png){fig-align="center"}
+
+## Take aways
+
+- Missing data cannot be ignored.
+- To obtain valid inferences, you should investigate the missingness mechanism.
+- Multiple imputation allows you to 'correct for' data-dependent missingness.
+- The R package `mice` makes imputation easy...
+  - ... but specifying imputation models requires careful investigation, 
+  - ... and the imputations cannot be trusted if the algorithm has not converged.
+- After imputation, you can analyze the data as if it were complete, and pool the estimates.
+
+## Resources
+
+- [Course materials](https://www.gerkovink.com/quickmice/)
+- [Landing page amices.org](https://amices.org/)
+- [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/)
+- [CRAN Task View: Missing Data](https://cran.r-project.org/web/views/MissingData.html)
+
 ## Thank you!
+
+<link rel=stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link rel=stylesheet href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+<a href=mailto:h.i.oberman@uu.nl class="fa fa-envelope"></a>
+<a href=http://hanneoberman.github.io/ class="fa fa-home"></a>
+<a href=https://orcid.org/0000-0003-3276-2141 class="ai ai-orcid"></a>
+<a href=http://github.com/hanneoberman/ class="fa-brands fa-github"></a>
+<a href=https://www.linkedin.com/in/hanneoberman/ class="fa-brands fa-linkedin"></a>
+<a href=https://mastodon.social/@oberman class="fa-brands fa-mastodon"></a>
+<a href=https://twitter.com/hioberman class="fa-brands fa-twitter"></a>
