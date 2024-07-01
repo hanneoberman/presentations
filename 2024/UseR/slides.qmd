@@ -576,7 +576,7 @@ est$pooled
 
 ## Resources
 
-- [Course materials](https://www.gerkovink.com/quickmice/)
+- [Course materials](https://hanneoberman.github.io/quickmice/)
 - [Landing page amices.org](https://amices.org/)
 - [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/)
 - [CRAN Task View: Missing Data](https://cran.r-project.org/web/views/MissingData.html)
