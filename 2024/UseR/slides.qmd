@@ -145,6 +145,7 @@ $$
 
 ```{mermaid}
 %%| echo: false
+%%| fig-align: center
 %%{
 init: {
   "flowchart": {"useMaxWidth": "true", "htmlLabels": "true", "theme": "neutral"},
@@ -176,31 +177,11 @@ $$
 
 . . . 
 
-<!-- Examples: -->
+Examples:
 
-<!--   - data transmission error -->
-<!--   - random sample -->
+  - data transmission error
+  - random sample
 
-
-```{mermaid}
-%%| echo: false
-%%{
-init: {
-  "flowchart": {"useMaxWidth": "true", "htmlLabels": "true", "theme": "neutral"},
-  "securityLevel": "loose"
-}}%%
-flowchart TD
-    subgraph incomplete variable
-          A[Y<sup>obs</sup>]
-          B[Y<sup>mis</sup>]
-    end
-    subgraph covariate
-          C[X]
-    end
-    D(ψ)
-    E(R)
-    D --> E 
-```
 
 ## MAR: Missing at Random
 
@@ -212,33 +193,13 @@ $$
 
 . . . 
 
-<!-- Examples: -->
+Examples:
 
-<!--   - income, where we have $X$ related to wealth -->
-<!--   - branch patterns (e.g. how old are your children?) -->
+  - income, where we have $X$ related to wealth
+  - branch patterns (e.g. how old are your children?)
 
 
-```{mermaid}
-%%| echo: false
-%%{
-init: {
-  "flowchart": {"useMaxWidth": "true", "htmlLabels": "true", "theme": "neutral"},
-  "securityLevel": "loose"
-}}%%
-flowchart TD
-    subgraph incomplete variable
-          A[Y<sup>obs</sup>]
-          B[Y<sup>mis</sup>]
-    end
-    subgraph covariate
-          C[X]
-    end
-    D(ψ)
-    E(R)
-    A --> E
-    C --> E 
-    D --> E 
-```
+
 
 ## MNAR: Missing Not at Random
 
@@ -248,36 +209,14 @@ $$
 P(R|Y^\mathrm{obs}, Y^\mathrm{mis}, X, \psi) \text{ does not simplify
 }
 $$
+
 . . . 
 
-<!-- Examples: -->
+Examples:
 
-<!--   - income, without covariates related to income -->
-<!--   - self-reported body weight  -->
-  
+  - income, without covariates related to income
+  - self-reported body weight
 
-```{mermaid}
-%%| echo: false
-%%{
-init: {
-  "flowchart": {"useMaxWidth": "true", "htmlLabels": "true", "theme": "neutral"},
-  "securityLevel": "loose"
-}}%%
-flowchart TD
-    subgraph incomplete variable
-          A[Y<sup>obs</sup>]
-          B[Y<sup>mis</sup>]
-    end
-    subgraph covariate
-          C[X]
-    end
-    D(ψ)
-    E(R)
-    A --> E
-    B --> E    
-    C --> E 
-    D --> E 
-```
 
 ## Implications
 
@@ -522,7 +461,7 @@ ggmice(imp, aes(x = .imp, y = body_mass_g)) +
   labs(x = "Imputation number")
 ```
 
-## Stripplot of covariate
+## Stripplot of auxiliary variable
 
 ```{r}
 ggmice(imp, aes(x = .imp, y = sex)) +
@@ -569,17 +508,20 @@ est$pooled
 - Missing data cannot be ignored.
 - To obtain valid inferences, you should investigate the missingness mechanism.
 - Multiple imputation allows you to 'correct for' data-dependent missingness.
+
+## Take aways
+
 - The R package `mice` makes imputation easy...
   - ... but specifying imputation models requires careful investigation, 
   - ... and the imputations cannot be trusted if the algorithm has not converged.
-- After imputation, you can analyze the data as if it were complete, and pool the estimates.
+- After imputation, you can analyze the data as if it were complete, and pool the estimates to obtain valid inferences.
 
 ## Resources
 
-- [Course materials](https://hanneoberman.github.io/quickmice/)
-- [Landing page amices.org](https://amices.org/)
-- [Flexible Imputation of Missing Data](https://stefvanbuuren.name/fimd/)
-- [CRAN Task View: Missing Data](https://cran.r-project.org/web/views/MissingData.html)
+- Course materials: [hanneoberman.github.io/quickmice](https://hanneoberman.github.io/quickmice/)
+- Landing page `mice` and `ggmice`: [amices.org](https://amices.org/)
+- Flexible Imputation of Missing Data book:  [stefvanbuuren.name/fimd](https://stefvanbuuren.name/fimd/)
+- CRAN Task View: [https://cran.r-project.org/view=MissingData](https://cran.r-project.org/view=MissingData)
 
 ## Thank you!
 
