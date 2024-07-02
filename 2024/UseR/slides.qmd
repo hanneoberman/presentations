@@ -1,8 +1,10 @@
 ---
 title: "Missing data <h2>exploration, imputation,<br>and evaluation</h2>"
 # subtitle: "with `mice` and `ggmice`"
-author: "Hanne Oberman"
-institute: "PhD candidate at Utrecht University"
+author: 
+- name: "Hanne Oberman"
+  orcid: 0000-0003-3276-2141
+institute: "Utrecht University"
 format:
   revealjs:
     logo: logo.png
@@ -55,20 +57,26 @@ Missing data. Reward: unbiased and optimal model performance.
 You open `R`, ready to extract useful insights from your carefully collected data. Maybe you spend months or even years on the data collection process. Now, you're finally ready to analyze your data. 
 
 You load the data into the `R` environment, and check the range of your outcome variable...
+
+... only to find out that the minimum and maximum values are undefined.
+
 :::
 
 ```{r}
 range(your_dataset$Y)
 ```
 
-::: {.notes}
-... only to find out that the minimum and maximum values are undefined.
-:::
+
 
 ## Complete-case analysis (CCA)
 
 ::: {.notes}
 Even a simple statistic such as the mean is undefined if there are missing values present in the data.
+
+Statistics require complete data. So, what do you do? That's easy! You can just ignore the incomplete observations by adding `na.rm = TRUE` to your function call!
+
+Problem solved! Or is it?
+
 :::
 
 <br>
@@ -77,9 +85,7 @@ Even a simple statistic such as the mean is undefined if there are missing value
 mean(your_dataset$Y)
 ```
 
-::: {.notes}
-Statistics require complete data. So, what do you do? That's easy! You can just ignore the incomplete observations by adding `na.rm = TRUE` to your function call!
-:::
+
 
 <br>
 
@@ -87,9 +93,7 @@ Statistics require complete data. So, what do you do? That's easy! You can just 
 mean(your_dataset$Y, na.rm = TRUE)
 ```
 
-::: {.notes}
-Problem solved! Or is it?
-:::
+
 
 ## CCA decreases sample size
 
@@ -118,6 +122,17 @@ For example, if you are studying the severity of side-effects in a medical trial
 ::: {.notes}
 Any time there is a relation between the cause of the missingness and the effect you are trying to measure, the missingness is 'data-dependent'. Or in Rubin's words, the assumption of 'missing completely at random'(MCAR) does not hold. Complete-case analysis will then be biased, even for 'simple' statistics such as the mean.
 :::
+
+## Alternative solution
+
+```{r, echo=TRUE, eval=FALSE}
+install.packages("mice")
+install.packages("ggmice")
+install.packages("ggplot2")
+install.packages("palmerpenguins")
+```
+
+![](mouse.png)
 
 ## Notation
 
@@ -234,7 +249,31 @@ Examples:
   <!-- - cannot detect this from the data -->
   <!-- - difficult to deal with, need context information -->
 
+::: {.notes}
+- MCAR
+  - missing for reasons unrelated to the data
+  - probability to be missing is constant for all units
+  - relatively easy to deal with
+- MAR 
+  - missing for reasons related to data you have got
+  - probability to be missing depends on *observed* data
+  - widely used for principled analysis
+- MNAR
+  - missing because of the values you would have obtained
+  - probability to be missing depends on *unobserved* data
+  - cannot detect this from the data
+  - difficult to deal with, need context information
+:::
+
 ## Imputation
+
+![](mdpattern.png){width="400"}
+
+::: {.notes}
+If we can model the missingness mechanism, we can impute the missing values. This means that we fill in the missing values with plausible values, based on the observed data.
+:::
+
+## MICE
 
 ![](https://stefvanbuuren.name/fimd/fig/ch01-miflow-1.png){fig-align="center"}
 
@@ -244,10 +283,9 @@ Multiple imputation is a principled approach to handling missing data. It is bas
 This splits the missing data problem from the analysis of scientific interest.
 :::
 
+## `mice`
 
-## MICE
-
-![](mdpattern.png){width="400"}
+![](mice.png)
 
 ::: {.notes}
 {mice} implements multiple imputation by chained equations, a flexible method for imputing (i.e. filling in) missing entries on a variable-by-variable basis.
@@ -480,15 +518,25 @@ ggmice(imp, aes(x = body_mass_g, y = flipper_length_mm)) +
   geom_point()
 ```
 
-## Research question after imputation
+## Analyze imputated data
 
 ```{r}
 fit <- with(imp, lm(flipper_length_mm ~ body_mass_g))
+fit$analyses
+```
+
+## Pooled results
+
+![](https://stefvanbuuren.name/fimd/fig/ch01-miflow-1.png){fig-align="center"}
+
+## Pooling analysis results
+
+```{r}
 est <- pool(fit) 
 est$pooled
 ```
 
-## Research question after imputation
+## Flexible approach
 
 ```{r}
 fit <- purrr::map(
@@ -498,10 +546,6 @@ fit <- purrr::map(
 est <- pool(fit) 
 est$pooled
 ```
-
-## Pooled results
-
-![](https://stefvanbuuren.name/fimd/fig/ch01-miflow-1.png){fig-align="center"}
 
 ## Take aways
 
@@ -518,20 +562,30 @@ est$pooled
 
 ## Resources
 
-- Course materials: [hanneoberman.github.io/quickmice](https://hanneoberman.github.io/quickmice/)
+- Crash course in missing data analysis with `mice` and `ggmice`: [hanneoberman.github.io/quickmice](https://hanneoberman.github.io/quickmice/)
 - Landing page `mice` and `ggmice`: [amices.org](https://amices.org/)
 - Flexible Imputation of Missing Data book:  [stefvanbuuren.name/fimd](https://stefvanbuuren.name/fimd/)
 - CRAN Task View: [https://cran.r-project.org/view=MissingData](https://cran.r-project.org/view=MissingData)
 
 ## Thank you!
 
+<!-- Crash course in missing data analysis with `mice` and `ggmice`: [hanneoberman.github.io/quickmice](https://hanneoberman.github.io/quickmice/) -->
+
+<!-- ![](quickmice.png) -->
+
+My personal website (incl. this presentation): [hanneoberman.github.io](https://hanneoberman.github.io)
+
+![](website.png)
+
 <link rel=stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <link rel=stylesheet href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
+<a href=https://orcid.org/0000-0003-3276-2141 class="ai ai-orcid"></a>
 <a href=mailto:h.i.oberman@uu.nl class="fa fa-envelope"></a>
 <a href=http://hanneoberman.github.io/ class="fa fa-home"></a>
-<a href=https://orcid.org/0000-0003-3276-2141 class="ai ai-orcid"></a>
 <a href=http://github.com/hanneoberman/ class="fa-brands fa-github"></a>
 <a href=https://www.linkedin.com/in/hanneoberman/ class="fa-brands fa-linkedin"></a>
 <a href=https://mastodon.social/@oberman class="fa-brands fa-mastodon"></a>
