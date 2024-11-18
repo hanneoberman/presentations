@@ -1,0 +1,1096 @@
+---
+title: "Logistic regression"
+subtitle: "SHP03"
+institution: "Utrecht University"
+author:
+  - name: "Hanne Oberman"
+    email: "h.i.oberman@uu.nl"
+format:
+  revealjs:
+    theme: [default, theming.scss]
+    incremental: true 
+    code-fold: true
+    df-print: kable
+    logo: logo.png
+    embed-resources: true
+    slide-number: true
+    title-slide-attributes: 
+      data-background-color: "#FFCD00"
+    footer: "SHP03 | h.i.oberman@uu.nl | Licence: CC BY 4.0"
+execute:
+  echo: true
+toc: true
+toc-depth: 1
+toc-title: Outline
+favicon: logo.png
+license: "CC BY"
+---
+
+# Today's lecture
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+#| context: setup
+library(dplyr)
+library(ggplot2)
+options(scipen = 999, digits = 3)
+set.seed(123)
+```
+
+## Topics
+
+- Logistic regression
+  - Probabilities, logits, and odds
+  - Significance and relevance of effects
+  - Marginal effects
+
+<!-- ## Learning goals -->
+
+
+
+# Introduction
+
+## When to use logistic regression
+
+- Prediction of a binary dependent variable
+- Binary dependent variables are categorical variables with two categories: 
+  - e.g. passing an exam ($Y = \text{failure}$ or $Y = \text{success}$),
+  - or smoking status ($Y = \text{no}$ or $Y = \text{yes}$);
+  - in general, $Y = 0$ or $Y = 1$, nothing observed in between
+
+## Binary outcome
+
+```{r}
+set.seed(12)
+nobs <- 20
+dat <- data.frame(x = runif(nobs, 0, 11))
+dat$y <- rbinom(n = nobs,
+                size = 1,
+                prob = 1 / (1 + exp(1 - (0.75 * dat$x))))
+ggplot(dat, aes(x, y)) + 
+  geom_hline(yintercept = 0, alpha = 0.2, color = "grey", linewidth = 2) +
+  geom_hline(yintercept = 1, alpha = 0.2, color = "grey", linewidth = 2) +
+  geom_point(shape = 21, size = 2, stroke = 1) + 
+  lims(x = c(-4, 12), y = c(-0.5, 1.5)) +
+  labs(x = "X (e.g. hours studied)", y = "Y (e.g. exam passed)") +
+  theme_classic()
+```
+
+
+## Why not use linear regression?
+
+- Linear regression:
+  - requires a continuous dependent variable
+  - requires a linear relation between predictor(s) and outcome
+  - predicts values outside the [0, 1] range
+
+## Linear regression
+
+```{r}
+ggplot(dat, aes(x, y)) + 
+  geom_hline(yintercept = 0, alpha = 0.2, color = "grey", linewidth = 2) +
+  geom_hline(yintercept = 1, alpha = 0.2, color = "grey", linewidth = 2) +
+  geom_smooth(method = "lm", se = FALSE, fullrange = TRUE, color = "red", linetype = "dashed") +
+  geom_point(shape = 21, size = 2, stroke = 1) + 
+  lims(x = c(-4, 12), y = c(-0.5, 1.5)) +
+  labs(x = "X (e.g. hours studied)", y = "Y (e.g. exam passed)") +
+  theme_classic()
+```
+
+## What to use instead?
+
+- Logistic regression:
+
+  - predicts probabilities (instead of raw outcome values)
+  - models how the probability of success varies with the independent variables
+  - converts continuous predictions to binary outcome with **logit link** function
+  - ensures that the predicted probabilities are between 0 and 1
+
+## Logistic regression
+
+```{r}
+ggplot(dat, aes(x, y)) + 
+  geom_hline(yintercept = 0, alpha = 0.2, color = "grey", linewidth = 2) +
+  geom_hline(yintercept = 1, alpha = 0.2, color = "grey", linewidth = 2) +
+  geom_smooth(method = "lm", se = FALSE, fullrange = TRUE, color = "red", linetype = "dashed", alpha = 0.1) +
+  geom_smooth(method = "glm", se = FALSE, fullrange = TRUE, method.args = list(family = "binomial")) +
+  geom_point(shape = 21, size = 2, stroke = 1) + 
+  lims(x = c(-4, 12), y = c(-0.5, 1.5)) +
+  labs(x = "X (e.g. hours studied)", y = "Y (e.g. exam passed)") +
+  theme_classic()
+```
+
+
+## What is a logit link function?
+
+- The logit link function maps the linear regression line to the probability scale
+- The logit is the natural logarithm of the odds of the outcome being 1, where the odds are 
+  - a ratio of 
+  - the probability of the dependent variable being 1 
+  - divided by 
+  - the probability of the dependent variable being 0
+- $\text{logit(Y=1)} = \log(\text{odds(Y=1)}) = \log(\frac{P(Y=1)}{P(Y=0)})$
+
+## Predicting a binary outcome
+
+```{r}
+dat$truth <- factor(dat$y, levels = 0:1, labels = c("Y = 0", "Y = 1"))
+ggplot(dat, aes(x = x, y = y, color = truth)) + 
+  geom_hline(yintercept = 0, alpha = 0.2, color = "grey", linewidth = 2) +
+  geom_hline(yintercept = 1, alpha = 0.2, color = "grey", linewidth = 2) +
+  geom_point(shape = 21, size = 2, stroke = 1.5) + 
+  labs(x = "X (e.g. hours studied)", y = "Prediction (probability scale)", color = "Observed outcome") +
+  theme_classic()
+```
+
+## What are probabilities?
+
+Probabilities:
+
+- are values between 0 and 1, with midpoint 0.5
+- are the likelihood of an event occurring, $P(Y=1)$
+
+## Predicting probabilities
+
+```{r}
+mod <- glm(y ~ x, data = dat, family = "binomial")
+pred <- predict(mod, type = "response")
+dat$truth <- factor(dat$y, levels = 0:1, labels = c("Y = 0", "Y = 1"))
+ggplot(dat, aes(x = x, y = pred, color = truth)) + 
+  geom_hline(yintercept = 0, alpha = 0.2, color = "grey", linewidth = 2) +
+  geom_hline(yintercept = 1, alpha = 0.2, color = "grey", linewidth = 2) +
+  geom_point(shape = 21, size = 2, stroke = 1.5) + 
+  labs(x = "X (e.g. hours studied)", y = "Prediction (probability scale)", color = "Observed outcome") +
+  theme_classic()
+```
+
+## What are odds?
+
+Odds:
+
+- are values between 0 and $\inf$, with midpoint 1
+- are a ratio of probabilities
+- e.g. the probability of an event occurring relative to the probability of the event not occurring, $P(Y=1):P(Y=0)$
+- of a dependent variable being 1 is equal to 
+  - the probability of the dependent variable being 1
+  - divided by 
+  - the probability of the dependent variable being 0
+  - $\text{odds}(Y=1) = \frac{P(Y=1)}{P(Y=0)}$
+
+## Odds scale
+
+```{r}
+dat$odds <- pred/(1 - pred)
+ggplot(dat, aes(x = x, y = odds, color = truth)) +
+  geom_point(shape = 21, size = 2, stroke = 1.5) + 
+  labs(x = "X (e.g. hours studied)", y = "Prediction (odds scale)", color = "Observed outcome") +
+  theme_classic()
+```
+
+## What are log odds?
+
+Log odds:
+
+- are odds transformed to a logarithmic scale
+- mathematical 'shortcut'
+
+## Odds scale (log transformed)
+
+```{r}
+ggplot(dat, aes(x = x, y = odds, color = truth)) + 
+  geom_point(shape = 21, size = 2, stroke = 1.5) + 
+  scale_y_log10() +
+  labs(x = "X (e.g. hours studied)", y = "Prediction (log odds scale)", color = "Observed outcome") +
+  theme_classic()
+```
+
+## What are logits?
+
+Logit:
+
+- is the natural logarithm of the odds
+- transforms the range from $[0, 1, \inf]$ (odds) to $[-\inf, 0, \inf]$ (logit)
+- is symmetric around 0
+
+## Logit scale
+
+```{r}
+dat$logit <- log(dat$odds)
+ggplot(dat, aes(x = x, y = logit, color = truth)) + 
+  geom_point(shape = 21, size = 2, stroke = 1.5) + 
+  labs(x = "X (e.g. hours studied)", y = "Prediction (logit scale)", color = "Observed outcome") +
+  theme_classic()
+```
+
+# Theory
+
+## General(ized) linear model
+
+$$
+\text{data} = \text{model} + \text{error}
+$$
+
+. . . 
+
+$$Y \sim \beta_0 + \beta_1X_1 + \beta_2X_2 + ...$$
+
+## Estimation of regression coefficients
+
+Linear regression: 
+
+$$y_i =  b_0 + b_1x_i$$
+
+. . . 
+
+Logistic regression: 
+
+$$\text{logit}(\pi_i) =  b_0 + b_1x_i,$$
+
+- where coefficients are estimated with respect to the logit scale, $\text{logit}(\pi_i) = \log(\text{odds}(P(y_i = 1))$
+
+## Logit model
+
+Logistic regression is linear regression on the logit scale:
+
+- $\text{logit}(\pi)= \log(\pi/(1−\pi))=b_0+b_1 X_1+b_2 X_2+⋯$
+
+- $\text{odds} = (\pi/(1−\pi))=e^{(b_0+b_1 X_1+b_2 X_2+⋯)}$ 
+
+- $\text{probability}=\pi=1/(1+e^{−(b_0+b_1 X_1+b_2 X_2 + ...)})$
+
+## Conversion
+
+- **Probability:** between 0 and 1
+- **Odds:** Not symmetric, always > 0
+- **Logit:** Symmetric around 0, can take on any value
+
+![](logit.png)
+
+
+## Modeling probability
+
+Logistic regression models the probability of $Y=1$ given a known value on $X$ 
+
+$$\pi_i = P(Y=1|X = x_i)$$
+
+- To ensure that $\pi_i$ stays between 0 and 1, the predictions are mapped onto the interval [0, 1] using the logit function
+- To convert predictions on the logit scale back to probability, use the inverse logit function
+
+. . . 
+
+$$\pi_i = \text{logit}^{-1}(b_0 + b_1x_i)$$
+$$\pi_i = \frac{1}{1 + e^{-(b_0 + b_1x_i)}}$$
+
+$$\hat{y} = \frac{\exp(b_0 + b_1x_i)}{1+\exp(b_0 + b_1x_i)}$$
+
+## Interpretation of slope $b_1$
+
+$b_1$ reflects the slope (steepness) of the logistic curve
+
+![](b1.png)
+
+. . . 
+
+Note. Slope is nearly linear between $\hat{\pi}=.2$ and $\hat{\pi}=.8$
+
+## Interpretation of slope $b_1$
+
+- $b_0$ (intercept) renders $\hat{\pi}$ when $X=0$
+- $b_1$  (slope) is positive (left) or negative (right)
+
+. . . 
+
+![](posneg.png)
+
+
+## Interpretation of slope $b$
+
+- Linear regression (**wrong for binary outcome!**): 
+  - 1 unit increase in $X$ produces a change of $b$ in $Y$.
+- Logistic regression: 
+  - 1 unit increase in $X$ produces a change of $b$ in the logit of $Y$. This is an *additive* effect.
+  - 1 unit increase in $X$ multiplies the odds of $Y$ by $e^{b}$. This is a *multiplicative* effect.
+
+## Interpretation of the exponentiated slope $e^b$
+
+- For continuous predictors:
+  $$e^b = \text{change in odds for an increase of } X \text{ by 1 unit}^{[1]}$$
+
+- For categorical predictors: 
+  $$e^b = \text{difference in odds compared to the reference category}^{[1]}$$
+
+- In general:
+
+. . . 
+
+\begin{align*}
+e^b &= \exp(b) \\
+&= \text{odds ratio} \\
+&= \text{measure of effect size}
+\end{align*}
+
+::: smaller
+[1] keeping all other predictors constant
+:::
+
+
+## What are odds ratios?
+
+Odds ratios:
+
+- are ratios of ratios, $\frac{\text{odds}}{\text{odds}}$
+- are values between 0 and $\inf$, with midpoint 1
+- are a measure of effect size in logistic regression
+
+# Intermezzo
+
+## Lucky Box #1
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](box1.jpg)
+:::
+
+::: {.column width="60%"}
+- Lucky box #1:
+  - 6 blue
+  - 3 red
+  - 2 yellow
+  - 1 green
+- Red = win
+- How to express chances of winning?
+
+:::
+
+::::
+
+
+## Lucky Box #1
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](box1red.jpg)
+:::
+
+::: {.column width="60%"}
+
+<br><br>
+
+$P(\text{red}) = \frac{n_\text{red}}{n_\text{total}}  = \frac{3}{12} = \frac{1}{4}$
+
+<br><br><br>
+
+$\text{odds}(\text{red}) = \frac{n_\text{red}}{n_\text{not red}} = \frac{3}{9} = \frac{1}{3}$
+:::
+
+::::
+
+
+
+
+
+## Lucky Box #2
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](box2.jpg)
+:::
+
+::: {.column width="60%"}
+- Lucky box #2:
+  - 5 blue
+  - 4 red
+  - 2 yellow
+  - 1 green
+- Red = win
+- How to express chances of winning?
+
+:::
+
+::::
+
+
+
+
+## Lucky Box #2
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](box2red.jpg)
+:::
+
+::: {.column width="60%"}
+
+<br><br>
+
+$P(\text{red}) = \frac{n_\text{red}}{n_\text{total}}  = \frac{4}{12} = \frac{1}{3}$
+
+<br><br><br>
+
+$\text{odds}(\text{red}) = \frac{n_\text{red}}{n_\text{not red}} = \frac{4}{8} = \frac{1}{2}$
+:::
+
+::::
+
+
+
+## Odds ratio
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](box1.jpg)
+:::
+
+::: {.column width="20%"}
+
+:::
+
+::: {.column width="40%"}
+![](box2.jpg)
+:::
+
+::::
+
+
+
+
+## Odds ratio
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](oddsratio.png)
+:::
+
+::: {.column width="60%"}
+
+<br><br><br><br>
+
+$\text{odds ratio} = \frac{\text{odds}(\text{red})_{\text{Lucky Box 1}}}{\text{odds}(\text{red})_{\text{Lucky Box 2}}} = \frac{1/3}{1/2} = \frac{2}{3}$
+:::
+
+::::
+
+
+
+
+# Theory (continued)
+
+## Interpretation of slope $b$
+
+\begin{align*}
+e^b &= \exp(b) \\
+&= \text{odds ratio} \\
+&= \text{measure of effect size}
+\end{align*}
+
+## Statistical significance of $b$
+
+Wald test for coefficients: 
+
+- $H_0: \beta = 0$
+- Wald statistic: $\frac{b}{SE} \approx z$
+- $p$-value: $P(Z > |z|)$
+
+
+## Model fit versus null model
+
+Via omnibus null hypothesis test:
+
+- Testing all regression coefficients simultaneously by specifying a null model (intercept only model)
+  - $H_0: b_1 = b_2 = b_3 = b_4 = b_5 = 0$
+  - $H_a:$ At least one $b$ is not equal to zero
+
+## Model fit nested models
+
+Via maximum likelihood estimation (instead of least squares):
+
+- Compare -2 log likelihood (-2LL):
+  - $H_0: \text{-2LL (null model)} = \text{-2LL (alternative model)}$.
+  - $H_a: \text{-2LL (null model)} > \text{-2LL (alternative model)}$.
+
+- -2LL is a measure of misfit (generalization of residual sum of squares).
+- Adding independent variables will decrease -2LL. Test for the significance of this decrease.
+- The difference in -2LL of two nested models follows a chi-squared distribution with degrees of freedom equal to number of added $b$s.
+
+## Explained variance
+
+- **Linear regression:** 
+  - $R^2$ (= proportion of variance in $y$ explained by the model) 
+  $\rightarrow$ comparing models with $R^2$-change ($F$-distributed)
+- **Logistic regression:** 
+  - -2$\text{log likelihood}$ (= generalization of residual sum of squares) 
+  $\rightarrow$ comparing models with change in $–2\text{logL}$ ($\chi^2$- distributed) 
+  $\rightarrow$ relevance: using a classification table
+
+## Relevance
+
+Classification table, or "confusion matrix"
+
+
+|  | Predicted 0 | Predicted 1 |
+|---|---|---|
+| Actual 0 | **true negative** | false positive |
+| Actual 1 | false negative | **true positive** |
+| | | |
+
+
+## Accuracy
+
+|  | Predicted 0 | Predicted 1 |
+|---|---|---|
+| Actual 0 | **true negative** | false positive |
+| Actual 1 | false negative | **true positive** |
+| | | |
+
+
+Accuracy:
+
+  - $\frac{\text{true positive} + \text{true negative}}{\text{total}}$
+  - Proportion of correctly classified cases
+
+## Sensitivity 
+
+|  | Predicted 0 | Predicted 1 |
+|---|---|---|
+| Actual 0 | **true negative** | false positive |
+| Actual 1 | false negative | **true positive** |
+| | | |
+
+Sensitivity:
+
+  - $\frac{\text{true positive}}{\text{actual positives (TP + FN)}}$
+  - Proportion of actual positive cases that are correctly classified
+
+
+## Specificity
+
+|  | Predicted 0 | Predicted 1 |
+|---|---|---|
+| Actual 0 | **true negative** | false positive |
+| Actual 1 | false negative | **true positive** |
+| | | |
+
+Specificity:
+
+  - $\frac{\text{true negative}}{\text{actual negatives (TN + FP)}}$
+  - Proportion of actual negative cases that are correctly classified
+
+
+## Assumptions of logistic regression
+
+- Independence of observations.
+- Measurement level of variables.
+- Linearity of relations: linear relation between *logit* of dependent variable and the independent variables.
+- Absence of outliers (y-, x-, xy-space).
+- Absence of (multi)collinearity.
+- ~~Normality of residuals~~.
+- ~~Homoscedasticity~~.
+
+## Residuals
+
+![](residuals.png)
+
+
+# Case study
+
+## Research article
+
+'Evaluating the morality of animal research: Effects of ethical ideology, gender, and purpose' by Wuensch and Poteat (1998), *Journal of Social Behavior and Personality*.
+
+![](paper.jpg){fig-align="center"}
+
+## Variables
+
+Dependent variable:
+
+- **Decision:** Whether the mock juror recommended to stop the study (0) or continue (1)
+
+. . . 
+
+Independent variables:
+
+- **Scenario:** Whether the study presented to the mock juror was:
+    - Cosmetic (1)
+    - Theory (2)
+    - Meat (3)
+    - Veterinary (4)
+    - Medical (5; reference)
+
+## Variables
+
+- **Gender:** Participants’ gender
+    - Male (0)
+    - Female (1)
+- **Idealism:** Participants’ average score on idealism questionnaire (0-9, higher = more idealism)
+- **Relativism:** Participants’ average score on relativism questionnaire (0-9, higher = more relativism)
+
+## Research questions
+
+<!-- Mock jurors evaluate the morality of hypothetical animal research studies.  -->
+
+- Is the **gender** of the mock juror **associated with** the **outcome**?
+
+- Can the **scenario** of the study presented to the mock juror **predict** whether the **outcome** of the decision is 'stop' or 'continue'?
+
+- Does the **ethics position** of the mock juror **add predictability** of the model?
+
+## Load data
+
+```{r}
+library(haven)
+dat_raw <- read_sav("WuenschPoteat1998.sav")
+str(dat_raw)
+```
+
+## Clean data
+
+```{r}
+library(dplyr)
+dat_clean <- dat_raw |>
+  zap_formats() |>
+  zap_widths() |>
+  zap_labels() |>
+  zap_label() |>
+  mutate(
+    decision = decision,
+    scenario = factor(scenario, levels = c(5, 1:4), labels = c("medical", "cosmetic", "theory", "meat", "veterinary")),
+    gender = factor(gender, levels = 0:1, labels = c("male", "female")),
+    idealism = idealism,
+    relativism = relatvsm,
+    .keep = "none")
+str(dat_clean)
+```
+
+## Descriptive statistics
+
+```{r}
+summary(dat_clean)
+```
+
+## Outcome variable
+
+```{r}
+dat_clean |>
+  group_by(decision) |>
+  summarise(n = n(), prop = n() / nrow(dat_clean)) |>
+  ggplot(aes(y = n, x = 1, fill = as.factor(decision))) +
+  geom_bar(position = "fill", stat = "identity") +
+  labs(x = "", y = "Proportion", fill = "Decision") +
+  theme_classic() + 
+  theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
+```
+
+## Association with IV
+
+```{r}
+dat_clean |>
+  mutate(decision = as.factor(decision)) |>
+  ggplot(aes(gender, decision, color = decision, shape = gender)) + 
+  geom_jitter(height = 0.2, width = 0.2) +
+  labs(x = "", y = "", color = "Decision", shape = "Gender") + 
+  theme_classic()
+```
+
+## Association with IV
+
+```{r}
+dat_clean |>
+  mutate(decision = as.factor(decision)) |>
+  ggplot(aes(gender, fill = decision, shape = gender)) + 
+geom_bar() + labs(x = "", y = "", color = "Decision", shape = "Gender") + 
+  theme_classic()
+```
+
+## Logistic regression with 1 IV
+
+```{r}
+fit <- glm(decision~gender, family = "binomial", dat_clean)
+fit
+```
+
+## Interpretation of slope $b_1$
+
+```{r}
+coef(fit)
+```
+
+$$
+\log(\frac{\hat{\pi} \text{ continue}}{\hat{\pi} \text{ stop study}}) = -0.85 + 1.22 \times \text{gender}\\
+$$
+
+. . . 
+
+
+
+$$
+\frac{\hat{\pi} \text{ continue}}{\hat{\pi} \text{ stop study}} = 0.43 \times 3.38 \times \text{gender}
+$$
+
+## Interpretation of slope $b_1$
+
+```{r}
+coef(fit)
+```
+
+```{r}
+coef(fit) |> exp()
+```
+
+
+## Interpretation of slope $b_1$
+
+$$
+\log(\frac{\hat{\pi} \text{ continue}}{\hat{\pi} \text{ stop study}}) = -0.85 + 1.22 \times \text{gender}
+$$
+
+- Coefficient $b_1$ for gender = 1.22
+- Increasing gender by 1 unit increases the logit by 1.22
+- Since gender is coded as a binary variable, increasing it by one unit means comparing it to the reference category (male)
+- Hence, female mock jurors have a 1.22 higher logit than male mock jurors
+
+## Interpretation of slope $b_1$
+
+$$
+\log(\frac{\hat{\pi} \text{ continue}}{\hat{\pi} \text{ stop study}}) = -0.85 + 1.22 \times \text{gender}\\
+$$
+
+- Coefficient $b_1$ for gender = 1.22
+- Increasing gender by 1 unit **multiplies** the odds of deciding to continue rather than stop by $e^{1.22} = 3.39$
+- Female mock jurors have 3.39 **times** higher odds of deciding to continue the research than male mock jurors
+
+## Statistical significance of $b_1$
+
+```{r}
+summary(fit)
+```
+
+## Confidence interval of $b_1$
+
+```{r}
+broom::tidy(fit, conf.int = TRUE, exponentiate = TRUE)
+```
+
+## Logistic regression with multiple IVs
+
+```{r}
+fit <- glm(decision ~ gender + scenario, family = "binomial", dat_clean)
+fit
+```
+
+## Interpretation of multiple $b$s
+
+```{r}
+summary(fit)
+```
+
+
+## Interpretation of multiple $b$s
+
+```{r}
+broom::tidy(fit)
+```
+
+## Interpretation of multiple $b$s
+
+```{r}
+broom::tidy(fit, exponentiate = TRUE, conf.int = TRUE)
+```
+
+## Dummy coding
+
+Check carefully! Important for interpretation of results.
+
+```{r}
+dat_clean$scenario2 <- relevel(dat_clean$scenario, ref = "theory")
+fit <- glm(decision ~ gender + scenario2, family = "binomial", dat_clean)
+summary(fit)
+```
+
+Note. Reference category for scenario changed to 'theory'.
+
+<!-- ## Evaluating model fit -->
+
+<!-- Omnibus null hypothesis test: -->
+
+<!-- - Testing all regression coefficients simultaneously by specifying a null model (intercept only model) -->
+<!--   - $H_0: b_1 = b_2 = b_3 = b_4 = b_5 = 0$ -->
+<!--   - $H_a:$ At least one $b$ is not equal to zero -->
+
+<!-- ## Evaluating model fit -->
+
+<!-- Maximum likelihood estimation (instead of least squares): -->
+
+<!-- - Compare -2 log likelihood (-2LL): -->
+<!--   - $H_0: \text{-2LL (null model)} = \text{-2LL (alternative model)}$. -->
+<!--   - $H_a: \text{-2LL (null model)} > \text{-2LL (alternative model)}$. -->
+
+<!-- ## Evaluating model fit -->
+
+<!-- - -2LL is a measure of misfit (generalization of residual sum of squares). -->
+<!-- - Adding independent variables will decrease -2LL. Test for the significance of this decrease. -->
+<!-- - The difference in -2LL of two nested models follows a chi-squared distribution with degrees of freedom equal to number of added $b$s. -->
+
+## Comparing nested models
+
+$$
+\hat{y} = \frac{\exp(u)}{1+\exp(u)}
+$$
+
+- **Model 0:**
+    - $u = b_0$
+- **Model 1:** 
+    - $u = b_0 + b_1 \times \text{gender}$
+- **Model 2:**
+    - $u = b_0 + b_1 \times \text{gender} + b_2 \times \text{idealism} + b_3 \times \text{relativism}$.
+
+## Visualization idealism
+
+```{r}
+ggplot(dat_clean, aes(idealism, decision)) +
+  geom_point(shape = 21, stroke = 1.5) +
+  geom_smooth(method = "glm", se = FALSE, fullrange = TRUE, method.args = list(family = "binomial")) +
+  scale_x_continuous(limits = c(0,10)) +
+  theme_classic()
+```
+
+## Visualization relativism
+
+```{r}
+ggplot(dat_clean, aes(relativism, decision)) +
+  geom_point(shape = 21, stroke = 1.5) +
+  geom_smooth(method = "glm", se = FALSE, fullrange = TRUE, method.args = list(family = "binomial")) +
+  scale_x_continuous(limits = c(0,10)) +
+  theme_classic()
+```
+
+## Compare coefficients
+
+```{r}
+fit0 <- glm(decision ~ 1, family = "binomial", dat_clean)
+coef(fit0) |> exp()
+fit1 <- glm(decision ~ gender, family = "binomial", dat_clean)
+coef(fit1) |> exp()
+fit2 <- glm(decision ~ gender + idealism + relativism, family = "binomial", dat_clean)
+coef(fit2) |> exp()
+```
+
+## Compare -2LL
+
+```{r}
+LL0 <- logLik(fit0)
+LL1 <- logLik(fit1)
+LL2 <- logLik(fit2)
+```
+
+
+- Initial -2LL (null model) minus -2LL model 1: `r -2*LL0` $-$ `r -2*LL1` $=$ `r -2*LL0 - -2*LL1`.
+
+- Model 1 -2LL minus -2LL model 2 (full model): `r -2*LL1` $-$ `r -2*LL2` $=$ `r -2*LL1 - -2*LL2`.
+
+- The differences follow a Chi-square distribution.
+
+## Chi square test for nested models
+
+- Model 0: no IV
+- Model 1: gender
+- Model 2: gender, idealism, relativism
+
+. . . 
+
+```{r}
+anova(fit0, fit1, fit2, test = "Chisq")
+```
+
+<!-- | Model | -2LL | df | Δ -2LL | Δ df | p | -->
+<!-- |-||-|--||| -->
+<!-- | Null Model | 170.529 | 1 | - | - | - | -->
+<!-- | Model 1 | 123.506 | 5 | 47.022 | 4 | .000 | -->
+<!-- | Model 2 | 116.693 | 6 | 6.813 | 1 | .009 | -->
+
+## Relevance: correct classification
+
+```{r}
+pred0 <- round(predict(fit0, type = "response"))
+perc0 <- round(100 * mean(dat_clean$decision == pred0))
+pred1 <- round(predict(fit1, type = "response"))
+perc1 <- round(100 * mean(dat_clean$decision == pred1))
+pred2 <- round(predict(fit2, type = "response"))
+perc2 <- round(100 * mean(dat_clean$decision == pred2))
+```
+
+- Model 0: `r perc0`% correctly classified
+- Model 1: `r perc1`% correctly classified
+- Model 2: `r perc2`% correctly classified
+
+## Relevance: other metrics
+
+```{r}
+caret::confusionMatrix(as.factor(pred2), as.factor(dat_clean$decision))
+```
+
+## Interpret final model
+
+```{r}
+broom::tidy(fit2)
+```
+
+## Interpret final model
+
+```{r}
+broom::tidy(fit2, exponentiate = TRUE, conf.int = TRUE)
+```
+
+## Interpret final model
+
+```{r}
+coef(fit2)
+```
+
+- Female mock jurors have $e^{1.17} = 3.22$ **times** higher odds of deciding stop the study than male jurors.
+
+- Increasing idealism by 1 unit **multiplies** the odds of deciding to stop rather than continue the study by $e^{-0.69} = 0.502$. Decreasing idealism by 1 unit **multiplies** the odds of deciding to stop rather than continue by $e^{0.69} = 2.01$.
+
+- Increasing relativism by 1 unit **multiplies** the odds of deciding stop rather than continue by $e^{0.34} = 1.41$.
+
+## Interpret final model
+
+```{r}
+performance::r2_nagelkerke(fit2)
+```
+
+- Nagelkerke $R^2$ = `r performance::r2_nagelkerke(fit2)`
+
+# Marginal effects
+
+## Marginal effects
+
+![](marginal.png)
+
+## Example
+
+- Dependent variable:
+  - sex before end of 10th school year (0 = no, 1 = yes)
+
+- Independent variables:
+  - antisocial parental behavior during the respondent’s childhood (range = [-1.41, 2.78], mean = -0.14)
+  - parents divorced (0 = no, 1 = yes)
+
+## Logit versus probability
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](divorce.png)
+:::
+
+::: {.column width="20%"}
+
+:::
+
+::: {.column width="40%"}
+![](divorce2.png)
+
+
+:::
+
+::::
+
+
+
+## Logit scale
+
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](divorce.png)
+:::
+
+::: {.column width="60%"}
+Effect of divorced on logit scale = 0.224 
+
+$\rightarrow$ this effect does not depend on antisocial parental behavior
+
+:::
+
+::::
+
+
+
+## Probability scale
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](divorce2.png)
+:::
+
+::: {.column width="60%"}
+
+Anti-social = -1
+
+- $P(\text{sex}|\text{not divorced})=0.16$ 
+- $P(\text{sex}|\text{divorced})=0.19$
+- marginal effect = difference in $P = 0.03$
+
+Anti-social = +1
+
+- $P(\text{sex}|\text{not divorced})=0.49$
+- $P(\text{sex}|\text{divorced})= 0.55$
+- marginal effect = difference in $P = 0.06$
+
+
+- $\rightarrow$ effect of divorced on probability scale
+does depend on antisocial
+
+:::
+::::
+
+
+# Take-aways
+
+## Logistic regression
+
+- Logistic regression is used to predict a binary dependent variable
+  - Dichotomous outcome ($Y = 0$ or $Y = 1$, nothing observed in between)
+  - Logit link function between the linear model and the logit of the probability
+- The odds ratio is a measure of effect size
+- The Wald test is used to test individual coefficients
+- The omnibus test is used to test the model as a whole
+- The -2LL is used to compare nested models
+- Marginal effects are used to interpret the effect of a predictor on the probability scale
+
+## Various types of logistic regression
+
+- Logistic regression: DV with 2 categories
+
+- Ordinal regression: DV with 3-6 ordered categories
+  - Cumulative logit models, (non-)proportional odds models
+
+- (Multi)nominal regression: DV with unordered categories
+
+
+<!-- ## Marginal Effects: Example (cont.) -->
+
+<!-- **Marginal effect =$\frac{\partial P(y)}{\partial x} \times 100 $** -->
+
+<!-- Model = full, saturated model -->
+<!-- - **Step 1:** Estimate model parameters. -->
+<!-- - **Step 2:** Estimate predicted probability for a “typical” respondent. -->
+<!-- - **Step 3:** Vary a single predictor while holding all others at typical values. -->
+
+## Next meeting(s)
+
+- Lab on Friday
+- Lecture on Monday 
+
+Homework:
+
+- Check you course manual for deadlines and what to hand in
+- Assignment 2 will be online by tomorrow
+

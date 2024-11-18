@@ -1,0 +1,32 @@
+---
+title: "Short Course on Open Science"
+subtitle: "ESRA 2025"
+author: "Hanne Oberman"
+format: pdf
+---
+
+# Instructor
+
+Hanne Oberman (h.i.oberman@uu.nl, [hanneoberman.github.io](https://hanneoberman.github.io/) is junior assistant professor in Methodology & Statistics at Utrecht University. Next to teaching and research roles, Hanne is appointed as chair of the Faculty Open Science Team, and ambassador of the Open Science Community Utrecht. They regularly organize events and workshops to promote Open Science practices among students and staff. 
+
+# Course description
+
+This short course introduces survey researchers to Open Science principles and equips them with practical tools to enhance transparency and reproducibility in their work. Designed as an interactive session, the course showcases how Open Science practices can improve the credibility of survey-based research, by promoting openness at every stage of the 'open empirical cycle' (e.g., study design, data collection, analysis, and reporting).
+
+## Learning Objectives
+
+- Understanding Open Science: Participants will gain understanding of the core principles of Open Science and its importance in addressing the "reproducibility crisis" in research.
+
+- Practical Tools for Transparency and Reproducibility: Participants will learn how to integrate Open Science practices into their workflow, such as pre-registration, sharing datasets and analysis code, and open publishing. 
+
+- Hands-On Experience: Participants will work with tools for open data and reproducible analysis workflows (e.g. OSF and Quarto, respectively). This hands-on approach helps researchers implement Open Science methods in their own research.
+
+- Addressing Ethical and Practical Challenges: Finally, we will discuss the ethical considerations of Open Science in survey research, including maintaining participant privacy and navigating data sharing agreements, while ensuring compliance with legal and ethical guidelines.
+
+## Activities
+
+Through the lecture, hands-on activities, and interactive discussions, participants will be equipped to incorporate Open Science practices in their own survey research, making their studies more credible, transparent, and open to collaboration. 
+
+## Course level
+
+The course is aimed at novices regarding Open Science principles (beginner level).
