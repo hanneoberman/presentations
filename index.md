@@ -4,7 +4,7 @@ Selection of presentation slides for research talks and lectures.
 
 ## 2024
 
-- Lecture SHP03, Utrecht University, *Logistic regression*. Slides available [here](https://hanneoberman.github.io/presentations/2024/SHP03/logistic.html).
+- Lecture SHP03, Utrecht University, *Logistic regression*. Slides available [here](https://hanneoberman.github.io/presentations/2024/SHP03/logistic.html) and [static as PDF](https://hanneoberman.github.io/presentations/2024/SHP03/logistic.pdf).
 
 - Tutorial useR! 2024, Salzburg, *Missing data exploration, imputation, and evaluation*. Slides available [here](https://hanneoberman.github.io/presentations/2024/useR/slides.html).
 - Lecture Applied Data Analysis and Visualization, Utrecht University,  *Building interactive web apps with the `R` package `shiny`*. Slides available [here](https://hanneoberman.github.io/presentations/2024/ADAV/shiny.pdf).
