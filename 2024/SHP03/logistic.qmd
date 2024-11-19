@@ -882,15 +882,15 @@ coef(fit2) |> exp()
 ## Compare -2LL
 
 ```{r}
-LL0 <- logLik(fit0)
-LL1 <- logLik(fit1)
-LL2 <- logLik(fit2)
+(LL0 <- logLik(fit0))
+(LL1 <- logLik(fit1))
+(LL2 <- logLik(fit2))
 ```
 
 
-- Initial -2LL (null model) minus -2LL model 1: `r -2*LL0` $-$ `r -2*LL1` $=$ `r -2*LL0 - -2*LL1`.
+- Initial -2LL (null model) minus -2LL model 1: `r round(-2*LL0)` $-$ `r round(-2*LL1)` $=$ `r round(-2*LL0 - -2*LL1)`.
 
-- Model 1 -2LL minus -2LL model 2 (full model): `r -2*LL1` $-$ `r -2*LL2` $=$ `r -2*LL1 - -2*LL2`.
+- Model 1 -2LL minus -2LL model 2 (full model): `r round(-2*LL1)` $-$ `r round(-2*LL2)` $=$ `r round(-2*LL1 - -2*LL2)`.
 
 - The differences follow a Chi-square distribution.
 
@@ -903,14 +903,11 @@ LL2 <- logLik(fit2)
 . . . 
 
 ```{r}
-anova(fit0, fit1, fit2, test = "Chisq")
+#| df-print: default
+
+anova(fit0, fit1, fit2, test = "Chisq") |> print()
 ```
 
-<!-- | Model | -2LL | df | Δ -2LL | Δ df | p | -->
-<!-- |-||-|--||| -->
-<!-- | Null Model | 170.529 | 1 | - | - | - | -->
-<!-- | Model 1 | 123.506 | 5 | 47.022 | 4 | .000 | -->
-<!-- | Model 2 | 116.693 | 6 | 6.813 | 1 | .009 | -->
 
 ## Relevance: correct classification
 
@@ -951,11 +948,11 @@ broom::tidy(fit2, exponentiate = TRUE, conf.int = TRUE)
 coef(fit2)
 ```
 
-- Female mock jurors have $e^{1.17} = 3.22$ **times** higher odds of deciding stop the study than male jurors.
+- Female mock jurors have $e^{1.17} = 3.22$ **times** higher odds of deciding continue the study than male jurors.
 
-- Increasing idealism by 1 unit **multiplies** the odds of deciding to stop rather than continue the study by $e^{-0.69} = 0.502$. Decreasing idealism by 1 unit **multiplies** the odds of deciding to stop rather than continue by $e^{0.69} = 2.01$.
+- Increasing idealism by 1 unit **multiplies** the odds of deciding to continue rather than stop the study by $e^{-0.69} = 0.502$. Decreasing idealism by 1 unit **multiplies** the odds of deciding to continue rather than stop by $e^{0.69} = 2.01$.
 
-- Increasing relativism by 1 unit **multiplies** the odds of deciding stop rather than continue by $e^{0.34} = 1.41$.
+- Increasing relativism by 1 unit **multiplies** the odds of deciding continue rather than stop by $e^{0.34} = 1.41$.
 
 ## Interpret final model
 
@@ -970,6 +967,15 @@ performance::r2_nagelkerke(fit2)
 ## Marginal effects
 
 ![](marginal.png)
+
+## Estimating marginal effects
+
+Marginal effect =$\frac{\partial P(y)}{\partial x} \times 100 $
+
+Model = full, saturated model
+- **Step 1:** Estimate model parameters.
+- **Step 2:** Estimate predicted probability for a “typical” respondent.
+- **Step 3:** Vary a single predictor while holding all others at typical values.
 
 ## Example
 
@@ -1019,7 +1025,6 @@ $\rightarrow$ this effect does not depend on antisocial parental behavior
 :::
 
 ::::
-
 
 
 ## Probability scale
@@ -1074,15 +1079,6 @@ does depend on antisocial
 
 - (Multi)nominal regression: DV with unordered categories
 
-
-<!-- ## Marginal Effects: Example (cont.) -->
-
-<!-- **Marginal effect =$\frac{\partial P(y)}{\partial x} \times 100 $** -->
-
-<!-- Model = full, saturated model -->
-<!-- - **Step 1:** Estimate model parameters. -->
-<!-- - **Step 2:** Estimate predicted probability for a “typical” respondent. -->
-<!-- - **Step 3:** Vary a single predictor while holding all others at typical values. -->
 
 ## Next meeting(s)
 
