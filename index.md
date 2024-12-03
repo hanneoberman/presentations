@@ -2,6 +2,10 @@
 
 Selection of presentation slides for research talks and lectures.
 
+## Work in progress
+
+- Poster NLRN Symposium 2024, UMC Groningen, *Teaching Reproducibility to Research Master's Students*. Concept poster available [here](https://hanneoberman.github.io/presentations/2024/NLRN/poster.pptx).
+
 ## 2024
 
 - Lecture MSBBSS, Utrecht University, *Building interactive web apps with the `R` package `shiny`*. Slides available [here](https://hanneoberman.github.io/presentations/2024/markup/lecture.pdf).
