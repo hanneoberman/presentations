@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)http://127.0.0.1:7388/lecture.qmd#1 -->
+<html data-google-analytics-opt-out="" class="shiny-busy"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <script type="application/shiny-singletons"></script>
+  <script type="application/html-dependencies">jquery[3.6.0];shiny-css[1.8.1.1];shiny-javascript[1.8.1.1]</script>
+<script src="./lecture_files/jquery.min.js.download"></script>
+<link href="./lecture_files/shiny.min.css" rel="stylesheet">
+<script src="./lecture_files/shiny.min.js.download"></script>  <script src="./lecture_files/rmd_loader.js.download"></script>
+  <link href="./lecture_files/rmd_loader.css" rel="stylesheet">
+<style></style><style id="LLPlatform"></style><script src="./lecture_files/header-attrs.js.download"></script><meta name="viewport" content="width=device-width, initial-scale=1"><link href="./lecture_files/bootstrap.min.css" rel="stylesheet" type="text/css"><script src="./lecture_files/bootstrap.min.js.download"></script><script src="./lecture_files/html5shiv.min.js.download"></script><script src="./lecture_files/respond.min.js.download"></script><style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style><link href="./lecture_files/fonts.css" rel="stylesheet" type="text/css"><link href="./lecture_files/default.css" rel="stylesheet" type="text/css"><link href="./lecture_files/phone.css" rel="stylesheet" type="text/css"><script src="./lecture_files/modernizr.custom.45394.js.download"></script><script src="./lecture_files/prettify.js.download"></script><script src="./lecture_files/lang-r.js.download"></script><script src="./lecture_files/lang-yaml.js.download"></script><script src="./lecture_files/hammer.js.download"></script><script src="./lecture_files/slide-controller.js.download"></script><script src="./lecture_files/slide-deck.js.download"></script><script src="./lecture_files/kePrint.js.download"></script><link href="./lecture_files/lightable.css" rel="stylesheet" type="text/css"><link href="./lecture_files/bootstrapTable.min.css" rel="stylesheet" type="text/css"><script src="./lecture_files/bootstrapTable.js.download"></script><link href="./lecture_files/selectize.bootstrap3.css" rel="stylesheet" type="text/css"><script src="./lecture_files/selectize.min.js.download"></script><script src="./lecture_files/selectize-plugin-a11y.min.js.download"></script><script src="./lecture_files/ion.rangeSlider.min.js.download"></script><script src="./lecture_files/strftime-min.js.download"></script><link href="./lecture_files/ion.rangeSlider.css" rel="stylesheet" type="text/css"><link href="./lecture_files/fill.css" rel="stylesheet" type="text/css"><link href="./lecture_files/rmd_perf.css" rel="stylesheet" type="text/css"><script src="./lecture_files/rmd_perf.js.download"></script><meta name="rstudio_origin" content="127.0.0.1:10553"><script src="./lecture_files/rsiframe.js.download"></script>
+  <title>Building interactive web apps</title>
+
+  
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc">
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!--<base target="_blank">--><base href="." target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Building interactive web apps',
+                        subtitle: 'with the <code>R</code> package <code>shiny</code>',
+                useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                        favIcon: 'lecture_files/logo.png',
+              },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Hanne Oberman <br> Slides available from <a href="https://hanneoberman.github.io/presentations/">hanneoberman.github.io/presentations</a>' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    summary {
+      display: list-item;
+    }
+
+    details > summary > p:only-child {
+      display: inline;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
+
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+            pre > code.sourceCode { white-space: pre; position: relative; }
+            pre > code.sourceCode > span { line-height: 1.25; }
+            pre > code.sourceCode > span:empty { height: 1.2em; }
+            .sourceCode { overflow: visible; }
+            code.sourceCode > span { color: inherit; text-decoration: inherit; }
+            div.sourceCode { margin: 1em 0; }
+            pre.sourceCode { margin: 0; }
+            @media screen {
+            div.sourceCode { overflow: auto; }
+            }
+            @media print {
+            pre > code.sourceCode { white-space: pre-wrap; }
+            pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+            }
+            pre.numberSource code
+              { counter-reset: source-line 0; }
+            pre.numberSource code > span
+              { position: relative; left: -4em; counter-increment: source-line; }
+            pre.numberSource code > span > a:first-child::before
+              { content: counter(source-line);
+                position: relative; left: -1em; text-align: right; vertical-align: baseline;
+                border: none; display: inline-block;
+                -webkit-touch-callout: none; -webkit-user-select: none;
+                -khtml-user-select: none; -moz-user-select: none;
+                -ms-user-select: none; user-select: none;
+                padding: 0 4px; width: 4em;
+                color: #aaaaaa;
+              }
+            pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+            div.sourceCode
+              {   }
+            @media screen {
+            pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+            }
+            code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+            code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+            code span.at { color: #7d9029; } /* Attribute */
+            code span.bn { color: #40a070; } /* BaseN */
+            code span.bu { color: #008000; } /* BuiltIn */
+            code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+            code span.ch { color: #4070a0; } /* Char */
+            code span.cn { color: #880000; } /* Constant */
+            code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+            code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+            code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+            code span.dt { color: #902000; } /* DataType */
+            code span.dv { color: #40a070; } /* DecVal */
+            code span.er { color: #ff0000; font-weight: bold; } /* Error */
+            code span.ex { } /* Extension */
+            code span.fl { color: #40a070; } /* Float */
+            code span.fu { color: #06287e; } /* Function */
+            code span.im { color: #008000; font-weight: bold; } /* Import */
+            code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+            code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+            code span.op { color: #666666; } /* Operator */
+            code span.ot { color: #007020; } /* Other */
+            code span.pp { color: #bc7a00; } /* Preprocessor */
+            code span.sc { color: #4070a0; } /* SpecialChar */
+            code span.ss { color: #bb6688; } /* SpecialString */
+            code span.st { color: #4070a0; } /* String */
+            code span.va { color: #19177c; } /* Variable */
+            code span.vs { color: #4070a0; } /* VerbatimString */
+            code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+        
+    slides > slide:not(.nobackground):before {
+      font-size: 12pt;
+      content: "";
+      position: absolute;
+      bottom: 20px;
+      left: 60px;
+      background: url(lecture_files/logo.png) no-repeat 0 50%;
+      -webkit-background-size: 30px 30px;
+      -moz-background-size: 30px 30px;
+      -o-background-size: 30px 30px;
+      background-size: 30px 30px;
+      padding-left: 40px;
+      height: 30px;
+      line-height: 1.9;
+    }
+  </style>
+
+  <link rel="stylesheet" href="./lecture_files/style.css" type="text/css">
+
+<script type="text/javascript" src="./lecture_files/MathJax.js.download"></script><link rel="icon" type="image/png" href="http://127.0.0.1:7388/lecture_files/logo.png"><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > *, .MJXp-munder > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body class="loaded with-notes"><div id="MathJax_Message" style="display: none;"></div><div id="shadowLL"><div id="shadowLL"><template shadowrootmode="open"><link rel="stylesheet" type="text/css" href="chrome-extension://hghakoefmnkhamdhenpbogkeopjlkpoa/contentScript.css"><style type="text/css">
+    :host,
+    :root {
+      --primary-color: #00B388;
+      --primary-dark-color: #00a17a;
+      --primary-contrast-color: #FFFFFF;
+      --secondary-color: #3B55AF;
+      --secondary-dark-color: #354d9e;
+      --secondary-contrast-color: #FFFFFF;
+      --secondary-button-color: #00B388;
+      --secondary-button-border-color: #00B388;
+    }
+  </style></template></div></div>
+  <div>
+    <div class="shiny-panel-conditional" data-display-if="!output.__reactivedoc__" data-ns-prefix="" style="display: none;">
+      <div id="rmd_loader_wrapper">
+        <div id="rmd_loader" style="">
+          <p>Please wait...</p>
+          <img src="./lecture_files/rmd_loader.gif">
+        </div>
+      </div>
+    </div>
+    <div id="__reactivedoc__" class="shiny-html-output shiny-bound-output" aria-live="polite">
+
+
+
+
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground current" data-slide-num="1" data-total-slides="94">
+        <aside class="gdbar"><img src="./lecture_files/logo.png"></aside>
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title="">Building interactive web apps</h1>
+      <h2 data-config-subtitle="">with the <code>R</code> package <code>shiny</code></h2>
+      <p data-config-presenter="">Hanne Oberman <br> Slides available from <a href="https://hanneoberman.github.io/presentations/">hanneoberman.github.io/presentations</a><br></p>
+            <p style="margin-top: 6px; margin-left: -2px;">04-12-2024</p>
+          </hgroup>
+  </slide>
+
+<slide class="next" data-slide-num="2" data-total-slides="94"><hgroup><h2></h2></hgroup><article id="section">
+
+<p><a href="https://gallery.shinyapps.io/063-superzip-example/"><img src="./lecture_files/superzip.png" alt="SuperZip example app" style="width: 99%;"></a></p>
+
+<!-- <img src="lecture_files/superzip.png" style="width: 100%"/> -->
+
+<!-- <div class="small">[gallery.shinyapps.io](https://gallery.shinyapps.io/063-superzip-example/)</div>  -->
+
+<!-- Code: https://shiny.posit.co/r/gallery/interactive-visualizations/superzip-example/ -->
+
+</article></slide><slide class="far-next" data-slide-num="3" data-total-slides="94"><hgroup><h2>What we’ll discuss</h2></hgroup><article id="what-well-discuss">
+
+<ol class="build">
+<li class="to-build">The <code>shiny</code> framework</li>
+<li class="to-build">The user interface (UI)</li>
+<li class="to-build">The server</li>
+<li class="to-build">Advanced topics</li>
+<li class="to-build">Take-aways</li>
+</ol>
+
+</article></slide><slide class="" data-slide-num="4" data-total-slides="94"><hgroup><h2>Case study</h2></hgroup><article id="case-study">
+
+<p><br></p>
+
+<div align="center">
+<p><img src="./lecture_files/penguinslogo.png" width="240"></p></div>
+
+<p><br></p>
+
+<p>The <a href="https://allisonhorst.github.io/palmerpenguins/" title="">palmer penguins</a> <code>penguins</code> dataset (<img src="./lecture_files/penguinsdoi.svg">).</p>
+
+</article></slide><slide class="" data-slide-num="5" data-total-slides="94"><hgroup><h2>Case study</h2></hgroup><article id="case-study-1">
+
+<pre class="prettyprint lang-r"><span class="pln">library</span><span class="pun">(</span><span class="pln">palmerpenguins</span><span class="pun">)</span><span class="pln">
+head</span><span class="pun">(</span><span class="pln">penguins</span><span class="pun">)</span><span class="pln"> </span></pre>
+
+<table class="table table-striped table-hover table-condensed" style="font-size: 14px; color: black; margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+species
+
+</th>
+
+<th style="text-align:left;">
+
+island
+
+</th>
+
+<th style="text-align:right;">
+
+bill_length_mm
+
+</th>
+
+<th style="text-align:right;">
+
+bill_depth_mm
+
+</th>
+
+<th style="text-align:right;">
+
+flipper_length_mm
+
+</th>
+
+<th style="text-align:right;">
+
+body_mass_g
+
+</th>
+
+<th style="text-align:left;">
+
+sex
+
+</th>
+
+<th style="text-align:right;">
+
+year
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+Adelie
+
+</td>
+
+<td style="text-align:left;">
+
+Torgersen
+
+</td>
+
+<td style="text-align:right;">
+
+39.1
+
+</td>
+
+<td style="text-align:right;">
+
+18.7
+
+</td>
+
+<td style="text-align:right;">
+
+181
+
+</td>
+
+<td style="text-align:right;">
+
+3750
+
+</td>
+
+<td style="text-align:left;">
+
+male
+
+</td>
+
+<td style="text-align:right;">
+
+2007
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Adelie
+
+</td>
+
+<td style="text-align:left;">
+
+Torgersen
+
+</td>
+
+<td style="text-align:right;">
+
+39.5
+
+</td>
+
+<td style="text-align:right;">
+
+17.4
+
+</td>
+
+<td style="text-align:right;">
+
+186
+
+</td>
+
+<td style="text-align:right;">
+
+3800
+
+</td>
+
+<td style="text-align:left;">
+
+female
+
+</td>
+
+<td style="text-align:right;">
+
+2007
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Adelie
+
+</td>
+
+<td style="text-align:left;">
+
+Torgersen
+
+</td>
+
+<td style="text-align:right;">
+
+40.3
+
+</td>
+
+<td style="text-align:right;">
+
+18.0
+
+</td>
+
+<td style="text-align:right;">
+
+195
+
+</td>
+
+<td style="text-align:right;">
+
+3250
+
+</td>
+
+<td style="text-align:left;">
+
+female
+
+</td>
+
+<td style="text-align:right;">
+
+2007
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Adelie
+
+</td>
+
+<td style="text-align:left;">
+
+Torgersen
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+NA
+
+</td>
+
+<td style="text-align:left;">
+
+NA
+
+</td>
+
+<td style="text-align:right;">
+
+2007
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Adelie
+
+</td>
+
+<td style="text-align:left;">
+
+Torgersen
+
+</td>
+
+<td style="text-align:right;">
+
+36.7
+
+</td>
+
+<td style="text-align:right;">
+
+19.3
+
+</td>
+
+<td style="text-align:right;">
+
+193
+
+</td>
+
+<td style="text-align:right;">
+
+3450
+
+</td>
+
+<td style="text-align:left;">
+
+female
+
+</td>
+
+<td style="text-align:right;">
+
+2007
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Adelie
+
+</td>
+
+<td style="text-align:left;">
+
+Torgersen
+
+</td>
+
+<td style="text-align:right;">
+
+39.3
+
+</td>
+
+<td style="text-align:right;">
+
+20.6
+
+</td>
+
+<td style="text-align:right;">
+
+190
+
+</td>
+
+<td style="text-align:right;">
+
+3650
+
+</td>
+
+<td style="text-align:left;">
+
+male
+
+</td>
+
+<td style="text-align:right;">
+
+2007
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<!-- <div class="small">Note. to make sure `R` can find the data for your app (e.g., load it on the server side, or let the user upload a dataset)!</div> -->
+
+</article></slide><slide class="" data-slide-num="6" data-total-slides="94"><hgroup><h2>Case study</h2></hgroup><article id="case-study-2">
+
+<div style="float: left">
+<div align="left">
+<p><img src="./lecture_files/scatter.png" width="700"></p></div></div>
+
+<div style="float: right">
+<div align="right">
+<p><img src="./lecture_files/penguins.png" width="200"></p></div></div>
+
+</article></slide><slide class="" data-slide-num="7" data-total-slides="94"><hgroup><h2>Our goal</h2></hgroup><article id="our-goal">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource.html"></iframe>
+
+</article></slide><slide class="" data-slide-num="8" data-total-slides="94"><hgroup><h2></h2></hgroup><article id="section-1">
+
+<div class="small">
+Slides available from <a href="https://hanneoberman.github.io/presentations/" title="">hanneoberman.github.io/presentations</a></div>
+
+</article></slide><slide class="segue dark nobackground level1" data-slide-num="9" data-total-slides="94"><hgroup class="auto-fadein"><h2>The <code>shiny</code> framework</h2></hgroup><article id="the-shiny-framework" class="build">
+
+</article></slide><slide class="" data-slide-num="10" data-total-slides="94"><hgroup><h2>The basics</h2></hgroup><article id="the-basics" class="build">
+
+<p class="to-build">What is <code>shiny</code>?</p>
+
+<ul class="build to-build">
+<li class="to-build">An <code>R</code> package for building <code>shiny</code> apps.</li>
+</ul>
+
+<p class="to-build"><br></p>
+
+<p class="to-build">What is a <code>shiny</code> app?</p>
+
+<ul class="build to-build">
+<li class="to-build">A fully interactive (web) application, which can be:
+
+<ul class="build">
+<li class="to-build">build as a dashboard;</li>
+<li class="to-build">hosted online on a webpage;</li>
+<li class="to-build">included in <code>R</code> Markdown documents.</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="11" data-total-slides="94"><hgroup><h2>The aim</h2></hgroup><article id="the-aim">
+
+<!-- {.build} -->
+
+<p>Why use <code>shiny</code>?</p>
+
+<ul class="build">
+<li class="to-build"><p>To create apps!</p></li>
+<li class="to-build"><p>Make your <code>R</code> workflows:</p>
+
+<ul class="build">
+<li class="to-build">interactive (point-and-click style);</li>
+<li class="to-build">reproducible for non-coders;</li>
+<li class="to-build">look instantly professional.</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="12" data-total-slides="94"><hgroup><h2>The package</h2></hgroup><article id="the-package">
+
+<p>What does <code>shiny</code> offer?</p>
+
+<ul class="build">
+<li class="to-build">A collection of wrapper functions to write “app languages”:
+
+<ul class="build">
+<li class="to-build">geared toward <code>R</code> users who have zero experience with web development;</li>
+<li class="to-build">no knowledge of <code>HTML</code>/<code>CSS</code>/<code>JavaScript</code> required;</li>
+<li class="to-build">but you <em>can</em> extend it with <code>CSS</code> themes, <code>HTML</code> widgets, and <code>JavaScript</code> actions.</li>
+</ul></li>
+<li class="to-build">Developed by <a href="https://posit.co/" title="">Posit</a>, so documentation and support are more or less guaranteed.</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="13" data-total-slides="94"><hgroup><h2>The template app</h2></hgroup><article id="the-template-app" class="build">
+
+<div style="float: left; width: 50%;" class="to-build">
+<p>How to build a <code>shiny</code> app?</p>
+
+<p>A. Create a file called <code>app.R</code> and add <code>shiny</code> components*</p>
+
+<div class="green">
+<strong>B. In RStudio: File → New file → Shiny Web App…</strong></div>
+
+<div class="small">
+<br><br><br> *file name and components are non-negotiable!</div></div>
+
+<div style="float: right; width: 50%;" class="to-build">
+<div align="center">
+<p><img src="./lecture_files/new.jpg" width="400"></p></div></div>
+
+</article></slide><slide class="" data-slide-num="14" data-total-slides="94"><hgroup><h2>The template app</h2></hgroup><article id="the-template-app-1">
+
+<div class="shiny-input-panel">
+<div class="shiny-flow-layout">
+<div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="n_breaks-label" for="n_breaks-selectized">Number of bins:</label>
+<div>
+<select id="n_breaks" class="shiny-input-select selectized shiny-bound-input" tabindex="-1" style="display: none;">
+
+
+<option value="20" selected="selected">20</option></select><div class="shiny-input-select selectize-control single plugin-selectize-plugin-a11y"><div class="selectize-input items full has-options has-items"><div class="item" data-value="20">20</div><input type="text" autocomplete="new-password" autofill="no" tabindex="" id="n_breaks-selectized" role="combobox" aria-expanded="false" haspopup="listbox" aria-owns="noi96kp75h" style="width: 4px;"></div><div class="single selectize-dropdown shiny-input-select plugin-selectize-plugin-a11y" style="display: none;"><div class="selectize-dropdown-content" tabindex="-1" role="listbox" id="noi96kp75h"></div></div></div>
+<script type="application/json" data-for="n_breaks" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+</div>
+</div>
+</div>
+<div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="bw_adjust-label" for="bw_adjust">Bandwidth adjustment:</label>
+<span class="irs irs--shiny js-irs-0 irs-with-grid"><span class="irs"><span class="irs-line" tabindex="0"></span><span class="irs-min" style="visibility: visible;">0.2</span><span class="irs-max" style="visibility: visible;">2</span><span class="irs-from" style="visibility: hidden;">0</span><span class="irs-to" style="visibility: hidden;">0</span><span class="irs-single" style="left: 42.1174%;">1</span></span><span class="irs-grid" style="width: 89.4231%; left: 5.18846%;"><span class="irs-grid-pol" style="left: 0%"></span><span class="irs-grid-text js-grid-text-0" style="left: 0%; margin-left: -4.45012%;">0.2</span><span class="irs-grid-pol small" style="left: 7.4074074074074066%"></span><span class="irs-grid-pol small" style="left: 3.7037037037037033%"></span><span class="irs-grid-pol" style="left: 11.11111111111111%"></span><span class="irs-grid-text js-grid-text-1" style="left: 11.1111%; visibility: visible; margin-left: -4.45012%;">0.4</span><span class="irs-grid-pol small" style="left: 18.51851851851852%"></span><span class="irs-grid-pol small" style="left: 14.814814814814813%"></span><span class="irs-grid-pol" style="left: 22.22222222222222%"></span><span class="irs-grid-text js-grid-text-2" style="left: 22.2222%; visibility: visible; margin-left: -4.45012%;">0.6</span><span class="irs-grid-pol small" style="left: 29.629629629629626%"></span><span class="irs-grid-pol small" style="left: 25.925925925925924%"></span><span class="irs-grid-pol" style="left: 33.33333333333333%"></span><span class="irs-grid-text js-grid-text-3" style="left: 33.3333%; visibility: visible; margin-left: -4.45012%;">0.8</span><span class="irs-grid-pol small" style="left: 40.74074074074074%"></span><span class="irs-grid-pol small" style="left: 37.03703703703703%"></span><span class="irs-grid-pol" style="left: 44.44444444444444%"></span><span class="irs-grid-text js-grid-text-4" style="left: 44.4444%; margin-left: -2.64724%;">1</span><span class="irs-grid-pol small" style="left: 51.851851851851855%"></span><span class="irs-grid-pol small" style="left: 48.148148148148145%"></span><span class="irs-grid-pol" style="left: 55.55555555555556%"></span><span class="irs-grid-text js-grid-text-5" style="left: 55.5556%; visibility: visible; margin-left: -4.45012%;">1.2</span><span class="irs-grid-pol small" style="left: 62.962962962962955%"></span><span class="irs-grid-pol small" style="left: 59.25925925925926%"></span><span class="irs-grid-pol" style="left: 66.66666666666666%"></span><span class="irs-grid-text js-grid-text-6" style="left: 66.6667%; visibility: visible; margin-left: -4.45012%;">1.4</span><span class="irs-grid-pol small" style="left: 74.07407407407406%"></span><span class="irs-grid-pol small" style="left: 70.37037037037037%"></span><span class="irs-grid-pol" style="left: 77.77777777777777%"></span><span class="irs-grid-text js-grid-text-7" style="left: 77.7778%; visibility: visible; margin-left: -4.45012%;">1.6</span><span class="irs-grid-pol small" style="left: 85.18518518518518%"></span><span class="irs-grid-pol small" style="left: 81.48148148148148%"></span><span class="irs-grid-pol" style="left: 88.88888888888889%"></span><span class="irs-grid-text js-grid-text-8" style="left: 88.8889%; margin-left: -4.45012%;">1.8</span><span class="irs-grid-pol small" style="left: 96.29629629629629%"></span><span class="irs-grid-pol small" style="left: 92.5925925925926%"></span><span class="irs-grid-pol" style="left: 100%"></span><span class="irs-grid-text js-grid-text-9" style="left: 100%; visibility: visible; margin-left: -2.64724%;">2</span></span><span class="irs-bar irs-bar--single" style="left: 0px; width: 45.0321%;"></span><span class="irs-shadow shadow-single" style="display: none;"></span><span class="irs-handle single" style="left: 39.7436%;"><i></i><i></i><i></i></span></span><input class="js-range-slider irs-hidden-input shiny-bound-input" id="bw_adjust" data-skin="shiny" data-min="0.2" data-max="2" data-from="1" data-step="0.2" data-grid="true" data-grid-num="9" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number" tabindex="-1" readonly="">
+</div>
+</div>
+</div>
+</div>
+
+<div class="shiny-plot-output html-fill-item shiny-bound-output" id="out3da2182dddffc62b" style="width:100%;height:400px;" aria-live="polite"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABMkAAAH0CAIAAACo7u0XAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAgAElEQVR4nOzdeVxU9f7H8c8MMMO+KLIrKJq4hFtaZm43C9cWlxRxQ1NTU9PKbi5pdd27appp5JKJW5qZWmmbWmobWVmJpaCIomyCbAPDLL8/5v64XoQkBzgDvJ6P+8dw5nDO+2B6ec/3fL9HZTabBQAAAAAAK6iVDgAAAAAAqPHolgAAAAAAa9EtAQAAAADWolsCAAAAAKxFtwQAAAAAWItuCQAAAACwFt0SAAAAAGAtuiUAAAAAwFp0SwAAAACAteiWAAAAAABr0S0BAAAAANaiWwIAAAAArEW3BAAAAABYi24JAAAAALAW3RIAAAAAYC26JQAAAADAWnRLAAAAAIC16JYAAAAAAGvRLQEAAAAA1qJbAgAAAACsRbcEAAAAAFiLbgkAAAAAsBbdEgAAAABgLbolAAAAAMBadEsAAAAAgLXolgAAAAAAa9EtAQAAAADWolsCAAAAAKxFtwQAAAAAWItuCQC4DaPR+P777w8dOtTX19fJyalVq1YvvvhiSkqK0rlsmtFo/PLLLydNmlSyZcaMGRqNZuTIkdWWYcWKFRqNpkuXLlV3Clu4TACAjbBXOgAAwKZlZWU98MADZ86cKdly5syZM2fOLFmy5LPPPuvVq5eC2WzZG2+88cwzz7Rs2bJki9FoLC4uNhgM1ZbBZDJV9Rlt4TIBADaCcUsAQLkMBkPnzp1vLpY3i4iIuH79ejVHqrlWr15tNpt37NihdJCqVUcuEwBwK7olAKBcO3bs+OOPP0Tknnvu+emnn/R6vdFovHjx4oMPPigiJpPpnXfeKdk5OTl55MiRXl5eQUFBL7zwQm5urmX7zJkzNRpN69atS/Y0m80NGjTQaDSbN28WkeLi4tdff719+/YuLi5BQUETJ068evXqzTHKO7KI9O/fX6PRxMbGTpo0yd3dvWfPnsXFxbdeyN89wsiRIzUazYwZM0p2mzBhgkajmTBhguXLoUOHajSad99997333rMk79+/f0JCQsnOzzzzjIicOXNGo9GsX79eyrpZtLi4OCYm5r777nNxcQkPD1+9erVery95d8qUKRqN5u233/7+++8jIiJcXFzuueeew4cP/8WfV0JCwsCBA11dXTt27HjkyBGz2Xzzu7e9qPJ+mF9++WXv3r09PDwsG3fv3q3sZQIAbJQZAIBydO3aVUS8vb0LCwtv3l5QUHD//ffv3r27oKDAsuX3339Xq//n80pvb+/s7Gyz2fzTTz9Ztly7ds2ys6WvikhaWprZbO7Xr1+p/29ydna+cePGbY9sNpsjIiJExN3d3fLWgw8+eOtV3MERhg0bJiJTp04tOcjYsWNFZOzYsZYvBw4cKCL169cvlfzs2bMlO5d44403zGbz1KlTRWTYsGGWIxQWFt5zzz2lvr1p06a5ubmWHZ566ikR8ff3L7XPDz/8UOYfVnx8fKk9vby8RKRTp06WHW57UWX+KL788ku5RWxsrFKXCQCwWYxbAgDKZjQav/76axGZNGmSVqu9+S0nJ6cTJ04MHjzYycnJsmXgwIEmk2n8+PE6na6goGDEiBEZGRmzZ88WkfDwcEvJKRmM2r9/v4h06NChQYMG169f/+ijj0Tkjz/+MJlMeXl5ffv2LSgoWL58+W2PXCInJ+eHH34wGAzvv//+rRdi/RHKk5mZGRMTU1xcnJKS0qxZMxGJjIwUkY0bN/773/8WkbCwMLPZPGXKlFu/d968eXFxcW5ubj/99JPRaDxz5oy3t/f58+dvXhdHRK5evbphwwaDwZCcnOzs7CwiO3fuLDPMuHHjRCQwMPDixYtGo3H37t1ZWVkVv5YSpX4UY8aMEZHt27dbJlKOHz9eRPbu3avUZQIAbBbdEgBQtqKiIsuLhg0blmy03PFYokWLFiJy5coVy1DkK6+84ujo6OTktGjRIhF56623jEajWq223DlpuWdSRNatWycilo0lrXXp0qUXLlxwcXH56KOPzGbzq6++etsjl6Tq0KHDPffcY2dn5+HhUeoqrD/CX2jWrNn48ePt7e39/f3ffPNNEfnpp5+ys7NFxM7OTkRKjZeWMBqNlla2cuXKtm3bqtXqFi1avP322yISGxt78y27wcHB48aNs7OzCwoK6t+/v+WKbj2gTqc7efKk5YDBwcFqtXrw4MH33ntvxa+lRKkfRVJSktls7tOnz7Fjx+bMmbNr1y7LRsvO1XyZAABbRrcEAJStpPWdPXu2ZKNl8KqEZTnQS5cuWd4NCgqydM7GjRtbdrYs9jNixAgR+eabb3JyclJTUxMTE0XEciusi4vLqlWrRGTTpk2hoaF33XXXu+++W1Jrb3tki/Dw8PKuwpojmG+ar2gymW7doU+fPiWv7777bsuLtLS08sKUSElJsRywW7duJRtLqmBJZhFp06ZNyWsfHx8RuXmyYomSa2nXrl3Jxt69e9+6520vqtSPIjk5+f777/fy8vrHP/6xbNmynJycv7iuUir9MgEAtoxuCQAom52dneXRiG+//XZBQcFf7FlSUUqaZ8mQoKWKNGnSxNLojhw58umnn4pIly5dLDfKisj06dMvXbq0ZMkSf3//c+fOjR49ul69ekePHq3IkS3q1at3x9n+4gg315u8vLxbdygsLCzvvH+tZKBPpVLd+u7NG0tmP4qIg4PDbY9882BsmcOJt72om38UBoOhXbt233zzTatWrbZt23bx4kXLOKS9fYWeYVZ1lwkAsEF0SwBAuSzrrOTm5nbp0uX06dNGo3H16tWW6YWWpWItGjVqZHlRslpPidDQUMtbzz33nIhs3Lhxw4YNIjJ9+vSbT9SwYcMXXnghJSXl6tWrM2bMKCgo6N+/v8lkqsiRRcTR0bG8S7izI1hK0c3zFUvWH7rZgQMHSl6XLKXj6+tbsrHMgcGb97HcyGoRFxdXKrP8bwErs6FZlKwqdPMDY0qttlrBi7r5R3H+/PnMzEwROXbs2PDhw4ODg/Pz8+X/b4UtUW2XCQCwZXRLAEC5hg0bZlmi5ueff27Tpo29vb1KpXJwcAgICPjiiy/k/28KDQoKCgwMFJF58+YVFRWZTKaFCxdqNJpmzZqV3IE5aNAgETlw4MBXX30lIpYlSUXk5MmTGo3GycnpzJkzZrO5QYMGlumd+fn5RqOxIkeWv2wjd3YES+08dOhQenq62Wz+4IMPfv3111sPfvXq1dWrV5tMpuzs7JkzZ4pIhw4dLNMULQ0tNTXVZDJZ7hy+mb29/ahRo0TkmWeesZTSxMREy/I2I0eOdHV1vc0fzC0cHR0tP9IZM2akpqZaMt/c6Cp+UTf/KErGJ7/77jsROXv2rGWNpZLBz2q+TACALaNbAgDKZW9v/+2337Zq1arMd19//fXXX39dRFQqleWZh2+//bajo6Odnd3cuXOLi4t3795dUlR8fX07depkef3www+X3AN5//339+3bt7CwsFWrVmq12t7e3lLSZs+e7eDgUJEj/7U7O8LgwYNFJDc318fHR61WDxw40Nvb+9bd/Pz8pk+fbmdn5+XlZXnUytatWy1vWTp5VlaWnZ3dwoULb/3etWvXNm/ePCsrq2XLliqVKjQ09MqVK02bNrUsdHQHYmJiHBwckpKS/Pz8LJlLPSKlghd1s9DQ0ODgYBHp16+fSqVq0aKFi4uLiFy+fFmpywQA2Cy6JQDgr9SrV++XX3756KOPoqOj/fz8HBwcOnTosHz58rS0tGnTppXUs86dO//555/Dhw/39PR0dnYePnz4b7/91rZt25sPZSmNIlLqYRXvv//+xo0bu3TpotFoXFxcIiIi9uzZ869//aviR/5rd3CE8PDwTz75JDw83MHB4f777z906JBl3dpShg8fHhcX16lTJwcHh969e//xxx+WhXNFpHv37jNmzHBxcfH29r71MZgi4urq+ssvv6xevbpDhw52dnZhYWErVqz4/fffLeXtDjRq1CghIeHxxx93cHBo2rTpW2+99c4779zBRd1MpVL98MMPw4YNc3R0bNKkydtvv/3bb7+JyLVr19LT0xW5TACAzVLdfEcQAABV57333hs6dKiI5OXl1fRqMWjQoL17986cOdOytg0AAKjQOm8AANwxy4eYmZmZzz77rIg88sgjNb1YAgCAW9EtAQBVKz09/ealU5cuXapgGAAAUEWYbwkAqFqenp7+/v4ODg6dO3c+ceJEWFiY0okAAEDlY74lAAAAAMBajFsCAAAAAKxFtwQAAAAAWItuCQAAAACwFt0SAAAAAGAtuiUAAAAAwFp0SwAAAACAteiWAAAAAABr0S0BAAAAANaiWwIAAAAArEW3BAAAAABYi24JAAAAALAW3RIAAAAAYC26JQAAAADAWnRLAAAAAIC16JYAAAAAAGvRLQEAAAAA1qJbAgAAAACsRbcEAAAAAFiLbgkAAAAAsBbdEgAAAABgLbolAAAAAMBadEsAAAAAgLXolgAAAAAAa9EtAQAAAADWolsCAAAAAKxFtwQAAAAAWItuCQAAAACwFt0SAAAAAGAtuiUAAAAAwFp0SwAAAACAteiWAAAAAABr0S0BAAAAANaiWwIAAAAArEW3BAAAAABYi24JAAAAALCWkt1yyZIleXl5CgYAAAAAAFQKldlsVurcGo3G1dV17969PXr0UCoDAAAAAMB6CnfLw4cPDxo0qHPnzitXrrzrrruUSlKXmUymL7/8sri4WOkgFeLi4tKtWzelUwAA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4Nlnr7m62vQaP8DfYnPjlitWrFA6AgAAgG25eFE7aVLwunU+CxdeWbz4MsWyRmvXruC99857eRkGDWr61VduSscBKo2S45a5ubm3bpw1a9a4cePUarWIuLnxlw0AANRp+fnqmBifjz/2mDKFhUZrD63WPG1a6kMP3ZgzJ+jzz91nzbrq6soMTNR4Sv775O3t7X4Lo9Ho6elpea1gNgAAAGWZzfLxxx4DBzYzGGub6IAAACAASURBVFQffHD+sccolrVNixaFO3cm1K9vGDKkKTMwUQuUO26ZnZ3t6elZpef+888/e/fu3bx583Xr1jk7O1s21q9fPy0tzc7OrkpPDQAAYMsuXND+618BZrOsXXuxadMipeOgqmg05unTU3v0yJ0zJ7B797xp065ptSzOhJqq3I+/fHx8HnrooUOHDhUVVdU/Z8HBwb/++murVq369u2bl5fn4eHh4eGhVqvr1atneV1F5wUAALBZhYXq1at9J0wIGTgwa+PGCxTLuqBNm4LduxMKC1XDhjU9e9ZR6TjAHSq3W2ZlZU2ePHnRokUuLi4TJ048deqUyVT5d4Hb29svXLhww4YNHTt23Lp1q9nM5zQAAKDuOn7cddCgprm5dnv3nu/XL1ulUjoQqouTk2nevJQZM65NnRq8ZYt3FfzeDVS5cruli4vL448//tVXX6Wlpd1///0jR4709vZetGjRlStXKj1Ehw4dEhISDh061LdvX6ORhZgBAECdk5Fh//zzDVet8lu8OHnOnBQ3N34jqou6dcvduTPhu+9cnnoqJD2dhwWihrn9lPB69eo98MADw4cPz8nJWbhwYdu2bfv163fjxo3KzeHk5LRt27YpU6Z07969co8MAABgy0wm2bPHa+jQ0FatdLt2JYSH65ROBCXVr29YuzapR4/cyMjQ48ddlY4D/A1/9XHI9evX33///SVLliQmJj7xxBNHjx7t3LmzWq0+cODAgAEDvvrqq0pP079///79+1f6YQEAQO2QkZHx9ddfK52iQlJSUgwGw213u3hRO39+gLOz+d13LwQG6qshGGyfSiXDh2e2b5///PMNf/ghZ+rUNHt7Jo6hBii3W/bu3fvw4cMdOnRYvHhxv379XFz+uyzygAEDhg8fXi3xAAAA/mvXrl1r1qxp1aqV0kFuLzU1taCg4C92MBhUmzd779pVb+bM1D59mFqJ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GRkZGfXu3RvAgwcPAEil0if73D5x/fr12NjYqKgoKysrY2PjESNG+Pj4rF+/vuTWRYsWOTk5SaXSvn37qlSqO3fuPPvQu3fvbtSoUeklixcvrl27trGx8ZAhQ/Ly8iZMmGBiYuLg4ODv73/69Oln70GTR3niybNIS0tbv379V199ZWlpaWRkFBIS4u/v/+OPPwLIyspSq9XW1tYSiaRmzZpnzpwpKZYASg4KvX379ov/PYmIiMrEbklERPoqKyvLxsZGIpG8eLU6deo8+V6tVp8+fXr9+vXTp0/39fXFC49RvHDhgre3t4WFxZMlvXr1OnLkSMn3bm5uJd8YGxsDUKlUT/16YWFhZmamnZ1d6YX16tUr+cbU1LROnTpGRkYlP1pYWJR52ttyH6VMiYmJAKysrJ6cXHfHjh0JCQkAXFxchg0b5uDg4OfnFxUVVbqsSiQSZ2fnF9dXIiKi52G3JCIifXXq1Km33nrr2eVP1cUn/a2wsLBNmzajRo3Kz8/v06fP7t27X3z/z9ZOtVpd+pRCmoR8XhgN76HcdcrsxsXFxVZWVvn5+QX/o1arly1bBkAikURHR2dmZk6fPn3//v0uLi5r1qzR5IkQERG9GI+3JCIivZSfn79y5cpt27YBKNl0qVAoSm7Kyckp81fi4+NPnjypUChKCl5mZiaA4uLiklufLWkNGza8dOlSXl6eubl5yZLffvutf//+GiY0Nja2s7NLS0vz8PD4V0/txV78ZEueRcmxlCkpKc7OzmXeSa1atbp37969e/cuXbosWrRo6NChAIqLi5OTk+vWrVuBaYmIyHBwuyUREekZtVqdlpbWr1+/t956q3379gAkEskbb7zx9ddfFxUVKZXKKVOmlLm5r3bt2iqV6tq1awAyMzP/85//AFAqlQCsra2Tk5Of2ivV09OzQ4cO7733Xl5eXnFx8YYNG06fPj1w4EDNo3bt2vXcuXPaPNlnveDJPnkWLi4uISEhQ4YMyc7OBnDr1i03N7fDhw8DuHDhgouLy927dwEUFBTExsYGBQWV/HpJ2XZ1da3YwEREZCDYLYmISD+MGzdOJpMZGxubm5sHBwf36NFjy5YtTw62/Omnn+7cuWNubt6uXbvw8HB3d/dn78Hb2/vbb7/t0qWLhYXFwIEDFy5cGBAQcObMGQCjR4+OiopycHAovb5EIomJialXr56Hh4e1tXVcXNzly5dLTnijoQEDBjw5908Fet6TLf0sfv75544dO/r4+Mjl8sGDB0dHR7dt2xbAK6+8snz58j59+sjlcnd394YNGy5atKjk1w8dOhQUFPTs2W6JiIg0Iamkq0UTERFRYWGhvb391atXa9WqJTpL+d58883PPvus5PKYRERE/xa3WxIREVUWY2PjdevWlZxER8ddu3bNxMSExZKIiF4auyUREVElCg4Ojo+PLznuUZdNmzZt7dq1olMQEZEe4z6xREREREREpC1utyQiIiIiIiJtsVsSERERERGRttgtiYiIiIiISFvslkRERERERKQtdksiIiIiIiLSFrslERERERERaYvdkoiIiIiIiLTFbklERERERETaYrckIiIiIiIibbFbEhERERERkbbYLYmIiIiIiEhb7JZERERERESkLXZLIiIiIiIi0ha7JREREREREWmL3ZKIiIiIiIi0xW5JRERERERE2mK3JCIiIiIiIm2xWxIREREREZG22C2JiIiIiIhIW/8Hb15AirthifAAAAAASUVORK5CYII=" width="980" height="400" alt="Plot object"></div>
+
+</article></slide><slide class="" data-slide-num="15" data-total-slides="94"><hgroup><h2>The components</h2></hgroup><article id="the-components" class="build">
+
+<p class="to-build">What does a <code>shiny</code> app consist of?</p>
+
+<ul class="build to-build">
+<li class="to-build">A user interface (UI):
+
+<ul class="build">
+<li class="to-build">the visible, interactive part;</li>
+<li class="to-build">e.g., a web app or dashboard.</li>
+</ul></li>
+<li class="to-build">A server:
+
+<ul class="build">
+<li class="to-build">the invisible, processing part;</li>
+<li class="to-build">e.g., your own computer or <a href="http://127.0.0.1:7388/shinyapps.io" title="">shinyapps.io</a>.</li>
+</ul></li>
+</ul>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">library</span><span class="pun">(</span><span class="pln">shiny</span><span class="pun">)</span><span class="pln">
+ui </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="com"># some code to generate the UI</span><span class="pln">
+server </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="com"># some code to generate the server</span><span class="pln">
+shinyApp</span><span class="pun">(</span><span class="pln">ui </span><span class="pun">=</span><span class="pln"> ui</span><span class="pun">,</span><span class="pln"> server </span><span class="pun">=</span><span class="pln"> server</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="16" data-total-slides="94"><hgroup><h2>Starting point</h2></hgroup><article id="starting-point">
+
+<!-- We're going to create a `shiny` app to visualize some data interactively. -->
+
+<pre class="prettyprint lang-r"><span class="pln">library</span><span class="pun">(</span><span class="pln">shiny</span><span class="pun">)</span><span class="pln">
+ui </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="com"># some code to generate the UI</span><span class="pln">
+server </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="com"># some code to generate the server</span><span class="pln">
+shinyApp</span><span class="pun">(</span><span class="pln">ui </span><span class="pun">=</span><span class="pln"> ui</span><span class="pun">,</span><span class="pln"> server </span><span class="pun">=</span><span class="pln"> server</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="17" data-total-slides="94"><hgroup><h2>An empty app</h2></hgroup><article id="an-empty-app">
+
+<!-- We're going to create a `shiny` app to visualize some data interactively. -->
+
+<pre class="prettyprint lang-r"><span class="pln">library</span><span class="pun">(</span><span class="pln">shiny</span><span class="pun">)</span><span class="pln">
+ui </span><span class="pun">&lt;-</span><span class="pln"> fluidPage</span><span class="pun">()</span><span class="pln">
+server </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">input</span><span class="pun">,</span><span class="pln"> output</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{}</span><span class="pln">
+shinyApp</span><span class="pun">(</span><span class="pln">ui </span><span class="pun">=</span><span class="pln"> ui</span><span class="pun">,</span><span class="pln"> server </span><span class="pun">=</span><span class="pln"> server</span><span class="pun">)</span></pre>
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(1).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="18" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app">
+
+</article></slide><slide class="" data-slide-num="19" data-total-slides="94"><hgroup><h2>Recap</h2></hgroup><article id="recap" class="build">
+
+<ul class="build to-build">
+<li class="to-build">Which two components does a <code>shiny</code> app require?</li>
+<li class="to-build">What part of the app can be thought of as the ‘front-end’?</li>
+<li class="to-build">Do the computations need to be performed locally?</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="20" data-total-slides="94"><hgroup><h2>Tips</h2></hgroup><article id="tips" class="build">
+
+<p class="to-build">Don’t rush into coding when you should be thinking.</p>
+
+<p class="to-build">Before building a <code>shiny</code> app, think about:</p>
+
+<ul class="build to-build">
+<li class="to-build">What is the app aimed at?</li>
+<li class="to-build">Who are the end users of your app? Are they tech-literate?</li>
+<li class="to-build">In what context will the app be used? On what machines (e.g., because of screen size)?</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="21" data-total-slides="94"><hgroup><h2>Tips</h2></hgroup><article id="tips-1" class="build">
+
+<p class="to-build">While building a <code>shiny</code> app:</p>
+
+<ul class="build to-build">
+<li class="to-build">KISS: Keep It Simple, Stupid;</li>
+<li class="to-build">Use a design/UI first approach;</li>
+<li class="to-build">Build the front-end and the back-end separately;</li>
+<li class="to-build">If you copy something just <em>once</em>, make it a function;</li>
+<li class="to-build">Avoid unnecessary complexity and ‘feature creep’.</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="22" data-total-slides="94"><hgroup><h2>Tips</h2></hgroup><article id="tips-2" class="build">
+
+<p class="to-build">After building a <code>shiny</code> app:</p>
+
+<ul class="build to-build">
+<li class="to-build">Share the app;</li>
+<li class="to-build">Make it last.</li>
+</ul>
+
+<br class="to-build"><br class="to-build">
+
+<div class="small to-build">
+Note. We’ll get back to this later!</div>
+
+</article></slide><slide class="" data-slide-num="23" data-total-slides="94"><hgroup><h2></h2></hgroup><article>
+
+</article></slide><slide class="segue dark nobackground level1" data-slide-num="24" data-total-slides="94"><hgroup class="auto-fadein"><h2>The UI</h2></hgroup><article id="the-ui">
+
+</article></slide><slide class="" data-slide-num="25" data-total-slides="94"><hgroup><h2>Starting point</h2></hgroup><article id="starting-point-1">
+
+<!-- We're going to create a `shiny` app to visualize some data interactively. -->
+
+<pre class="prettyprint lang-r"><span class="pln">library</span><span class="pun">(</span><span class="pln">shiny</span><span class="pun">)</span><span class="pln">
+ui </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="com"># some code to generate the UI</span><span class="pln">
+server </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="com"># some code to generate the server</span><span class="pln">
+shinyApp</span><span class="pun">(</span><span class="pln">ui </span><span class="pun">=</span><span class="pln"> ui</span><span class="pun">,</span><span class="pln"> server </span><span class="pun">=</span><span class="pln"> server</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="26" data-total-slides="94"><hgroup><h2>Filling in the UI</h2></hgroup><article id="filling-in-the-ui">
+
+<pre class="prettyprint lang-r"><span class="pln">ui </span><span class="pun">&lt;-</span><span class="pln"> fluidPage</span><span class="pun">()</span></pre>
+
+<p>The <code>shiny</code> function <code>fluidPage()</code></p>
+
+<ul class="build">
+<li class="to-build">generates an ‘empty canvas’ for <code>shiny</code> apps;</li>
+<li class="to-build">en-captures all other UI elements.</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="27" data-total-slides="94"><hgroup><h2>Adding some text</h2></hgroup><article id="adding-some-text">
+
+<p>To show text in our app, we can just add character/string objects inside <code>fluidPage()</code>:</p>
+
+<pre class="prettyprint lang-r"><span class="pln">ui </span><span class="pun">&lt;-</span><span class="pln"> fluidPage</span><span class="pun">(</span><span class="pln">
+  </span><span class="str">"Palmer Penguins"</span><span class="pun">,</span><span class="pln"> 
+  </span><span class="str">"An interactive visualization"</span><span class="pln">
+  </span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="28" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-1">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(2).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="29" data-total-slides="94"><hgroup><h2>Adding formatted text</h2></hgroup><article id="adding-formatted-text">
+
+<p>For formatted text, <code>shiny</code> has many functions that are wrappers around HTML tags. For example:</p>
+
+<ul class="build">
+<li class="to-build"><code>h1()</code>: top-level header;</li>
+<li class="to-build"><code>h2()</code>: secondary header;</li>
+<li class="to-build"><code>strong()</code>: bold text;</li>
+<li class="to-build"><code>em()</code>: italicized text;</li>
+<li class="to-build"><code>br()</code>: line break;</li>
+<li class="to-build"><code>img()</code>: image;</li>
+<li class="to-build"><code>a()</code>: hyperlink, etc.</li>
+</ul>
+
+<div class="small">
+Note. If you already know HTML, you don’t need to use these wrapper functions!</div>
+
+</article></slide><slide class="" data-slide-num="30" data-total-slides="94"><hgroup><h2>Adding formatted text</h2></hgroup><article id="adding-formatted-text-1">
+
+<p>Let’s replace the UI part of our code with the following:</p>
+
+<pre class="prettyprint lang-r"><span class="pln">ui </span><span class="pun">&lt;-</span><span class="pln"> fluidPage</span><span class="pun">(</span><span class="pln">
+  h1</span><span class="pun">(</span><span class="str">"Palmer penguins"</span><span class="pun">),</span><span class="pln">
+  </span><span class="str">"An"</span><span class="pun">,</span><span class="pln">
+  em</span><span class="pun">(</span><span class="str">"interactive"</span><span class="pun">),</span><span class="pln">
+  br</span><span class="pun">(),</span><span class="pln">
+  strong</span><span class="pun">(</span><span class="str">"visualization"</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="31" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-2">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(3).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="32" data-total-slides="94"><hgroup><h2>Adding a title</h2></hgroup><article id="adding-a-title">
+
+<pre class="prettyprint lang-r"><span class="pln">ui </span><span class="pun">&lt;-</span><span class="pln"> fluidPage</span><span class="pun">(</span><span class="pln">
+  titlePanel</span><span class="pun">(</span><span class="str">"Palmer penguins: An interactive visualization"</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">)</span></pre>
+
+<p><br></p>
+
+<p>The <code>shiny</code> function <code>titlePanel()</code></p>
+
+<ul class="build">
+<li class="to-build">adds a visible big title-like text to the top of the page;</li>
+<li class="to-build">sets the “official” title of the web page (i.e., displayed at the name of the tab in the browser).</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="33" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-3">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(4).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="34" data-total-slides="94"><hgroup><h2>Adding a layout</h2></hgroup><article id="adding-a-layout" class="build">
+
+<p class="to-build">The simple sidebar layout:</p>
+
+<ul class="build to-build">
+<li class="to-build">provides a two-column layout;</li>
+<li class="to-build">with a smaller sidebar and a larger main panel;</li>
+<li class="to-build">visually separates the input and output of the app.</li>
+</ul>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">ui </span><span class="pun">&lt;-</span><span class="pln"> fluidPage</span><span class="pun">(</span><span class="pln">
+  titlePanel</span><span class="pun">(</span><span class="str">"Palmer penguins: An interactive visualization"</span><span class="pun">),</span><span class="pln">
+  sidebarLayout</span><span class="pun">(</span><span class="pln">
+    sidebarPanel</span><span class="pun">(</span><span class="str">"[inputs]"</span><span class="pun">),</span><span class="pln">
+    mainPanel</span><span class="pun">(</span><span class="str">"[outputs]"</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">)</span><span class="pln">
+</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="35" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-4">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(5).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="36" data-total-slides="94"><hgroup><h2>Adding an input element</h2></hgroup><article id="adding-an-input-element">
+
+<p>Inputs allow users to interact with a <code>shiny</code> app.</p>
+
+<p>We’ve seen two types already:</p>
+
+<ul class="build">
+<li class="to-build"><code>selectInput()</code> creates a drop-down menu;</li>
+<li class="to-build"><code>sliderInput()</code> creates a numeric scale.</li>
+</ul>
+
+<div class="shiny-input-panel">
+<div class="shiny-flow-layout">
+<div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="n_breaks-label" for="n_breaks-selectized">Number of bins:</label>
+<div>
+<select id="n_breaks" class="shiny-input-select selectized shiny-bound-input" tabindex="-1" style="display: none;">
+
+
+<option value="20" selected="selected">20</option></select><div class="shiny-input-select selectize-control single plugin-selectize-plugin-a11y"><div class="selectize-input items full has-options has-items"><div class="item" data-value="20">20</div><input type="text" autocomplete="new-password" autofill="no" tabindex="" id="n_breaks-selectized" role="combobox" aria-expanded="false" haspopup="listbox" aria-owns="r3xgcis8zl" style="width: 4px;"></div><div class="single selectize-dropdown shiny-input-select plugin-selectize-plugin-a11y" style="display: none;"><div class="selectize-dropdown-content" tabindex="-1" role="listbox" id="r3xgcis8zl"></div></div></div>
+<script type="application/json" data-for="n_breaks" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+</div>
+</div>
+</div>
+<div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="bw_adjust-label" for="bw_adjust">Bandwidth adjustment:</label>
+<span class="irs irs--shiny js-irs-1 irs-with-grid"><span class="irs"><span class="irs-line" tabindex="0"></span><span class="irs-min" style="visibility: visible;">0.2</span><span class="irs-max" style="visibility: visible;">2</span><span class="irs-from" style="visibility: hidden;">0</span><span class="irs-to" style="visibility: hidden;">0</span><span class="irs-single" style="left: 42.1174%;">1</span></span><span class="irs-grid" style="width: 89.4231%; left: 5.18846%;"><span class="irs-grid-pol" style="left: 0%"></span><span class="irs-grid-text js-grid-text-0" style="left: 0%; margin-left: -4.45012%;">0.2</span><span class="irs-grid-pol small" style="left: 7.4074074074074066%"></span><span class="irs-grid-pol small" style="left: 3.7037037037037033%"></span><span class="irs-grid-pol" style="left: 11.11111111111111%"></span><span class="irs-grid-text js-grid-text-1" style="left: 11.1111%; visibility: visible; margin-left: -4.45012%;">0.4</span><span class="irs-grid-pol small" style="left: 18.51851851851852%"></span><span class="irs-grid-pol small" style="left: 14.814814814814813%"></span><span class="irs-grid-pol" style="left: 22.22222222222222%"></span><span class="irs-grid-text js-grid-text-2" style="left: 22.2222%; visibility: visible; margin-left: -4.45012%;">0.6</span><span class="irs-grid-pol small" style="left: 29.629629629629626%"></span><span class="irs-grid-pol small" style="left: 25.925925925925924%"></span><span class="irs-grid-pol" style="left: 33.33333333333333%"></span><span class="irs-grid-text js-grid-text-3" style="left: 33.3333%; visibility: visible; margin-left: -4.45012%;">0.8</span><span class="irs-grid-pol small" style="left: 40.74074074074074%"></span><span class="irs-grid-pol small" style="left: 37.03703703703703%"></span><span class="irs-grid-pol" style="left: 44.44444444444444%"></span><span class="irs-grid-text js-grid-text-4" style="left: 44.4444%; margin-left: -2.64724%;">1</span><span class="irs-grid-pol small" style="left: 51.851851851851855%"></span><span class="irs-grid-pol small" style="left: 48.148148148148145%"></span><span class="irs-grid-pol" style="left: 55.55555555555556%"></span><span class="irs-grid-text js-grid-text-5" style="left: 55.5556%; visibility: visible; margin-left: -4.45012%;">1.2</span><span class="irs-grid-pol small" style="left: 62.962962962962955%"></span><span class="irs-grid-pol small" style="left: 59.25925925925926%"></span><span class="irs-grid-pol" style="left: 66.66666666666666%"></span><span class="irs-grid-text js-grid-text-6" style="left: 66.6667%; visibility: visible; margin-left: -4.45012%;">1.4</span><span class="irs-grid-pol small" style="left: 74.07407407407406%"></span><span class="irs-grid-pol small" style="left: 70.37037037037037%"></span><span class="irs-grid-pol" style="left: 77.77777777777777%"></span><span class="irs-grid-text js-grid-text-7" style="left: 77.7778%; visibility: visible; margin-left: -4.45012%;">1.6</span><span class="irs-grid-pol small" style="left: 85.18518518518518%"></span><span class="irs-grid-pol small" style="left: 81.48148148148148%"></span><span class="irs-grid-pol" style="left: 88.88888888888889%"></span><span class="irs-grid-text js-grid-text-8" style="left: 88.8889%; margin-left: -4.45012%;">1.8</span><span class="irs-grid-pol small" style="left: 96.29629629629629%"></span><span class="irs-grid-pol small" style="left: 92.5925925925926%"></span><span class="irs-grid-pol" style="left: 100%"></span><span class="irs-grid-text js-grid-text-9" style="left: 100%; visibility: visible; margin-left: -2.64724%;">2</span></span><span class="irs-bar irs-bar--single" style="left: 0px; width: 45.0321%;"></span><span class="irs-shadow shadow-single" style="display: none;"></span><span class="irs-handle single" style="left: 39.7436%;"><i></i><i></i><i></i></span></span><input class="js-range-slider irs-hidden-input shiny-bound-input" id="bw_adjust" data-skin="shiny" data-min="0.2" data-max="2" data-from="1" data-step="0.2" data-grid="true" data-grid-num="9" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number" tabindex="-1" readonly="">
+</div>
+</div>
+</div>
+</div>
+
+</article></slide><slide class="" data-slide-num="37" data-total-slides="94"><hgroup><h2>Adding an input element</h2></hgroup><article id="adding-an-input-element-1">
+
+<p>Can you guess what kind of element these input functions will create?</p>
+
+<ul class="build">
+<li class="to-build"><code>textInput()</code>;</li>
+<li class="to-build"><code>dateInput()</code>;</li>
+<li class="to-build"><code>checkboxInput()</code>.</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="38" data-total-slides="94"><hgroup><h2>Adding input elements</h2></hgroup><article id="adding-input-elements">
+
+<div align="center">
+<p><br> <img src="./lecture_files/shiny-inputs.png" width="900"></p></div>
+
+</article></slide><slide class="" data-slide-num="39" data-total-slides="94"><hgroup><h2>Adding an input element</h2></hgroup><article id="adding-an-input-element-2" class="build">
+
+<!-- Which function would suit an input element for the weight of the penguins, the variable `body_mass_g`?  -->
+
+<!-- ```{r, echo=FALSE} -->
+
+<!-- inputPanel( -->
+
+<!-- sliderInput("weight", "Weight",  -->
+
+<!--   min = 2, max = 7, value = c(3, 5), post = "kg" -->
+
+<!--   ) -->
+
+<!-- ) -->
+
+<!-- ``` -->
+
+<!-- <br>  -->
+
+<!-- ```{r, echo=TRUE, results='hide'} -->
+
+<!-- sliderInput("weight", "Weight",  -->
+
+<!--             min = 2, max = 7, value = c(3, 5), post = "kg") -->
+
+<!-- ``` -->
+
+<p class="to-build">Which function would suit an input element for the variable <code>island</code>?</p>
+
+<div class="shiny-input-panel to-build">
+<div class="shiny-flow-layout">
+<div>
+<div id="location" class="form-group shiny-input-radiogroup shiny-input-container shiny-bound-input" role="radiogroup" aria-labelledby="location-label">
+<label class="control-label" id="location-label" for="location">Location</label>
+<div class="shiny-options-group">
+<div class="radio">
+<label>
+<input type="radio" name="location" value="Biscoe" checked="checked">
+<span>Biscoe</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location" value="Dream">
+<span>Dream</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location" value="Torgersen">
+<span>Torgersen</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div>
+<br>
+</div>
+</div>
+</div>
+
+<p class="to-build"><br></p>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">radioButtons</span><span class="pun">(</span><span class="pln">
+  inputId </span><span class="pun">=</span><span class="pln"> </span><span class="str">"location"</span><span class="pun">,</span><span class="pln"> 
+  label </span><span class="pun">=</span><span class="pln"> </span><span class="str">"Location"</span><span class="pun">,</span><span class="pln">
+  choices </span><span class="pun">=</span><span class="pln"> c</span><span class="pun">(</span><span class="str">"Biscoe"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Dream"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Torgersen"</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="40" data-total-slides="94"><hgroup><h2>Adding an input element</h2></hgroup><article id="adding-an-input-element-3" class="build">
+
+<p class="to-build">All input functions have the same first two arguments:</p>
+
+<ul class="build to-build">
+<li class="to-build"><code>inputId</code>, the name by which <code>shiny</code> will refer to this input when you want to retrieve its current value;</li>
+<li class="to-build"><code>label</code>, which specifies the text displayed right above the input element.</li>
+</ul>
+
+<p class="to-build">These argument names are typically dropped from the <code>...Input()</code> function call:</p>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">radioButtons</span><span class="pun">(</span><span class="str">"location"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Location"</span><span class="pun">,</span><span class="pln"> choices </span><span class="pun">=</span><span class="pln"> c</span><span class="pun">(</span><span class="str">"Biscoe"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Dream"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Torgersen"</span><span class="pun">))</span></pre>
+
+<div class="small to-build">
+Note. Every input in your app <em>must</em> have a unique <code>inputId</code>; the app will not work properly otherwise! So keep your <code>inputId</code>s simple and sensible.</div>
+
+</article></slide><slide class="" data-slide-num="41" data-total-slides="94"><hgroup><h2>Adding an input element</h2></hgroup><article id="adding-an-input-element-4">
+
+<p>The resulting UI code looks like:</p>
+
+<pre class="prettyprint lang-r"><span class="pln">ui </span><span class="pun">&lt;-</span><span class="pln"> fluidPage</span><span class="pun">(</span><span class="pln">
+  titlePanel</span><span class="pun">(</span><span class="str">"Palmer penguins: An interactive visualization"</span><span class="pun">),</span><span class="pln">
+  sidebarLayout</span><span class="pun">(</span><span class="pln">
+    sidebarPanel</span><span class="pun">(</span><span class="pln">
+      radioButtons</span><span class="pun">(</span><span class="str">"location"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Location"</span><span class="pun">,</span><span class="pln"> 
+                   choices </span><span class="pun">=</span><span class="pln"> c</span><span class="pun">(</span><span class="str">"Biscoe"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Dream"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Torgersen"</span><span class="pun">))</span><span class="pln">
+      </span><span class="pun">),</span><span class="pln">
+    mainPanel</span><span class="pun">(</span><span class="str">"[outputs]"</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">)</span><span class="pln">
+</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="42" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-5">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(6).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="43" data-total-slides="94"><hgroup><h2>Adding another input element</h2></hgroup><article id="adding-another-input-element" class="build">
+
+<p class="to-build">Let’s create an input element for the variable <code>body_mass_g</code> as well. Which input function(s) should we use?</p>
+
+<div class="shiny-input-panel to-build">
+<div class="shiny-flow-layout">
+<div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="weight-label" for="weight">Weight</label>
+<span class="irs irs--shiny js-irs-2 irs-with-grid"><span class="irs"><span class="irs-line" tabindex="0"></span><span class="irs-min" style="visibility: visible;">2kg</span><span class="irs-max" style="visibility: visible;">7kg</span><span class="irs-from" style="visibility: visible; left: 17.4669%;">3kg</span><span class="irs-to" style="visibility: visible; left: 53.2362%;">5kg</span><span class="irs-single" style="visibility: hidden; left: 26.9742%;">3kg — 5kg</span></span><span class="irs-grid" style="width: 89.4231%; left: 5.18846%;"><span class="irs-grid-pol" style="left: 0%"></span><span class="irs-grid-text js-grid-text-0" style="left: 0%; margin-left: -2.64724%;">2</span><span class="irs-grid-pol small" style="left: 15%"></span><span class="irs-grid-pol small" style="left: 10%"></span><span class="irs-grid-pol small" style="left: 5%"></span><span class="irs-grid-pol" style="left: 20%"></span><span class="irs-grid-text js-grid-text-1" style="left: 20%; visibility: visible; margin-left: -2.64724%;">3</span><span class="irs-grid-pol small" style="left: 35%"></span><span class="irs-grid-pol small" style="left: 30%"></span><span class="irs-grid-pol small" style="left: 25%"></span><span class="irs-grid-pol" style="left: 40%"></span><span class="irs-grid-text js-grid-text-2" style="left: 40%; visibility: visible; margin-left: -2.64724%;">4</span><span class="irs-grid-pol small" style="left: 55%"></span><span class="irs-grid-pol small" style="left: 50%"></span><span class="irs-grid-pol small" style="left: 45%"></span><span class="irs-grid-pol" style="left: 60%"></span><span class="irs-grid-text js-grid-text-3" style="left: 60%; visibility: visible; margin-left: -2.64724%;">5</span><span class="irs-grid-pol small" style="left: 75%"></span><span class="irs-grid-pol small" style="left: 70%"></span><span class="irs-grid-pol small" style="left: 65%"></span><span class="irs-grid-pol" style="left: 80%"></span><span class="irs-grid-text js-grid-text-4" style="left: 80%; margin-left: -2.64724%;">6</span><span class="irs-grid-pol small" style="left: 95%"></span><span class="irs-grid-pol small" style="left: 90%"></span><span class="irs-grid-pol small" style="left: 85%"></span><span class="irs-grid-pol" style="left: 100%"></span><span class="irs-grid-text js-grid-text-5" style="left: 100%; visibility: visible; margin-left: -2.64724%;">7</span></span><span class="irs-bar" style="cursor: ew-resize; left: 23.1731%; width: 35.7692%;"></span><span class="irs-shadow shadow-from" style="display: none;"></span><span class="irs-shadow shadow-to" style="display: none;"></span><span class="irs-handle from" style="left: 17.8846%;"><i></i><i></i><i></i></span><span class="irs-handle to type_last" style="left: 53.6538%;"><i></i><i></i><i></i></span></span><input class="js-range-slider irs-hidden-input shiny-bound-input" id="weight" data-skin="shiny" data-type="double" data-min="2" data-max="7" data-from="3" data-to="5" data-step="1" data-grid="true" data-grid-num="5" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-postfix="kg" data-keyboard="true" data-drag-interval="true" data-data-type="number" tabindex="-1" readonly="">
+</div>
+</div>
+</div>
+</div>
+
+<p class="to-build"><br></p>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">sliderInput</span><span class="pun">(</span><span class="str">"weight"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Weight"</span><span class="pun">,</span><span class="pln"> 
+            min </span><span class="pun">=</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln"> max </span><span class="pun">=</span><span class="pln"> </span><span class="lit">7</span><span class="pun">,</span><span class="pln"> value </span><span class="pun">=</span><span class="pln"> c</span><span class="pun">(</span><span class="lit">3</span><span class="pun">,</span><span class="pln"> </span><span class="lit">5</span><span class="pun">),</span><span class="pln"> post </span><span class="pun">=</span><span class="pln"> </span><span class="str">"kg"</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="44" data-total-slides="94"><hgroup><h2>Adding another input element</h2></hgroup><article id="adding-another-input-element-1">
+
+<p>The full UI code is now:</p>
+
+<pre class="prettyprint lang-r"><span class="pln">ui </span><span class="pun">&lt;-</span><span class="pln"> fluidPage</span><span class="pun">(</span><span class="pln">
+  titlePanel</span><span class="pun">(</span><span class="str">"Palmer penguins: An interactive visualization"</span><span class="pun">),</span><span class="pln">
+  sidebarLayout</span><span class="pun">(</span><span class="pln">
+    sidebarPanel</span><span class="pun">(</span><span class="pln">
+      radioButtons</span><span class="pun">(</span><span class="str">"location"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Location"</span><span class="pun">,</span><span class="pln"> 
+                   choices </span><span class="pun">=</span><span class="pln"> c</span><span class="pun">(</span><span class="str">"Biscoe"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Dream"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Torgersen"</span><span class="pun">)),</span><span class="pln">
+      sliderInput</span><span class="pun">(</span><span class="str">"weight"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Weight"</span><span class="pun">,</span><span class="pln"> 
+                  min </span><span class="pun">=</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln"> max </span><span class="pun">=</span><span class="pln"> </span><span class="lit">7</span><span class="pun">,</span><span class="pln"> value </span><span class="pun">=</span><span class="pln"> c</span><span class="pun">(</span><span class="lit">3</span><span class="pun">,</span><span class="pln"> </span><span class="lit">5</span><span class="pun">),</span><span class="pln"> post </span><span class="pun">=</span><span class="pln"> </span><span class="str">"kg"</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">),</span><span class="pln">
+    mainPanel</span><span class="pun">(</span><span class="str">"[outputs]"</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">)</span><span class="pln">
+</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="45" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-6">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(7).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="46" data-total-slides="94"><hgroup><h2>Adding an output element</h2></hgroup><article id="adding-an-output-element" class="build">
+
+<p class="to-build">Outputs are <em>shown</em> in the UI, but <em>created</em> on the server side.</p>
+
+<p class="to-build">That’s why we add placeholders for the outputs in the UI.</p>
+
+<p class="to-build">Placeholders:</p>
+
+<ul class="build to-build">
+<li class="to-build">Determine where an output will be;</li>
+<li class="to-build">Give outputs a unique ID to link it to the server;</li>
+<li class="to-build">Won’t actually show anything, yet.</li>
+</ul>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">mainPanel</span><span class="pun">(</span><span class="pln">
+  </span><span class="str">"[plot placeholder]"</span><span class="pun">,</span><span class="pln"> plotOutput</span><span class="pun">(</span><span class="str">"scatterplot"</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="47" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-7">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(8).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="48" data-total-slides="94"><hgroup><h2>Adding another output element</h2></hgroup><article id="adding-another-output-element">
+
+<p>The placeholder doesn’t show anything, because we haven’t created any figure yet on the server side.</p>
+
+<p>But first, let’s add another output element:</p>
+
+<pre class="prettyprint lang-r"><span class="pln">mainPanel</span><span class="pun">(</span><span class="pln">
+  </span><span class="str">"[plot placeholder]"</span><span class="pun">,</span><span class="pln"> plotOutput</span><span class="pun">(</span><span class="str">"scatterplot"</span><span class="pun">),</span><span class="pln">
+  br</span><span class="pun">(),</span><span class="pln">
+  br</span><span class="pun">(),</span><span class="pln">
+  </span><span class="str">"[table placeholder]"</span><span class="pun">,</span><span class="pln"> tableOutput</span><span class="pun">(</span><span class="str">"descriptives"</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">)</span></pre>
+
+<div class="small">
+Note. We added a few line breaks <code>br()</code> between the two outputs, so that they aren’t crammed on top of each other.</div>
+
+</article></slide><slide class="" data-slide-num="49" data-total-slides="94"><hgroup><h2>The complete UI</h2></hgroup><article id="the-complete-ui">
+
+<pre class="prettyprint lang-r"><span class="pln">ui </span><span class="pun">&lt;-</span><span class="pln"> fluidPage</span><span class="pun">(</span><span class="pln">
+  titlePanel</span><span class="pun">(</span><span class="str">"Palmer penguins: An interactive visualization"</span><span class="pun">),</span><span class="pln">
+  sidebarLayout</span><span class="pun">(</span><span class="pln">
+    sidebarPanel</span><span class="pun">(</span><span class="pln">
+      radioButtons</span><span class="pun">(</span><span class="str">"location"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Location"</span><span class="pun">,</span><span class="pln"> 
+                   choices </span><span class="pun">=</span><span class="pln"> c</span><span class="pun">(</span><span class="str">"Biscoe"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Dream"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Torgersen"</span><span class="pun">)),</span><span class="pln">
+      sliderInput</span><span class="pun">(</span><span class="str">"weight"</span><span class="pun">,</span><span class="pln"> </span><span class="str">"Weight"</span><span class="pun">,</span><span class="pln"> 
+                  min </span><span class="pun">=</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln"> max </span><span class="pun">=</span><span class="pln"> </span><span class="lit">7</span><span class="pun">,</span><span class="pln"> value </span><span class="pun">=</span><span class="pln"> c</span><span class="pun">(</span><span class="lit">3</span><span class="pun">,</span><span class="pln"> </span><span class="lit">5</span><span class="pun">),</span><span class="pln"> post </span><span class="pun">=</span><span class="pln"> </span><span class="str">"kg"</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">),</span><span class="pln">
+    mainPanel</span><span class="pun">(</span><span class="pln">
+      </span><span class="str">"[plot placeholder]"</span><span class="pun">,</span><span class="pln"> plotOutput</span><span class="pun">(</span><span class="str">"scatterplot"</span><span class="pun">),</span><span class="pln">
+      br</span><span class="pun">(),</span><span class="pln">
+      br</span><span class="pun">(),</span><span class="pln">
+      </span><span class="str">"[table placeholder]"</span><span class="pun">,</span><span class="pln"> tableOutput</span><span class="pun">(</span><span class="str">"descriptives"</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">)</span><span class="pln">
+</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="50" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-8">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(9).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="51" data-total-slides="94"><hgroup><h2>Recap</h2></hgroup><article id="recap-1">
+
+<ul class="build">
+<li class="to-build">How can formatted text be shown in a <code>shiny</code> app?</li>
+<li class="to-build">What is mandatory <em>and</em> unique in input element functions?</li>
+<li class="to-build">How do you define where an output element will be shown?</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="52" data-total-slides="94"><hgroup><h2>Tips</h2></hgroup><article id="tips-3">
+
+<p>When building the front-end of your app:</p>
+
+<ul class="build">
+<li class="to-build">Work on the general appearance first, anything that does not rely on computation (e.g., tabs, inputs, outputs);</li>
+<li class="to-build">Use mock data and/or text (build an ‘ipsum-app’);</li>
+<li class="to-build">Make the app self-evident; the main usage of the app should not require reading any manual.</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="53" data-total-slides="94"><hgroup><h2></h2></hgroup><article>
+
+</article></slide><slide class="segue dark nobackground level1" data-slide-num="54" data-total-slides="94"><hgroup class="auto-fadein"><h2>The server</h2></hgroup><article id="the-server">
+
+</article></slide><slide class="" data-slide-num="55" data-total-slides="94"><hgroup><h2>Starting point</h2></hgroup><article id="starting-point-2">
+
+<!-- We're going to create a `shiny` app to visualize some data interactively. -->
+
+<pre class="prettyprint lang-r"><span class="pln">library</span><span class="pun">(</span><span class="pln">shiny</span><span class="pun">)</span><span class="pln">
+ui </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="com"># some code to generate the UI</span><span class="pln">
+server </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="com"># some code to generate the server</span><span class="pln">
+shinyApp</span><span class="pun">(</span><span class="pln">ui </span><span class="pun">=</span><span class="pln"> ui</span><span class="pun">,</span><span class="pln"> server </span><span class="pun">=</span><span class="pln"> server</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="56" data-total-slides="94"><hgroup><h2>The server function</h2></hgroup><article id="the-server-function" class="build">
+
+<pre class="prettyprint lang-r to-build"><span class="pln">server </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">input</span><span class="pun">,</span><span class="pln"> output</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{}</span></pre>
+
+<p class="to-build">The server function:</p>
+
+<ul class="build to-build">
+<li class="to-build">requires* input and output IDs from the UI;</li>
+<li class="to-build">builds output objects via <code>render...()</code> functions;</li>
+<li class="to-build">saves the generated output into an output list.</li>
+</ul>
+
+<div class="small to-build">
+*exceptions apply!</div>
+
+</article></slide><slide class="" data-slide-num="57" data-total-slides="94"><hgroup><h2>Building static output</h2></hgroup><article id="building-static-output" class="build">
+
+<p class="to-build">Let’s use the exception to the rule to develop our server step-by-step.</p>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">ggplot</span><span class="pun">(</span><span class="pln">penguins</span><span class="pun">,</span><span class="pln"> 
+  aes</span><span class="pun">(</span><span class="pln">x </span><span class="pun">=</span><span class="pln"> flipper_length_mm</span><span class="pun">,</span><span class="pln"> y </span><span class="pun">=</span><span class="pln"> bill_length_mm</span><span class="pun">,</span><span class="pln"> color </span><span class="pun">=</span><span class="pln"> species</span><span class="pun">))</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+  geom_point</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+  geom_smooth</span><span class="pun">(</span><span class="pln">method </span><span class="pun">=</span><span class="pln"> </span><span class="str">"lm"</span><span class="pun">,</span><span class="pln"> se </span><span class="pun">=</span><span class="pln"> </span><span class="lit">FALSE</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> 
+  scale_color_palmer</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+  labs</span><span class="pun">(</span><span class="pln">title </span><span class="pun">=</span><span class="pln"> </span><span class="str">"Flipper and bill length by species (static)"</span><span class="pun">)</span></pre>
+
+</article></slide><slide class="" data-slide-num="58" data-total-slides="94"><hgroup><h2>Building static output</h2></hgroup><article id="building-static-output-1">
+
+<p><img src="./lecture_files/unnamed-chunk-35-1.png" title=""><!-- --></p>
+
+</article></slide><slide class="" data-slide-num="59" data-total-slides="94"><hgroup><h2>Building static output</h2></hgroup><article id="building-static-output-2">
+
+<pre class="prettyprint lang-r"><span class="pln">server </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">input</span><span class="pun">,</span><span class="pln"> output</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  output</span><span class="pun">$</span><span class="pln">scatterplot </span><span class="pun">&lt;-</span><span class="pln"> renderPlot</span><span class="pun">({</span><span class="pln">
+    ggplot</span><span class="pun">(</span><span class="pln">penguins</span><span class="pun">,</span><span class="pln"> 
+      aes</span><span class="pun">(</span><span class="pln">x </span><span class="pun">=</span><span class="pln"> flipper_length_mm</span><span class="pun">,</span><span class="pln"> y </span><span class="pun">=</span><span class="pln"> bill_length_mm</span><span class="pun">,</span><span class="pln"> color </span><span class="pun">=</span><span class="pln"> species</span><span class="pun">))</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+      geom_point</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+      geom_smooth</span><span class="pun">(</span><span class="pln">method </span><span class="pun">=</span><span class="pln"> </span><span class="str">"lm"</span><span class="pun">,</span><span class="pln"> se </span><span class="pun">=</span><span class="pln"> </span><span class="lit">FALSE</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> 
+      scale_color_palmer</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+      labs</span><span class="pun">(</span><span class="pln">title </span><span class="pun">=</span><span class="pln"> </span><span class="str">"Flipper and bill length by species (static)"</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">})</span><span class="pln">
+</span><span class="pun">}</span></pre>
+
+</article></slide><slide class="" data-slide-num="60" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-9">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(10).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="61" data-total-slides="94"><hgroup><h2>Building interactive output</h2></hgroup><article id="building-interactive-output" class="build">
+
+<p class="to-build">To make the figure interactive, we have to link the server to the UI inputs.</p>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">server </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">input</span><span class="pun">,</span><span class="pln"> output</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  output</span><span class="pun">$</span><span class="pln">scatterplot </span><span class="pun">&lt;-</span><span class="pln"> renderPlot</span><span class="pun">({</span><span class="pln">
+    ggplot</span><span class="pun">(</span><span class="pln">penguins</span><span class="pun">,</span><span class="pln"> 
+      aes</span><span class="pun">(</span><span class="pln">x </span><span class="pun">=</span><span class="pln"> flipper_length_mm</span><span class="pun">,</span><span class="pln"> y </span><span class="pun">=</span><span class="pln"> bill_length_mm</span><span class="pun">,</span><span class="pln"> color </span><span class="pun">=</span><span class="pln"> species</span><span class="pun">))</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+      geom_point</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+      geom_smooth</span><span class="pun">(</span><span class="pln">method </span><span class="pun">=</span><span class="pln"> </span><span class="str">"lm"</span><span class="pun">,</span><span class="pln"> se </span><span class="pun">=</span><span class="pln"> </span><span class="lit">FALSE</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> 
+      scale_color_palmer</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+      labs</span><span class="pun">(</span><span class="pln">title </span><span class="pun">=</span><span class="pln"> paste</span><span class="pun">(</span><span class="str">"Flipper and bill length at"</span><span class="pun">,</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">location</span><span class="pun">))</span><span class="pln">
+  </span><span class="pun">})</span><span class="pln">
+</span><span class="pun">}</span></pre>
+
+<p class="to-build">Whenever the selected location changes, the plot title will update.</p>
+
+</article></slide><slide class="" data-slide-num="62" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-10">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(11).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="63" data-total-slides="94"><hgroup><h2>Building an interactive visualization</h2></hgroup><article id="building-an-interactive-visualization" class="build">
+
+<p class="to-build">To incorporate interactivity in the visualization, we have to filter the data based on the input values.</p>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">server </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">input</span><span class="pun">,</span><span class="pln"> output</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  output</span><span class="pun">$</span><span class="pln">scatterplot </span><span class="pun">&lt;-</span><span class="pln"> renderPlot</span><span class="pun">({</span><span class="pln">
+    filtered </span><span class="pun">&lt;-</span><span class="pln"> penguins </span><span class="pun">%&gt;%</span><span class="pln">
+      filter</span><span class="pun">(</span><span class="pln">island </span><span class="pun">==</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">location</span><span class="pun">,</span><span class="pln">
+           body_mass_g </span><span class="pun">&gt;=</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">weight</span><span class="pun">[</span><span class="lit">1</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">1000</span><span class="pun">,</span><span class="pln">
+           body_mass_g </span><span class="pun">&lt;=</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">weight</span><span class="pun">[</span><span class="lit">2</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">1000</span><span class="pln">
+      </span><span class="pun">)</span><span class="pln">  
+    filtered </span><span class="pun">%&gt;%</span><span class="pln"> 
+      ggplot</span><span class="pun">(</span><span class="pln">aes</span><span class="pun">(</span><span class="pln">x </span><span class="pun">=</span><span class="pln"> flipper_length_mm</span><span class="pun">,</span><span class="pln"> y </span><span class="pun">=</span><span class="pln"> bill_length_mm</span><span class="pun">,</span><span class="pln"> color </span><span class="pun">=</span><span class="pln"> species</span><span class="pun">))</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+        geom_point</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+        geom_smooth</span><span class="pun">(</span><span class="pln">method </span><span class="pun">=</span><span class="pln"> </span><span class="str">"lm"</span><span class="pun">,</span><span class="pln"> se </span><span class="pun">=</span><span class="pln"> </span><span class="lit">FALSE</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> 
+        scale_color_palmer</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+        labs</span><span class="pun">(</span><span class="pln">title </span><span class="pun">=</span><span class="pln"> </span><span class="str">"Flipper and bill length"</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">})</span><span class="pln">
+</span><span class="pun">}</span></pre>
+
+</article></slide><slide class="" data-slide-num="64" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-11">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(12).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="65" data-total-slides="94"><hgroup><h2>Building an interactive summary table</h2></hgroup><article id="building-an-interactive-summary-table">
+
+<p>To complete our app we need to build an interactive output for the table placeholder and add it to the server:</p>
+
+<pre class="prettyprint lang-r"><span class="pln">output</span><span class="pun">$</span><span class="pln">descriptives </span><span class="pun">&lt;-</span><span class="pln"> renderTable</span><span class="pun">({</span><span class="pln">
+  filtered </span><span class="pun">&lt;-</span><span class="pln"> penguins </span><span class="pun">%&gt;%</span><span class="pln">
+      filter</span><span class="pun">(</span><span class="pln">island </span><span class="pun">==</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">location</span><span class="pun">,</span><span class="pln">
+           body_mass_g </span><span class="pun">&gt;=</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">weight</span><span class="pun">[</span><span class="lit">1</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">1000</span><span class="pun">,</span><span class="pln">
+           body_mass_g </span><span class="pun">&lt;=</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">weight</span><span class="pun">[</span><span class="lit">2</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">1000</span><span class="pln">
+      </span><span class="pun">)</span><span class="pln">
+  filtered </span><span class="pun">%&gt;%</span><span class="pln"> 
+    group_by</span><span class="pun">(</span><span class="pln">species</span><span class="pun">)</span><span class="pln"> </span><span class="pun">%&gt;%</span><span class="pln"> 
+    summarise</span><span class="pun">(</span><span class="pln">mean_bill </span><span class="pun">=</span><span class="pln"> mean</span><span class="pun">(</span><span class="pln">bill_length_mm</span><span class="pun">,</span><span class="pln"> na.rm </span><span class="pun">=</span><span class="pln"> </span><span class="lit">TRUE</span><span class="pun">),</span><span class="pln">
+              mean_flip </span><span class="pun">=</span><span class="pln"> mean</span><span class="pun">(</span><span class="pln">flipper_length_mm</span><span class="pun">,</span><span class="pln"> na.rm </span><span class="pun">=</span><span class="pln"> </span><span class="lit">TRUE</span><span class="pun">))</span><span class="pln">
+</span><span class="pun">})</span></pre>
+
+</article></slide><slide class="" data-slide-num="66" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-12">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(13).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="67" data-total-slides="94"><hgroup><h2></h2></hgroup><article>
+
+</article></slide><slide class="segue dark nobackground level1" data-slide-num="68" data-total-slides="94"><hgroup class="auto-fadein"><h2>Intermezzo</h2></hgroup><article id="intermezzo">
+
+</article></slide><slide class="" data-slide-num="69" data-total-slides="94"><hgroup><h2>Reactivity</h2></hgroup><article id="reactivity" class="build">
+
+<p class="to-build">Short break from our app to talk about a crucial concept in <code>shiny</code>: reactivity.</p>
+
+<p class="to-build">Reactivity enables your outputs to react to changes in inputs.</p>
+
+<p class="to-build">On the most basic level, it means that when the value of a variable <code>x</code> changes, anything that relies on <code>x</code> (i.e.&nbsp;has <code>x</code> in it) gets re-evaluated.</p>
+
+<p class="to-build">Consider the following code</p>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">x </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="lit">5</span><span class="pln">
+y </span><span class="pun">&lt;-</span><span class="pln"> x </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pln">
+x </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="lit">10</span></pre>
+
+<p class="to-build">What is the value of <code>y</code>?</p>
+
+</article></slide><slide class="" data-slide-num="70" data-total-slides="94"><hgroup><h2>Reactivity</h2></hgroup><article id="reactivity-1" class="build">
+
+<p class="to-build">What is the value of <code>y</code>?</p>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">x </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="lit">5</span><span class="pln">
+y </span><span class="pun">&lt;-</span><span class="pln"> x </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pln">
+x </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="lit">10</span></pre>
+
+<p class="to-build">In ordinary programming, the value of <code>y</code> is still 6.</p>
+
+<p class="to-build">In reactive programming, however, <code>x</code> and <code>y</code> are <em>reactive expressions</em>. Now, the value of <code>y</code> updates reactively, and becomes 11.</p>
+
+<p class="to-build">Reactivity is the foundation for the responsiveness of <code>shiny</code> apps.</p>
+
+</article></slide><slide class="" data-slide-num="71" data-total-slides="94"><hgroup><h2>Reactivity</h2></hgroup><article id="reactivity-2">
+
+<p>In our server, we implicitly use reactivity when we filter the data for our outputs:</p>
+
+<pre class="prettyprint lang-r"><span class="pln">filtered </span><span class="pun">&lt;-</span><span class="pln"> penguins </span><span class="pun">%&gt;%</span><span class="pln">
+    filter</span><span class="pun">(</span><span class="pln">island </span><span class="pun">==</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">location</span><span class="pun">,</span><span class="pln">
+         body_mass_g </span><span class="pun">&gt;=</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">weight</span><span class="pun">[</span><span class="lit">1</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">1000</span><span class="pun">,</span><span class="pln">
+         body_mass_g </span><span class="pun">&lt;=</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">weight</span><span class="pun">[</span><span class="lit">2</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">1000</span><span class="pln">
+    </span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">)</span></pre>
+
+<p>Whenever one of the inputs changes, our outputs change with it. But, this part of code is duplicated, because we didn’t use a reactive variable.</p>
+
+</article></slide><slide class="" data-slide-num="72" data-total-slides="94"><hgroup><h2>Reactivity</h2></hgroup><article id="reactivity-3" class="build">
+
+<p class="to-build">We can avoid code duplication by:</p>
+
+<ul class="build to-build">
+<li class="to-build">defining a reactive variable that will hold the filtered dataset;</li>
+<li class="to-build">using that variable in the <code>render...()</code> functions.</li>
+</ul>
+
+<pre class="prettyprint lang-r to-build"><span class="pln">filtered </span><span class="pun">&lt;-</span><span class="pln"> reactive</span><span class="pun">({</span><span class="pln">
+ penguins </span><span class="pun">%&gt;%</span><span class="pln">
+    filter</span><span class="pun">(</span><span class="pln">island </span><span class="pun">==</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">location</span><span class="pun">,</span><span class="pln">
+           body_mass_g </span><span class="pun">&gt;=</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">weight</span><span class="pun">[</span><span class="lit">1</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">1000</span><span class="pun">,</span><span class="pln">
+           body_mass_g </span><span class="pun">&lt;=</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">weight</span><span class="pun">[</span><span class="lit">2</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">1000</span><span class="pln">
+      </span><span class="pun">)</span><span class="pln">
+</span><span class="pun">})</span></pre>
+
+</article></slide><slide class="" data-slide-num="73" data-total-slides="94"><hgroup><h2>Reactivity</h2></hgroup><article id="reactivity-4" class="build">
+
+<p class="to-build">What is going on behind the scenes?</p>
+
+<ul class="build to-build">
+<li class="to-build">The location input changes →</li>
+<li class="to-build"><code>shiny</code> ‘looks’ at the reactive(s) that depend on location →</li>
+<li class="to-build"><code>filtered()</code> is re-evaluated →</li>
+<li class="to-build"><code>shiny</code> ‘looks’ at the reactive(s) that depend on <code>filtered()</code> →</li>
+<li class="to-build">The two <code>render...()</code> functions are re-executed →</li>
+<li class="to-build">The plot and the table output are updated.</li>
+</ul>
+
+<p class="to-build">This can be visualized in a dependency tree, to show what value depends on what other value.</p>
+
+</article></slide><slide class="" data-slide-num="74" data-total-slides="94"><hgroup><h2>Reactivity</h2></hgroup><article id="reactivity-5">
+
+<div align="center">
+<p><img src="./lecture_files/graph.png" width="800"></p></div>
+
+</article></slide><slide class="" data-slide-num="75" data-total-slides="94"><hgroup><h2></h2></hgroup><article>
+
+</article></slide><slide class="segue dark nobackground level1" data-slide-num="76" data-total-slides="94"><hgroup class="auto-fadein"><h2>The server (continued)</h2></hgroup><article id="the-server-continued">
+
+</article></slide><slide class="" data-slide-num="77" data-total-slides="94"><hgroup><h2>The final app</h2></hgroup><article id="the-final-app" class="smaller">
+
+<pre class="prettyprint lang-r"><span class="pln">server </span><span class="pun">&lt;-</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">input</span><span class="pun">,</span><span class="pln"> output</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  filtered </span><span class="pun">&lt;-</span><span class="pln"> reactive</span><span class="pun">({</span><span class="pln">
+    penguins </span><span class="pun">%&gt;%</span><span class="pln">
+      filter</span><span class="pun">(</span><span class="pln">island </span><span class="pun">==</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">location</span><span class="pun">,</span><span class="pln">
+             body_mass_g </span><span class="pun">&gt;=</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">weight</span><span class="pun">[</span><span class="lit">1</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">1000</span><span class="pun">,</span><span class="pln">
+             body_mass_g </span><span class="pun">&lt;=</span><span class="pln"> input</span><span class="pun">$</span><span class="pln">weight</span><span class="pun">[</span><span class="lit">2</span><span class="pun">]</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">1000</span><span class="pln">
+             </span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">})</span><span class="pln">
+  
+  output</span><span class="pun">$</span><span class="pln">scatterplot </span><span class="pun">&lt;-</span><span class="pln"> renderPlot</span><span class="pun">({</span><span class="pln">
+    filtered</span><span class="pun">()</span><span class="pln"> </span><span class="pun">%&gt;%</span><span class="pln"> 
+      ggplot</span><span class="pun">(</span><span class="pln">aes</span><span class="pun">(</span><span class="pln">x </span><span class="pun">=</span><span class="pln"> flipper_length_mm</span><span class="pun">,</span><span class="pln"> y </span><span class="pun">=</span><span class="pln"> bill_length_mm</span><span class="pun">,</span><span class="pln"> color </span><span class="pun">=</span><span class="pln"> species</span><span class="pun">))</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+        geom_point</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+        geom_smooth</span><span class="pun">(</span><span class="pln">method </span><span class="pun">=</span><span class="pln"> </span><span class="str">"lm"</span><span class="pun">,</span><span class="pln"> se </span><span class="pun">=</span><span class="pln"> </span><span class="lit">FALSE</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> 
+        scale_color_palmer</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+        labs</span><span class="pun">(</span><span class="pln">title </span><span class="pun">=</span><span class="pln"> </span><span class="str">"Flipper and bill length"</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">})</span><span class="pln">
+  
+  output</span><span class="pun">$</span><span class="pln">descriptives </span><span class="pun">&lt;-</span><span class="pln"> renderTable</span><span class="pun">({</span><span class="pln">
+    filtered</span><span class="pun">()</span><span class="pln"> </span><span class="pun">%&gt;%</span><span class="pln"> 
+      group_by</span><span class="pun">(</span><span class="pln">species</span><span class="pun">)</span><span class="pln"> </span><span class="pun">%&gt;%</span><span class="pln">
+      summarise</span><span class="pun">(</span><span class="pln">mean_bill </span><span class="pun">=</span><span class="pln"> mean</span><span class="pun">(</span><span class="pln">bill_length_mm</span><span class="pun">,</span><span class="pln"> na.rm </span><span class="pun">=</span><span class="pln"> </span><span class="lit">TRUE</span><span class="pun">),</span><span class="pln">
+              mean_flip </span><span class="pun">=</span><span class="pln"> mean</span><span class="pun">(</span><span class="pln">flipper_length_mm</span><span class="pun">,</span><span class="pln"> na.rm </span><span class="pun">=</span><span class="pln"> </span><span class="lit">TRUE</span><span class="pun">))</span><span class="pln">
+  </span><span class="pun">})</span><span class="pln">
+</span><span class="pun">}</span></pre>
+
+</article></slide><slide class="" data-slide-num="78" data-total-slides="94"><hgroup><h2>Our app</h2></hgroup><article id="our-app-13">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(14).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="79" data-total-slides="94"><hgroup><h2>Recap</h2></hgroup><article id="recap-2">
+
+<ul class="build">
+<li class="to-build">What is the common naming element in the set of <code>shiny</code> output functions?</li>
+<li class="to-build">How can you make the server side more efficient and easier to debug?</li>
+<li class="to-build">How are the UI and server sides linked?</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="80" data-total-slides="94"><hgroup><h2>Tips</h2></hgroup><article id="tips-4">
+
+<p>When building the back-end of your app:</p>
+
+<ul class="build">
+<li class="to-build">Use sensible non-reactive defaults while developing (e.g., <code>data &lt;- mtcars</code> instead of <code>data &lt;- reactive(...).</code>);</li>
+<li class="to-build">Think about what could to be ‘hard coded’ in the final app too, because of the reactivity vs.&nbsp;speed trade-off;</li>
+<li class="to-build">Extract the complex (but non-reactive) processing functions and put them in separate files;</li>
+<li class="to-build">Add user feedback to make server-side requirements explicit (e.g., input validation, pop-up messages, loading icons).</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="81" data-total-slides="94"><hgroup><h2></h2></hgroup><article>
+
+</article></slide><slide class="segue dark nobackground level1" data-slide-num="82" data-total-slides="94"><hgroup class="auto-fadein"><h2>Advanced topics</h2></hgroup><article id="advanced-topics">
+
+</article></slide><slide class="" data-slide-num="83" data-total-slides="94"><hgroup><h2>Design</h2></hgroup><article id="design">
+
+<ul class="build">
+<li class="to-build">Use more complex layouts, such as tabs or dashboards;</li>
+<li class="to-build">Make the output elements ‘clickable’ with <code>plotly</code> and <code>DT</code>;</li>
+<li class="to-build">Change input element options from the server side with <code>update...()</code> functions.</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="84" data-total-slides="94"><hgroup><h2>Interactive output elements</h2></hgroup><article id="interactive-output-elements">
+
+<pre class="prettyprint lang-r"><span class="com"># Interactive plots with {plotly}</span><span class="pln">
+</span><span class="lit">...</span><span class="pln">
+plotlyOutput</span><span class="pun">(</span><span class="str">"scatterplot"</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">...</span><span class="pln">
+output</span><span class="pun">$</span><span class="pln">scatterplot </span><span class="pun">&lt;-</span><span class="pln"> renderPlotly</span><span class="pun">({</span><span class="lit">...</span><span class="pun">})</span><span class="pln">
+</span><span class="lit">...</span><span class="pln">
+
+</span><span class="com"># Interactive tables with {DT}</span><span class="pln">
+</span><span class="lit">...</span><span class="pln">
+dataTableOutput</span><span class="pun">(</span><span class="str">"descriptives"</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">...</span><span class="pln">
+output</span><span class="pun">$</span><span class="pln">descriptives </span><span class="pun">&lt;-</span><span class="pln"> renderDataTable</span><span class="pun">({</span><span class="lit">...</span><span class="pun">})</span><span class="pln">
+</span><span class="lit">...</span></pre>
+
+</article></slide><slide class="" data-slide-num="85" data-total-slides="94"><hgroup><h2>Extended app</h2></hgroup><article id="extended-app">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(15).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="86" data-total-slides="94"><hgroup><h2>Robustness</h2></hgroup><article id="robustness">
+
+<ul class="build">
+<li class="to-build">Run the app in the viewer panel, a separate window, and your browser;</li>
+<li class="to-build">Monkey test it (i.e., click EVERYTHING);</li>
+<li class="to-build">Provide the wrong inputs (e.g., a corrupt data file, a file with the ‘wrong’ extension, an ‘impossible’ numeric input, etc.);</li>
+<li class="to-build">Modularize your app;</li>
+<li class="to-build">Use the <code>golem</code> framework for production-grade <code>shiny</code> apps (but decide up-front!).</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="87" data-total-slides="94"><hgroup><h2>Separating tabs</h2></hgroup><article id="separating-tabs">
+
+<pre class="prettyprint lang-r"><span class="lit">...</span><span class="pln">
+tabsetPanel</span><span class="pun">(</span><span class="pln">
+  tabPanel</span><span class="pun">(</span><span class="str">"Plot"</span><span class="pun">,</span><span class="pln"> plotOutput</span><span class="pun">(</span><span class="str">"scatterplot"</span><span class="pun">)),</span><span class="pln">
+  tabPanel</span><span class="pun">(</span><span class="str">"Table"</span><span class="pun">,</span><span class="pln"> tableOutput</span><span class="pun">(</span><span class="str">"descriptives"</span><span class="pun">))</span><span class="pln">
+</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">...</span></pre>
+
+</article></slide><slide class="" data-slide-num="88" data-total-slides="94"><hgroup><h2>Extended app</h2></hgroup><article id="extended-app-1">
+
+<iframe width="100%" height="400" class="shiny-frame" src="./lecture_files/saved_resource(16).html"></iframe>
+
+</article></slide><slide class="" data-slide-num="89" data-total-slides="94"><hgroup><h2>Deployment</h2></hgroup><article id="deployment" class="build">
+
+<p class="to-build">Deploy your app on <a href="https://www.shinyapps.io/" title="">shinyapps.io</a>:</p>
+
+<ul class="build to-build">
+<li class="to-build">You’ll have a link to use/share the app online;</li>
+<li class="to-build">Non-<code>R</code>-users will be able to interact with your app;</li>
+<li class="to-build">You can tweak your app to cache certain outputs, or have several users in one session (like Google Drive documents);</li>
+<li class="to-build">But, with a free account, your app will be public;</li>
+<li class="to-build">And if your app is too popular, you will eventually need to pay server costs.</li>
+</ul>
+
+<div class="small to-build">
+Note. You could also host your app on your own website. Or don’t deploy it at all (e.g., for privacy reasons).</div>
+
+</article></slide><slide class="" data-slide-num="90" data-total-slides="94"><hgroup><h2></h2></hgroup><article>
+
+</article></slide><slide class="segue dark nobackground level1" data-slide-num="91" data-total-slides="94"><hgroup class="auto-fadein"><h2>Take-aways</h2></hgroup><article id="take-aways">
+
+</article></slide><slide class="" data-slide-num="92" data-total-slides="94"><hgroup><h2>Summary</h2></hgroup><article id="summary">
+
+<ul class="build">
+<li class="to-build"><code>shiny</code> allows you to build interactive (web) apps from <code>R</code>;</li>
+<li class="to-build"><code>shiny</code> apps consist of two parts, the user interface (UI) and the server:
+
+<ul class="build">
+<li class="to-build">In the UI, you design what is shown to the user,</li>
+<li class="to-build">In the server, you do all the modeling and building of the outputs,</li>
+<li class="to-build">You link the UI and the server to make the app interactive,</li>
+<li class="to-build">To optimize these interactions, you can use reactive expressions;</li>
+</ul></li>
+<li class="to-build">This is only the tip of the iceberg, there are many more things you can do with <code>shiny</code>.</li>
+</ul>
+
+</article></slide><slide class="" data-slide-num="93" data-total-slides="94"><hgroup><h2>Inspiration</h2></hgroup><article id="inspiration" class="build">
+
+<p class="to-build">Check out these amazing resources:</p>
+
+<ul class="build to-build">
+<li class="to-build"><a href="https://www.rstudio.com/resources/webinars/introduction-to-shiny/" title="">RStudio’s introduction to shiny webinar</a>;</li>
+<li class="to-build">Hadley Wickham’s book <a href="https://mastering-shiny.org/" title="">Mastering Shiny</a>;</li>
+<li class="to-build">The official <a href="https://rstudio.com/resources/cheatsheets/" title="">cheatsheet</a>;</li>
+<li class="to-build">The more advanced <a href="https://engineering-shiny.org/" title="">Engineering Shiny</a>;</li>
+<li class="to-build">This webinar on <a href="https://www.youtube.com/watch?v=ylLLVo2VL50" title="">Modularizing Shiny</a>.</li>
+</ul>
+
+<p class="to-build">And look for examples here:</p>
+
+<ul class="build to-build">
+<li class="to-build">The <a href="https://shiny.rstudio.com/gallery/" title="">Shiny Gallery</a>;</li>
+<li class="to-build">The annual <code>shiny</code> <a href="https://www.rstudio.com/blog/winners-of-the-2nd-shiny-contest/" title="">contest</a>.</li>
+</ul>
+
+<!-- ## Check out my app! -->
+
+<!-- <div align="center"> -->
+
+<!-- <img src="lecture_files/shinymice.png" width=800> -->
+
+<!-- [hanneoberman.shinyapps.io/shinymice-demo/](https://hanneoberman.shinyapps.io/shinymice-demo/) -->
+
+<!-- </div> -->
+
+<!-- ## Build your `shiny` app -->
+
+<!-- Complete and hand in questions 1 - 4 of the lab (at least 2 hours before the start of the lab), finishing the section “Part 1: to be completed at home before the lab”. -->
+
+</article></slide><slide class="" data-slide-num="94" data-total-slides="94"><hgroup><h2>Thank you!</h2></hgroup><article id="thank-you">
+
+<!-- <div align="center"> -->
+
+<!-- <br> -->
+
+<!-- _Have a nice day!_ -->
+
+<!-- </div> --></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+<div class="slide-area" id="prev-slide-area"></div><div class="slide-area" id="next-slide-area"></div></slides>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+    if (window.Shiny) {
+      // Initialize slides when this script appears on the page, since it
+      // indicates that the <slides> markup has been fully loaded.
+      window.loadDeck();
+    }
+  })();
+</script>
+
+
+</div>
+  </div>
+
+
+<iframe id="t6l2gy4q" frameborder="0" src="./lecture_files/translateSandbox.html" style="width: 0px; height: 0px; display: none;"></iframe><div aria-live="assertive" role="log" aria-relevant="additions" aria-atomic="true" style="position: absolute; width: 1px; height: 1px; margin-top: -1px; clip: rect(1px, 1px, 1px, 1px); overflow: hidden;"></div><div aria-live="assertive" role="log" aria-relevant="additions" aria-atomic="true" style="position: absolute; width: 1px; height: 1px; margin-top: -1px; clip: rect(1px, 1px, 1px, 1px); overflow: hidden;"></div></body></html>
