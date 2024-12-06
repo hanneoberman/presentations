@@ -2,12 +2,9 @@
 
 Selection of presentation slides for research talks and lectures.
 
-## Work in progress
-
-- Poster NLRN Symposium 2024, UMC Groningen, *Teaching Reproducibility to Research Master's Students*. Concept poster available [here](https://hanneoberman.github.io/presentations/2024/NLRN/poster.pptx).
-
 ## 2024
 
+- Poster NLRN Symposium 2024, UMC Groningen, *Teaching Reproducibility to Research Master's Students*. Poster available [here](https://hanneoberman.github.io/presentations/2024/NLRN/poster.pdf).
 - Lecture MSBBSS, Utrecht University, *Building interactive web apps with the `R` package `shiny`*. Slides available [here](https://hanneoberman.github.io/presentations/2024/markup/lecture.pdf).
 - Lecture SHP03, Utrecht University, *Logistic regression*. Slides available [here](https://hanneoberman.github.io/presentations/2024/SHP03/logistic.html) and [static as PDF](https://hanneoberman.github.io/presentations/2024/SHP03/logistic.pdf).
 - Tutorial useR! 2024, Salzburg, *Missing data exploration, imputation, and evaluation*. Slides available [here](https://hanneoberman.github.io/presentations/2024/useR/slides.html).
