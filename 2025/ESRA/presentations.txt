@@ -1,0 +1,15 @@
+Computational Reproducibility in Statistics
+
+Computational reproducibility—the ability to reproduce results from a study using the original data and analysis code—is a cornerstone of Open Science. It ensures transparency, fosters trust, and enhances the reusability of scientific research. Even with open data and code, many statistical studies are regrettably not reproducible yet. This presentation explores how to teach computational reproducibility to (future) statisticians, focusing on domain-agnostic principles and practical tools.
+
+At Utrecht University, we teach a reproducibility-focused course in the research master’s program 'Methodology and Statistics for the Behavioural, Biomedical, and Social Sciences'. The course introduces students to tools and workflows for creating publication-ready research compendia, incorporating (among other things) Quarto markdown, version control with Git, and reproducible R environments using {renv}. Many of the tools taught in this course are also applicable to the work of survey methodologists. For example, R code may be shared as an executable research compendium, R package, or Shiny app.
+
+The key question in this presentation is: How can we promote the adaption of tools for computational reproducibility among statisticians?
+
+--------------------------------------------------
+
+Data visualization for incomplete datasets in R
+
+
+In many data analysis efforts, missing data are conveniently ignored. With default settings such as ‘list-wise deletion’ in analysis software, analysists need not even bother with the ubiquitous problem of incomplete data. I argue that this is wasteful: not only can missing data bias analysis results if not addressed well, but moreover, the missing data itself can provide valuable insights into the phenomena of interest.
+The visualization of incomplete data can uncover associations and intricacies between variables that may otherwise go overlooked. Which, in turn, can be leveraged in amending the missingness by means of imputation. The R package {ggmice} aids data analysts in exploring the missing parts of their data. In this presentation, I will showcase the use and usefulness of a data visualization workflow for incomplete datasets in R.

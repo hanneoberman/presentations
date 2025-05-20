@@ -1,0 +1,38 @@
+---
+title: "The Open Empirical Cycle"
+author: 
+- name: "Hanne Oberman"
+  orcid: 0000-0003-3276-2141
+institute: "Utrecht University"
+format:
+  revealjs:
+    logo: ../../UU_logo.png
+    footer: "Hanne Oberman, Utrecht University"
+    incremental: true
+    toc: false
+    toc-title: Overview
+    code-fold: false  
+    df-print: kable
+    embed-resources: true
+    mermaid:
+      theme: neutral
+execute:
+  echo: true
+css: ../../styles.css
+title-slide-attributes: 
+  data-footer: "Based on presentations by Herbert Hoijtink, Bianca Kramer & Jeroen Bosman; re-use license: CC BY"
+include-after-body: ../../add-custom-footer.html
+---
+
+## test
+
+## Empirical Cycle
+
+[![](https://upload.wikimedia.org/wikipedia/commons/5/53/Empirical_Cycle.svg "Empirical cycle")](https://en.wikipedia.org/wiki/Empirical_cycle) [^1]
+
+<!-- ![](https://upload.wikimedia.org/wikipedia/commons/5/53/Empirical_Cycle.svg) ^[1] -->
+
+## References
+
+<a href="https://commons.wikimedia.org/wiki/File:Empirical_Cycle.svg">Empirical_Cycle.png: TesseUndDaanderivative work: Beao</a>, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>, via Wikimedia Commons]
+- Wikipedia. (2023). *Empirical cycle*. https://en.wikipedia.org/wiki/Empirical_cycle
