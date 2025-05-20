@@ -29,6 +29,9 @@ format:
 
 </center>
 
+## 2025
+
+- aDAV Shiny lecture. Slides pdf [here](https://hanneoberman.github.io/presentations/2025/ADAV/shiny.pdf)
 
 ## 2024
 
