@@ -1,0 +1,10 @@
+Operationalisation of Open Science in Surveys 
+Hanne Oberman (Utrecht University)
+Poster Short Abstract:
+What is measured in surveys investigating the uptake of Open Science? While most surveys include 'open access' in the operationalization of Open Science, practices such as 'open peer review', 'open educational resources', and 'public engagement' are only sporadically measured.
+Poster Abstract:
+What is measured in surveys investigating the uptake of Open Science? While most surveys include 'open access' in the operationalization of Open Science, practices such as 'open peer review', 'open educational resources', and 'public engagement' are only sporadically measured. This poster presents results from a literature study on the operationalization of Open Science practices in survey research.
+
+The literature study was conducted at the Open Science Retreat 2024 (https://openscienceretreat.eu/). The team consisted of Lotte van Burgsteden, Tanya van Goch, Bogdana Huma, Anne Marie Meijer, Iris Smal and Hanne Oberman. Together, the team collected, reviewed, and analyzed existing research into open science practices. As a team, we developed an interactive overview of open science surveys, which may be used e.g. to reuse questionnaire items on different open science practices.
+
+The main categories we encountered were 'Open Access', 'Pre-printing', 'Open Peer-review', 'Open Data', 'Open Code', 'Pre-registration', 'Open Educational Resources', and 'Public Engagement'. A dashboard for visualizing the findings is available via https://hanneoberman.shinyapps.io/os-surveys/. All of our study materials are openly available, with the literature list on Zotero (https://www.zotero.org/groups/5464665/osr24nl), code on GitHub (https://github.com/oscutrecht/OpenScienceSurveys), and a persistent identifier on Zenodo (https://doi.org/10.5281/zenodo.10932820). We also inventoried the psychological constructs measured by the various surveys and identified seven constructs: awareness, attitudes, behavior, intention, barriers, benefits and conditions.
