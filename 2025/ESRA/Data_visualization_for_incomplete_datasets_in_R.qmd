@@ -1,0 +1,291 @@
+---
+title: "Data visualization"
+subtitle: "for incomplete datasets in `R`"
+author: 
+  - name: "Hanne Oberman"
+    orcid: "0000-0003-3276-2141"
+institute: "PhD candidate at Utrecht University"
+format:
+  revealjs:
+    logo: logo.png
+    footer: "Hanne Oberman, hanneoberman.github.io/presentations"
+    incremental: true
+    toc: false
+    toc-title: Overview
+    embed-resources: true
+css: ../../styles.css
+---
+
+## Missingness
+
+![](https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png){fig-align="center"}
+
+<!-- In many data analysis efforts, missing data are conveniently ignored. With default settings such as ‘listwise deletion’ in analysis software, analysts need not even bother with the ubiquitous problem of incomplete data. I argue that this is wasteful: not only can missing data bias analysis results if not addressed well, but moreover, missing data can provide valuable insights into the phenomena of interest. The visualization of incomplete data can uncover associations and intricacies between variables that may otherwise go overlooked. Which, in turn, can be leveraged in amending the missingness by means of imputation. The R package ggmice aids data analysts in exploring the missing parts of their data. In this presentation, I will showcase the use and usefulness of a data visualization workflow for incomplete datasets in R. -->
+
+## A problem to fix
+
+::: {.fragment}
+
+- unit non-response 
+
+:::
+
+::: {.fragment}
+  $\rightarrow$ weighting etc.
+:::
+
+::: {.fragment}
+
+- item non-response 
+
+:::
+
+::: {.fragment}
+  $\rightarrow$ imputation etc.
+:::
+
+<!-- - unit non-response  -->
+<!--   $\rightarrow$ weighting etc. -->
+<!-- - item non-response  -->
+<!--   $\rightarrow$ imputation etc. -->
+
+## Case study
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+#| code-line-numbers: "2"
+set.seed(123)
+library(palmerpenguins)
+library(mice)
+library(ggmice)
+library(ggplot2)
+```
+
+![](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png){fig-align="center" width=60%}
+
+## Incomplete data
+
+```{r, echo=TRUE}
+str(penguins)
+```
+
+## Incomplete data
+
+```{r, echo=TRUE}
+visdat::vis_dat(penguins)
+```
+
+## Response indicator
+
+```{r, echo=TRUE}
+is.na(penguins)
+```
+
+## Response indicator
+
+```{r, echo=TRUE}
+naniar::vis_miss(penguins)
+```
+
+## Missingness rate
+
+```{r, echo=TRUE}
+colSums(is.na(penguins))
+```
+
+## Missingness rate
+
+```{r, echo=TRUE}
+VIM::aggr(penguins, numbers = TRUE, prop = FALSE)
+```
+
+## Missing data pattern
+
+```{r, echo=TRUE}
+md.pattern(penguins)
+```
+
+## Missing data pattern
+
+```{r, echo=TRUE}
+plot_pattern(penguins)
+```
+
+## Populations by sex
+
+```{r, echo=TRUE}
+#| code-fold: true
+ggplot(penguins, aes(x = year, fill = sex, group = sex)) +
+  geom_bar(position = "dodge") + 
+  scale_x_continuous(breaks = c(2007, 2008, 2009)) +
+  theme_classic()
+```
+
+## Populations by sex and species
+
+```{r, echo=TRUE}
+#| code-fold: true
+ggplot(penguins, aes(x = year, fill = sex, group = sex)) +
+  geom_bar(position = "dodge") + 
+  facet_wrap(~species) + 
+  scale_x_continuous(breaks = c(2007, 2008, 2009)) +
+  theme_classic()
+```
+
+## Imputation workflow
+
+![](https://stefvanbuuren.name/fimd/fig/ch01-miflow-1.png){fig-align="center"}
+
+## Imputation models
+
+```{r, echo=TRUE}
+pred <- make.predictorMatrix(penguins)
+meth <- make.method(penguins)
+plot_pred(pred, method = meth, square = FALSE)
+```
+
+## Correlation 
+
+```{r, echo=TRUE}
+plot_corr(penguins, square = FALSE)
+```
+
+## Imputation models
+
+```{r, echo=TRUE}
+pred <- quickpred(penguins, mincor = 0.4)
+plot_pred(pred, method = meth, square = FALSE)
+```
+
+## Scatter plot
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(sex, flipper_length_mm)) +
+  geom_point(size = 2)
+```
+
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(flipper_length_mm)) +
+  geom_histogram(fill = "white") +
+  facet_grid(factor(
+    is.na(sex), 
+    levels = c(TRUE, FALSE), 
+    labels = c("missing sex", "observed sex")
+    ) ~ .)
+```
+
+## Faceted scatter plot
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(sex, flipper_length_mm)) +
+  geom_point(size = 2) +
+  facet_wrap(~species)
+```
+
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(flipper_length_mm)) +
+  geom_histogram(fill = "white") +
+  facet_grid(factor(
+    is.na(sex), 
+    levels = c(TRUE, FALSE), 
+    labels = c("missing sex", "observed sex")
+    ) ~ species)
+```
+
+## Adjust imputation models
+
+```{r, echo=TRUE}
+pred["sex", c("species", "flipper_length_mm")] <- 1
+plot_pred(pred, method = meth)
+```
+
+## Impute
+
+```{r, echo=TRUE}
+imp <- mice(
+  penguins, 
+  pred = pred, 
+  method = meth, 
+  m = 20,
+  print = FALSE)
+plot_trace(imp)
+```
+
+
+## Scatter plot before imputation
+
+```{r, echo=TRUE}
+ggmice(penguins, aes(sex, flipper_length_mm)) +
+  geom_point() +
+  facet_grid(~species)
+```
+
+## Scatter plot after imputation
+
+```{r, echo=TRUE}
+ggmice(imp, aes(sex, flipper_length_mm)) +
+  geom_point() +
+  facet_grid(~species)
+```
+
+## Boxplot after imputation
+
+```{r, echo=TRUE}
+ggmice(imp, aes(sex, flipper_length_mm)) +
+  geom_boxplot() +
+  facet_grid(~species)
+```
+
+## Stripplot
+
+```{r, echo=TRUE}
+ggmice(imp, aes(x = .imp, y = sex)) +
+  geom_jitter(width = 0.05) +
+  labs(x = "Imputation number")
+```
+
+
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(imp, aes(sex, group = factor(.imp, levels = 20:0, ordered = TRUE))) +
+  geom_histogram(fill = "white", stat = "count") +
+  facet_grid(~ species)
+```
+
+## Populations before imputation
+
+```{r, echo=TRUE}
+#| code-fold: true
+ggplot(penguins, aes(x = year, fill = sex, group = sex)) +
+  geom_bar(position = "dodge") + 
+  facet_wrap(~species) + 
+  scale_x_continuous(breaks = c(2007, 2008, 2009)) +
+  theme_classic()
+```
+
+## Populations after imputation
+
+```{r, echo=TRUE}
+#| code-fold: true
+ggplot(complete(imp), aes(x = year, fill = sex, group = sex)) +
+  geom_bar(position = "dodge") +
+  facet_wrap( ~ species) +
+  scale_x_continuous(breaks = c(2007, 2008, 2009)) +
+  theme_classic()
+```
+
+## Take aways
+
+Missing data are 
+
+  - a ubiquitous problem
+  - visualizable & analyzable
+  - informative!
+
+## Thank you!
+
+![](https://edu.nl/nbd3q~?format=svg)
