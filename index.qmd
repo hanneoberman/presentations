@@ -32,6 +32,7 @@ format:
 ## 2025
 
 - Presentation ESRA 2025, Utrecht, *Data visualization for incomplete datasets in `R`*. Slides available [here](https://hanneoberman.github.io/presentations/2025/ESRA/Data_visualization_for_incomplete_datasets_in_R.html), materials available [here](https://github.com/hanneoberman/presentations/2025/ESRA).
+- Poster METASCIENCE 2025, University College London, *What is ‘Open Science’? Operationalisation of Open Science in Survey Research*. Poster PDF available [here](https://hanneoberman.github.io/presentations/2025/METASCIENCE/Metascience.pdf).
 - Lecture Applied Data Analysis and Visualization, Utrecht University,  *Building interactive web apps with the `R` package `shiny`*. Slides available [here](https://hanneoberman.github.io/presentations/2025/ADAV/shiny.pdf), materials available [here](https://github.com/hanneoberman/presentations/2025/ADAV).
 
 ## 2024
