@@ -199,12 +199,12 @@ ggmice(penguins, aes(flipper_length_mm)) +
 
 ```{r, echo=TRUE}
 pred["sex", c("species", "flipper_length_mm")] <- 1
-plot_pred(pred, method = meth)
+plot_pred(pred, method = meth, square = FALSE)
 ```
 
 ## Impute
 
-```{r, echo=TRUE}
+```{r, echo=TRUE, fig.width=15}
 imp <- mice(
   penguins, 
   pred = pred, 
