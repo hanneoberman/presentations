@@ -211,7 +211,7 @@ imp <- mice(
   method = meth, 
   m = 20,
   print = FALSE)
-plot_trace(imp)
+plot_trace(imp, legend = FALSE)
 ```
 
 
