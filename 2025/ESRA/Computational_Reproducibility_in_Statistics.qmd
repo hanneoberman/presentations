@@ -1,6 +1,6 @@
 ---
-title: "Computational Reproducibility"
-subtitle: "in Statistics"
+title: "Computational Reproducibility in Statistics"
+subtitle: ""
 author: 
   - name: "Hanne Oberman"
     orcid: "0000-0003-3276-2141"
@@ -13,7 +13,8 @@ format:
     toc: false
     toc-title: Overview
     embed-resources: true
-css: ../style.css
+    theme: [solarized, styling.scss]
+css: ../../styles.css
 ---
 
 <!-- Computational Reproducibility in Statistics -->
@@ -24,14 +25,14 @@ css: ../style.css
 
 <!-- The key question in this presentation is: How can we promote the adaption of tools for computational reproducibility among statisticians? -->
 
-# Overview
+<!-- # Overview -->
 
-## Today's class
+<!-- ## Today's class -->
 
-- Reproducibility
-- Research compendiums
+<!-- - Reproducibility -->
+<!-- - Research compendiums -->
 
-![](images/lec-4/researchroad.jpg)
+<!-- ![](images/lec-4/researchroad.jpg) -->
 
 ## Why bother?
 
@@ -49,20 +50,12 @@ B. **Reproducibility may greatly benefit you**
   - Changing or amending your work is much easier
   - Higher research impact - more likely to be picked up and cited
 
-## By the end of this class...
 
-- ... you will have heard *what* reproducible research is and *why* it is important
-- ... you have *applied* this knowledge by *critiquing* the reproducibility of case study
-- ... you will be able to *produce* a reproducible research archive from scratch
-
-
----
-
-# Reproducibility
+<!-- # Reproducibility -->
 
 ## Crisis?
 
-![](images/lec-4/crisis.jpg)
+![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/crisis.jpg)
 
 ::: footer
 [Baker (2016)](https://www.nature.com/articles/533452a)
@@ -70,7 +63,7 @@ B. **Reproducibility may greatly benefit you**
 
 ## Definition
 
-![](images/lec-4/matrix.jpg)
+![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/matrix.jpg)
 
 > A result is **reproducible** when the *same* analysis steps performed on the *same* dataset consistently produces the *same* answer.
 
@@ -80,7 +73,7 @@ B. **Reproducibility may greatly benefit you**
 
 ## Definition
 
-![](images/lec-4/matrix.jpg)
+![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/matrix.jpg)
 
 > Research results are **replicable** if there is sufficient information available for independent researchers to make the same findings using the same procedures.
 
@@ -93,7 +86,7 @@ B. **Reproducibility may greatly benefit you**
 
 In computational sciences - such as ours - simply having the data and code means that the results are not only replicable, but fully reproducible. 
 
-![](images/lec-4/matrix.jpg){fig-align="right"}
+![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/matrix.jpg){fig-align="right"}
 
 
 
@@ -105,7 +98,7 @@ Reproducible research is not the norm:
 
 <!-- 9000 unique R files published from 2010 to 2020 -->
 
-![](images/lec-4/scripts.png){fig-align="right"}
+![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/scripts.png){fig-align="right"}
 
 ::: footer
 [Trisovic, Lau, Pasquier, et al., 2022](https://doi.org/10.1038/s41597-022-01143-6) 
@@ -114,62 +107,229 @@ Reproducible research is not the norm:
 
 ## Reproducibility spectrum
 
-![](images/lec-4/spectrum.jpeg)
+![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/spectrum.jpeg)
 
 ::: footer
 [Peng (2011)](https://doi.org/10.1126/science.1213847)
 :::
 
 
-## Case study
+## Reproducible but not replicable
 
-![](images/lec-4/casestudy.jpg)
-
-::: footer
-[Boulesteix, Groenwold, Abrahamowicz, et al. (2020)](https://doi.org/10.1136/bmjopen-2020-039921)
-:::
-
-## Case study
-
-> Our study is completely reproducible using the R code provided in [online supplemental file 1](https://bmjopen.bmj.com/highwire/filestream/195583/field_highwire_adjunct_files/0/bmjopen-2020-039921supp001_data_supplement.pdf), which uses freely available data. 
-
+```r
+set.seed(1)
+run_simulation()
+set.seed(2)
+run_simulation()
+set.seed(3)
 ```
 
+<!-- ## Case study -->
+
+<!-- ![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/casestudy.jpg) -->
+
+<!-- ::: footer -->
+<!-- [Boulesteix, Groenwold, Abrahamowicz, et al. (2020)](https://doi.org/10.1136/bmjopen-2020-039921) -->
+<!-- ::: -->
+
+<!-- ## Case study -->
+
+<!-- > Our study is completely reproducible using the R code provided in [online supplemental file 1](https://bmjopen.bmj.com/highwire/filestream/195583/field_highwire_adjunct_files/0/bmjopen-2020-039921supp001_data_supplement.pdf), which uses freely available data.  -->
+
+<!-- ``` -->
 
 
 
 
-# ====================================================================
-# R CODE
-# small scale simulation study to investigate impact of measurement error
-# measurement error on (continuous) exposure and/or (continuous) confounding variable
-# ====================================================================
-# ====================================================================
-# libraries:
-library(Hmisc)
-library(mice)
-library(tidyverse)
-```
 
-::: footer
-[Boulesteix, Groenwold, Abrahamowicz, et al. (2020)](https://doi.org/10.1136/bmjopen-2020-039921)
-:::
+<!-- # ==================================================================== -->
+<!-- # R CODE -->
+<!-- # small scale simulation study to investigate impact of measurement error -->
+<!-- # measurement error on (continuous) exposure and/or (continuous) confounding variable -->
+<!-- # ==================================================================== -->
+<!-- # ==================================================================== -->
+<!-- # libraries: -->
+<!-- library(Hmisc) -->
+<!-- library(mice) -->
+<!-- library(tidyverse) -->
+<!-- ``` -->
+
+<!-- ::: footer -->
+<!-- [Boulesteix, Groenwold, Abrahamowicz, et al. (2020)](https://doi.org/10.1136/bmjopen-2020-039921) -->
+<!-- ::: -->
 
 ## Making research reproducible
 
 - reproducible documents
 - research compendiums
 
-![](images/lec-4/quarto.png)
+![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/quarto.png)
 
----
+## Teaching reproducibility
+
+We teach ‘Markup Languages and Reproducible Programming in Statistics’ in the second year of the Master’s programme ‘Methodology and Statistics for the Behavioural, Biomedical and Social Sciences’ at Utrecht University (UU).
+
+## Course aims
+
+Course aims include the development of a publication-ready reproducible research compendium that contains:
+
+- a typeset manuscript following a markup language,
+- data and code, 
+- everything that allows for successful reproduction and reuse of the materials (e.g. a license).
+
+. . . 
+
+
+In our course, students are taught various tools and languages, such as Quarto markdown, version control with git, and reproducible environments for `R` with `renv`.
+
+## Full course aims {.nonincremental}
+
+a. Students develop fundamental knowledge and understanding in the state of the art in statistical markup languages and reproducible programming and development 
+
+b. They can determine the most effective markup strategies to address a typesetting problem 
+
+c. They can efficiently organize a reproducible programming and development process 
+
+d. They can produce repositories up to the standards of international programming and coding conventions and initiatives 
+
+e. They can produce publications up to the typesetting standards of international peer-reviewed journals 
+
+<!-- ## By the end of this class... -->
+
+<!-- - ... you will have heard *what* reproducible research is and *why* it is important -->
+<!-- - ... you have *applied* this knowledge by *critiquing* the reproducibility of case study -->
+<!-- - ... you will be able to *produce* a reproducible research archive from scratch -->
+
+
+
+## Markup languages
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](img/latex.png)
+:::
+
+::: {.column width="20%"}
+
+:::
+
+::: {.column width="40%"}
+![](img/quarto.png)
+:::
+
+::::
+
+
+
+## Version control
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](img/git.png)
+:::
+
+::: {.column width="20%"}
+
+:::
+
+::: {.column width="40%"}
+![](img/github.png)
+:::
+
+::::
+
+
+## Licensing
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](img/cc.png)
+:::
+
+::: {.column width="20%"}
+
+:::
+
+::: {.column width="40%"}
+![](img/gnu.png)
+:::
+
+::::
+
+## Sharing `R` code
+
+![](img/packages.png)
+
+## Research compendiums
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](img/turing.png)
+:::
+
+::: {.column width="20%"}
+
+:::
+
+::: {.column width="40%"}
+![](img/zenodo.jpg)
+:::
+
+::::
+
+## Course weeks {.nonincremental}
+
+1. Markup languages
+2. Quarto markdown
+3. Version control (with git and GitHub) 
+4. Reproducible research in statistics
+5. Developer portfolios
+6. Re-usable R code (with R packages and Shiny)
+
+
+## Reusable course elements
+
+<!-- Our course materials draw from resources about the tools and languages that we teach, e.g. software manuals. In principle, these materials are reusable by others who teach reproducibility. But, of course, this is heavily reliant on the specific software framework: in our case, the statistical programming language R. -->
+
+<!-- A more domain agnostic resource that we use is The Turing Way. The Turing Way is a handbook for reproducible, ethical and collaborative data science, developed by the Turing Way community. We also use teaching materials from the research data management support workshops offered by the UU library. But... we might be missing some discipline-independent resources for teaching and testing reproducibility for graduate students. -->
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/330px-R_logo.svg.png)
+
+## Missing element(s)?
+
+<!-- We do not yet make use of many domain agnostic initiatives for reproducible research. Just to name a few relevant collections: FORRT, Project TIER, and the Carpentries. But more importantly, we could implement CODECHECK-ing in our course to teach about computational reproducibility. -->
+
+<!-- A CODECHECK is an attempted reproduction of research outcomes by independent execution of the analysis code. The CODECHECK initiative appoints codecheckers to CODECHECK (peer-reviewed) research articles. -->
+
+<!-- In our course, we could teach students how to do a CODECHECK. We could even use CODECHECK-ing as an assessment tool to evaluate whether students meet the learning objectives. Should we? -->
+
+![](img/codecheck.png)
+
+## Take aways
+
+::: columns
+::: {.column width="50%"}
+![](https://imgs.xkcd.com/comics/will_it_work.png)
+:::
+::: {.column width="45%"}
+
+:::
+:::
+
+## Thank you!
+
+![](../../QR.png)
 
 # Research Compendiums
 
 ## Research compendium
 ::: columns
 ::: {.column width="50%"}
-![](images/lec-4/compendium.svg){width=90%}
+![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/compendium.svg){width=90%}
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8169292.svg)](https://doi.org/10.5281/zenodo.8169292)
 :::
 
@@ -255,11 +415,11 @@ compendium/
 └── data/
     └── input_data.csv
 ```
-![](images/lec-4/targets.png){width=30%}
+![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/targets.png){width=30%}
 
 ## (Not so) basic compendium{.build}
 
-![](images/lec-4/spectrum.jpeg)
+![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/spectrum.jpeg)
 
 ::: footer
 [Peng (2011)](https://doi.org/10.1126/science.1213847)
@@ -296,12 +456,12 @@ compendium/
 
 ## In practice
 
-![](images/lec-4/rdm.jpeg)
+![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/rdm.jpeg)
 Research Data Management Support workshop: 
 
 [**Writing Reproducible Manuscripts in R and Python**](https://utrechtuniversity.github.io/workshop-reproducible-manuscripts/introduction.html)
 
-## How to
+## Compendium step-by-step
 
 - Think about a good folder structure 
   - Split up 'read-only', 'human-generated', and 'project-generated' files
@@ -321,40 +481,31 @@ Adapted from [The Turing Way](https://the-turing-way.netlify.app/reproducible-re
 ::: 
 
 
----
+<!-- # Wrap-up -->
 
-# Wrap-up
+<!-- ## 'Reproducible' research -->
 
-## 'Reproducible' research
-
-[Boulesteix, Groenwold, Abrahamowicz, et al. (2020)](https://doi.org/10.1136/bmjopen-2020-039921) with the [`pdf` supplement](https://bmjopen.bmj.com/highwire/filestream/195583/field_highwire_adjunct_files/0/bmjopen-2020-039921supp001_data_supplement.pdf)
+<!-- [Boulesteix, Groenwold, Abrahamowicz, et al. (2020)](https://doi.org/10.1136/bmjopen-2020-039921) with the [`pdf` supplement](https://bmjopen.bmj.com/highwire/filestream/195583/field_highwire_adjunct_files/0/bmjopen-2020-039921supp001_data_supplement.pdf) -->
 
 
-![](images/lec-4/casestudy.jpg)
-
-## Reproducible but not replicable
-
-```r
-set.seed(1)
-run_simulation()
-set.seed(2)
-run_simulation()
-set.seed(3)
-```
+<!-- ![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/casestudy.jpg) -->
 
 
-## Take aways
-::: columns
-::: {.column width="50%"}
-![](https://imgs.xkcd.com/comics/will_it_work.png)
-:::
-::: {.column width="45%"}
-- reproducibility
-- research compendiums
-- building a compendium
-:::
-:::
 
-## Thank you!
 
-![](../../QR.png)
+
+
+## References
+
+Markup Languages and Reproducible Programming in Statistics team (2024). Course materials. URL: www.gerkovink.com/markup
+
+Utrecht University (2024). Course description. URL: https://osiris-student.uu.nl/#/onderwijscatalogus/extern/cursus?cursuscode=202000010&taal=en&collegejaar=huidig
+
+The Turing Way Community (2022). The Turing Way: A handbook for reproducible, ethical and collaborative research (1.0.2). DOI: 10.5281/ZENODO.3233853
+
+Utrecht University (2023). Best Practices for Writing Reproducible Code. URL: utrechtuniversity.github.io/workshop-computational-reproducibility
+
+Utrecht University (2023). Writing Reproducible Manuscripts in R & Python. URL: utrechtuniversity.github.io/workshop-reproducible-manuscripts
+
+Eglen, S., & Nüst, D., (2024). CODECHECK. URL: codecheck.org.uk
+
