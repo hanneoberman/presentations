@@ -43,6 +43,8 @@ A. **Reproducibility is one of the pillars of science**
   - It is the standard by which to judge scientific claims
   - It helps the cumulative growth of knowledge - no duplication of effort
 
+. . . 
+
 B. **Reproducibility may greatly benefit you**
 
   - You'll develop better work habits
@@ -84,7 +86,7 @@ B. **Reproducibility may greatly benefit you**
 
 ## True or false?
 
-In computational sciences - such as ours - simply having the data and code means that the results are not only replicable, but fully reproducible. 
+In computational sciences - such as statistics - simply having the data and code means that the results are not only replicable, but fully reproducible. 
 
 ![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/matrix.jpg){fig-align="right"}
 
@@ -167,7 +169,12 @@ set.seed(3)
 
 ## Teaching reproducibility
 
-We teach ‘Markup Languages and Reproducible Programming in Statistics’ in the second year of the Master’s programme ‘Methodology and Statistics for the Behavioural, Biomedical and Social Sciences’ at Utrecht University (UU).
+
+![](../../UU_logo.png)
+
+<!-- We teach ‘Markup Languages and Reproducible Programming in Statistics’ in the second year of the Master’s programme ‘Methodology and Statistics for the Behavioural, Biomedical and Social Sciences’ at Utrecht University (UU). -->
+
+[Markup Languages and Reproducible Programming in Statistics](https://www.gerkovink.com/markup/)
 
 ## Course aims
 
@@ -309,6 +316,10 @@ e. They can produce publications up to the typesetting standards of internationa
 
 ![](img/codecheck.png)
 
+## Poster
+
+![](../../2024/NLRN/poster.png)
+
 ## Take aways
 
 ::: columns
@@ -316,6 +327,10 @@ e. They can produce publications up to the typesetting standards of internationa
 ![](https://imgs.xkcd.com/comics/will_it_work.png)
 :::
 ::: {.column width="45%"}
+
+- reproducibility is important
+- we should all learn reproducible workflows
+- we should teach reproducible workflows
 
 :::
 :::
