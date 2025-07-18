@@ -116,16 +116,6 @@ Reproducible research is not the norm:
 :::
 
 
-## Reproducible but not replicable
-
-```r
-set.seed(1)
-run_simulation()
-set.seed(2)
-run_simulation()
-set.seed(3)
-```
-
 <!-- ## Case study -->
 
 <!-- ![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/casestudy.jpg) -->
@@ -166,6 +156,16 @@ set.seed(3)
 - research compendiums
 
 ![](https://raw.githubusercontent.com/gerkovink/markup/refs/heads/main/slides/images/lec-4/quarto.png)
+
+## Reproducible but not replicable
+
+```r
+set.seed(1)
+run_simulation()
+set.seed(2)
+run_simulation()
+set.seed(3)
+```
 
 ## Teaching reproducibility
 
