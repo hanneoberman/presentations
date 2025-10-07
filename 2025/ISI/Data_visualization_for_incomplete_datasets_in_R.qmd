@@ -1,0 +1,472 @@
+---
+title: "Data visualization"
+subtitle: "for incomplete datasets in `R`"
+author: 
+  - name: "Hanne Oberman"
+    orcid: "0000-0003-3276-2141"
+institute: "Utrecht University"
+format:
+  revealjs:
+    logo: logo.png
+    footer: "Hanne Oberman, hanneoberman.github.io/presentations"
+    incremental: true
+    toc: false
+    toc-title: Overview
+    embed-resources: true
+css: ../../styles.css
+---
+
+## Missingness
+
+```{r setup, echo=FALSE}
+
+```
+
+![](https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png){fig-align="center"}
+
+<!-- In many data analysis efforts, missing data are conveniently ignored. With default settings such as ‘listwise deletion’ in analysis software, analysts need not even bother with the ubiquitous problem of incomplete data. I argue that this is wasteful: not only can missing data bias analysis results if not addressed well, but moreover, missing data can provide valuable insights into the phenomena of interest. The visualization of incomplete data can uncover associations and intricacies between variables that may otherwise go overlooked. Which, in turn, can be leveraged in amending the missingness by means of imputation. The R package ggmice aids data analysts in exploring the missing parts of their data. In this presentation, I will showcase the use and usefulness of a data visualization workflow for incomplete datasets in R. -->
+
+## A problem to fix
+
+::: {.fragment}
+
+- unit non-response 
+
+:::
+
+::: {.fragment}
+  $\rightarrow$ weighting etc.
+:::
+
+::: {.fragment}
+
+- item non-response 
+
+:::
+
+::: {.fragment}
+  $\rightarrow$ imputation etc.
+:::
+
+<!-- - unit non-response  -->
+<!--   $\rightarrow$ weighting etc. -->
+<!-- - item non-response  -->
+<!--   $\rightarrow$ imputation etc. -->
+
+
+## Take aways
+
+Missing data are 
+
+  - a pervasive problem
+  - visualizable & analyzable
+  - informative!
+
+  
+```{r, echo=FALSE}
+source("mimic.r")
+```
+
+## Case study
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+#| code-line-numbers: "2"
+set.seed(123)
+library(ricu)
+library(mice)
+library(ggmice)
+library(ggplot2)
+dat <- mimic_demo |> clean_mimic_demo()
+```
+
+![](https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fsdata.2016.35/MediaObjects/41597_2016_Article_BFsdata201635_Fig1_HTML.jpg){fig-align="center" width=60%}
+
+## Incomplete data
+
+```{r, echo=TRUE}
+str(dat)
+```
+
+## Incomplete data
+
+```{r, echo=TRUE}
+visdat::vis_dat(dat)
+```
+
+## Response indicator
+
+```{r, echo=TRUE}
+is.na(dat)
+```
+
+## Response indicator
+
+```{r, echo=TRUE}
+naniar::vis_miss(dat)
+```
+
+## Missingness rate
+
+```{r, echo=TRUE}
+colSums(is.na(dat))
+```
+
+## Missingness rate
+
+```{r, echo=TRUE}
+VIM::aggr(dat, numbers = TRUE, prop = FALSE)
+```
+
+## Missing data pattern
+
+```{r, echo=TRUE}
+mice::md.pattern(dat)
+```
+
+## Missing data pattern
+
+```{r, echo=TRUE}
+ggmice::plot_pattern(dat, square = FALSE)
+```
+
+## Coma symptoms
+
+```{r}
+ggmice(dat, aes(x = tgcs)) +
+  geom_bar(fill = "white") 
+```
+
+
+## Coma symptoms
+
+```{r}
+ggmice(dat, aes(x = tgcs)) +
+  geom_bar(fill = "white")  +
+  facet_wrap(~factor(
+    mortality, 
+    levels = c(TRUE, FALSE), 
+    labels = c("patient deceased", "patient alive")
+    ), ncol = 1)
+```
+
+
+<!-- ## Blood pressure  -->
+
+<!-- ```{r, echo=TRUE} -->
+<!-- #| code-fold: true -->
+
+<!-- ggmice(dat, aes(x = map)) + -->
+<!--   geom_histogram() +  -->
+<!--   facet_wrap(~factor( -->
+<!--     mortality,  -->
+<!--     levels = c(TRUE, FALSE),  -->
+<!--     labels = c("patient deceased", "patient alive") -->
+<!--     ), ncol = 1) -->
+<!-- ``` -->
+
+<!-- ## Populations by sex -->
+
+<!-- ```{r, echo=TRUE} -->
+<!-- #| code-fold: true -->
+<!-- ggplot(penguins, aes(x = year, fill = sex, group = sex)) + -->
+<!--   geom_bar(position = "dodge") +  -->
+<!--   scale_x_continuous(breaks = c(2007, 2008, 2009)) + -->
+<!--   theme_classic() -->
+<!-- ``` -->
+
+<!-- ## Populations by sex and species -->
+
+<!-- ```{r, echo=TRUE} -->
+<!-- #| code-fold: true -->
+<!-- ggplot(penguins, aes(x = year, fill = sex, group = sex)) + -->
+<!--   geom_bar(position = "dodge") +  -->
+<!--   facet_wrap(~species) +  -->
+<!--   scale_x_continuous(breaks = c(2007, 2008, 2009)) + -->
+<!--   theme_classic() -->
+<!-- ``` -->
+
+## Mortality by blood pressure
+
+```{r}
+ggmice(dat, aes(x = map, y = mortality)) +
+  geom_point()
+```
+
+<!-- ## Oxygenation  -->
+<!-- ```{r, echo=TRUE} -->
+<!-- #| code-fold: true -->
+
+<!-- ggmice(dat, aes(x = pao2)) + -->
+<!--   geom_density() +  -->
+<!--   facet_wrap(~factor( -->
+<!--     mortality,  -->
+<!--     levels = c(TRUE, FALSE),  -->
+<!--     labels = c("patient deceased", "patient alive") -->
+<!--     ), ncol = 1) -->
+<!-- ``` -->
+
+
+## Mortality by oxygenation
+
+```{r}
+ggmice(dat, aes(x = pao2, y = mortality)) +
+  geom_jitter(width = 0, height = 0.1)
+```
+
+## Scatter plot
+
+```{r}
+ggmice(dat, aes(x = pao2, y = map)) +
+  geom_jitter(height = 0)
+```
+
+## Faceted scatter plot
+
+```{r}
+ggmice(dat, aes(x = pao2, y = map)) +
+  geom_jitter(height = 0) +
+    facet_wrap(~factor(
+    mortality, 
+    levels = c(TRUE, FALSE), 
+    labels = c("patient deceased", "patient alive")
+    ), ncol = 1)
+```
+
+## Imputation workflow
+
+![](https://stefvanbuuren.name/fimd/fig/ch01-miflow-1.png){fig-align="center"}
+
+## Imputation models
+
+```{r, echo=TRUE}
+pred <- make.predictorMatrix(dat)
+meth <- make.method(dat)
+plot_pred(pred, method = meth, square = FALSE)
+```
+
+## Correlation 
+
+```{r, echo=TRUE}
+plot_corr(dat, square = FALSE, label = TRUE)
+```
+
+## Imputation models
+
+```{r, echo=TRUE}
+pred <- quickpred(dat, mincor = 0.3)
+plot_pred(pred, method = meth, square = FALSE)
+```
+
+
+## Scatter plot
+
+```{r, echo=TRUE}
+ggmice(dat, aes(pao2, map)) +
+  geom_point(size = 2)
+```
+
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(dat, aes(map)) +
+  geom_histogram(fill = "white") +
+  facet_grid(factor(
+    is.na(pao2), 
+    levels = c(TRUE, FALSE), 
+    labels = c("missing PaO2", "observed PaO2")
+    ) ~ .)
+```
+
+## Faceted scatter plot
+
+```{r, echo=TRUE}
+ggmice(dat, aes(pao2, map)) +
+  geom_point(size = 2) +
+  facet_wrap(~factor(
+    mortality, 
+    levels = c(TRUE, FALSE), 
+    labels = c("patient deceased", "patient alive")
+    ), ncol = 1)
+```
+
+<!-- ## Faceted distribution -->
+
+<!-- ```{r, echo=TRUE} -->
+<!-- ggmice(dat, aes(fio2)) + -->
+<!--   geom_histogram(fill = "white") + -->
+<!--   facet_grid(factor( -->
+<!--     is.na(pao2),  -->
+<!--     levels = c(TRUE, FALSE),  -->
+<!--     labels = c("missing sex", "observed sex") -->
+<!--     ) ~ mortality) -->
+<!-- ``` -->
+
+## Adjust imputation models
+
+```{r, echo=TRUE}
+pred["map", c("pao2", "mortality")] <- 1
+plot_pred(pred, method = meth, square = FALSE)
+```
+
+## Impute
+
+```{r, echo=TRUE, fig.width=15}
+imp <- mice(
+  dat, 
+  pred = pred, 
+  method = meth,
+  m = 3,
+  seed = 11,
+  print = FALSE)
+plot_trace(imp, legend = FALSE)
+```
+
+## Stripplot of blood pressure
+
+```{r, echo=TRUE}
+ggmice(imp, aes(x = .imp, y = map)) +
+  geom_jitter(width = 0.05) +
+  labs(x = "Imputation number")
+```
+
+## Stripplot of oxygenation
+
+```{r, echo=TRUE}
+ggmice(imp, aes(x = .imp, y = pao2)) +
+  geom_jitter(width = 0.05) +
+  labs(x = "Imputation number")
+```
+
+## Mortality by blood pressure
+
+```{r}
+ggmice(dat, aes(x = map, y = mortality)) +
+  geom_jitter(width = 0, height = 0.1)
+```
+
+## Mortality by blood pressure
+
+```{r}
+ggmice(imp, aes(x = map, y = mortality)) +
+  geom_jitter(width = 0, height = 0.1)
+```
+
+## Mortality by oxygenation
+
+```{r}
+ggmice(dat, aes(x = pao2, y = mortality)) +
+  geom_jitter(width = 0, height = 0.1) 
+```
+
+## Mortality by oxygenation
+
+```{r}
+ggmice(imp, aes(x = pao2, y = mortality)) +
+  geom_jitter(width = 10, height = 0.1)
+```
+
+## Scatter plot
+
+```{r}
+ggmice(dat, aes(x = pao2, y = map)) +
+  geom_jitter(height = 0)
+```
+
+## Scatter plot
+
+```{r}
+ggmice(imp, aes(x = pao2, y = map)) +
+  geom_jitter(height = 0)
+```
+
+## Faceted scatter plot
+
+```{r, echo=TRUE}
+ggmice(dat, aes(pao2, map)) +
+  geom_point(size = 2) +
+  facet_wrap(~factor(
+    mortality, 
+    levels = c(TRUE, FALSE), 
+    labels = c("patient deceased", "patient alive")
+    ), ncol = 1)
+```
+
+## Faceted scatter plot
+
+```{r, echo=TRUE}
+ggmice(imp, aes(pao2, map)) +
+  geom_point(size = 2) +
+  facet_wrap(~factor(
+    mortality, 
+    levels = c(TRUE, FALSE), 
+    labels = c("patient deceased", "patient alive")
+    ), ncol = 1)
+```
+
+
+
+<!-- ## Boxplot after imputation -->
+
+<!-- ```{r, echo=TRUE} -->
+<!-- ggmice(imp, aes(pao2, fio2)) + -->
+<!--   geom_boxplot() + -->
+<!--   facet_grid(~mortality) -->
+<!-- ``` -->
+
+
+
+
+<!-- ## Faceted distribution -->
+
+<!-- ```{r, echo=TRUE} -->
+<!-- ggmice(imp, aes(pao2, group = factor(.imp, levels = 20:0, ordered = TRUE))) + -->
+<!--   geom_histogram(fill = "white", stat = "count") + -->
+<!--   facet_grid(~ mortality) -->
+<!-- ``` -->
+
+## Faceted distribution
+
+```{r, echo=TRUE}
+ggmice(imp, aes(pao2, group = .imp, linetype = !(.imp == 0))) +
+  geom_density() +
+  facet_wrap(~factor(
+    mortality, 
+    levels = c(TRUE, FALSE), 
+    labels = c("patient deceased", "patient alive")
+    ), ncol = 1) +
+  scale_linetype(guide = "none")
+```
+
+<!-- ## Populations before imputation -->
+
+<!-- ```{r, echo=TRUE} -->
+<!-- #| code-fold: true -->
+<!-- ggplot(dat, aes(x = year, fill = sex, group = sex)) + -->
+<!--   geom_bar(position = "dodge") +  -->
+<!--   facet_wrap(~species) +  -->
+<!--   scale_x_continuous(breaks = c(2007, 2008, 2009)) + -->
+<!--   theme_classic() -->
+<!-- ``` -->
+
+<!-- ## Populations after imputation -->
+
+<!-- ```{r, echo=TRUE} -->
+<!-- #| code-fold: true -->
+<!-- ggplot(complete(imp), aes(x = year, fill = sex, group = sex)) + -->
+<!--   geom_bar(position = "dodge") + -->
+<!--   facet_wrap( ~ species) + -->
+<!--   scale_x_continuous(breaks = c(2007, 2008, 2009)) + -->
+<!--   theme_classic() -->
+<!-- ``` -->
+
+## Take aways
+
+Missing data are 
+
+  - a pervasive problem
+  - visualizable & analyzable
+  - informative!
+
+## Thank you!
+
+![](https://edu.nl/nbd3q~?format=svg)
