@@ -16,13 +16,25 @@ format:
 css: ../../styles.css
 ---
 
+## Take aways
+
+. . . 
+
+Missing data are 
+
+  - a pervasive problem
+  - visualizable & analyzable
+  - informative!
+
+
 ## Missingness
 
 ```{r setup, echo=FALSE}
 
 ```
 
-![](https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png){fig-align="center"}
+![](https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png){width=30%}
+<!-- https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png -->
 
 <!-- In many data analysis efforts, missing data are conveniently ignored. With default settings such as ‘listwise deletion’ in analysis software, analysts need not even bother with the ubiquitous problem of incomplete data. I argue that this is wasteful: not only can missing data bias analysis results if not addressed well, but moreover, missing data can provide valuable insights into the phenomena of interest. The visualization of incomplete data can uncover associations and intricacies between variables that may otherwise go overlooked. Which, in turn, can be leveraged in amending the missingness by means of imputation. The R package ggmice aids data analysts in exploring the missing parts of their data. In this presentation, I will showcase the use and usefulness of a data visualization workflow for incomplete datasets in R. -->
 
@@ -52,15 +64,6 @@ css: ../../styles.css
 <!--   $\rightarrow$ weighting etc. -->
 <!-- - item non-response  -->
 <!--   $\rightarrow$ imputation etc. -->
-
-
-## Take aways
-
-Missing data are 
-
-  - a pervasive problem
-  - visualizable & analyzable
-  - informative!
 
   
 ```{r, echo=FALSE}
@@ -131,15 +134,17 @@ ggmice::plot_pattern(dat, square = FALSE)
 
 ## Coma symptoms
 
-```{r}
+```{r, echo=TRUE}
+#| code-fold: true
 ggmice(dat, aes(x = tgcs)) +
   geom_bar(fill = "white") 
 ```
 
 
-## Coma symptoms
+## Coma symptoms by mortality
 
-```{r}
+```{r, echo=TRUE}
+#| code-fold: true
 ggmice(dat, aes(x = tgcs)) +
   geom_bar(fill = "white")  +
   facet_wrap(~factor(
@@ -185,9 +190,10 @@ ggmice(dat, aes(x = tgcs)) +
 <!--   theme_classic() -->
 <!-- ``` -->
 
-## Mortality by blood pressure
+## Blood pressure by mortality
 
-```{r}
+```{r, echo=TRUE}
+#| code-fold: true
 ggmice(dat, aes(x = map, y = mortality)) +
   geom_point()
 ```
@@ -206,23 +212,26 @@ ggmice(dat, aes(x = map, y = mortality)) +
 <!-- ``` -->
 
 
-## Mortality by oxygenation
+## Blood oxygenation by mortality
 
-```{r}
+```{r, echo=TRUE}
+#| code-fold: true
 ggmice(dat, aes(x = pao2, y = mortality)) +
   geom_jitter(width = 0, height = 0.1)
 ```
 
 ## Scatter plot
 
-```{r}
+```{r, echo=TRUE}
+#| code-fold: true
 ggmice(dat, aes(x = pao2, y = map)) +
   geom_jitter(height = 0)
 ```
 
 ## Faceted scatter plot
 
-```{r}
+```{r, echo=TRUE}
+#| code-fold: true
 ggmice(dat, aes(x = pao2, y = map)) +
   geom_jitter(height = 0) +
     facet_wrap(~factor(
@@ -337,28 +346,28 @@ ggmice(imp, aes(x = .imp, y = pao2)) +
   labs(x = "Imputation number")
 ```
 
-## Mortality by blood pressure
+## Blood pressure by mortality
 
 ```{r}
 ggmice(dat, aes(x = map, y = mortality)) +
   geom_jitter(width = 0, height = 0.1)
 ```
 
-## Mortality by blood pressure
+## Blood pressure by mortality
 
 ```{r}
 ggmice(imp, aes(x = map, y = mortality)) +
   geom_jitter(width = 0, height = 0.1)
 ```
 
-## Mortality by oxygenation
+## Oxygenation by mortality
 
 ```{r}
 ggmice(dat, aes(x = pao2, y = mortality)) +
   geom_jitter(width = 0, height = 0.1) 
 ```
 
-## Mortality by oxygenation
+## Oxygenation by mortality
 
 ```{r}
 ggmice(imp, aes(x = pao2, y = mortality)) +
