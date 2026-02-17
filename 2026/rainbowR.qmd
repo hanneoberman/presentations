@@ -112,9 +112,6 @@ ggmice(dat, aes(x,y)) +
 
 ## Example data
 
-
-
-  
 ```{r, echo=FALSE}
 library(ggplot2)
 dat_raw <- read.csv("~/Downloads/table_2CE4F5AC7A7A48E9A5AFC8D7E2DF7C9C.csv", header=FALSE)
@@ -550,4 +547,224 @@ Missing data are
 ## Thank you!
 
 ![](https://edu.nl/nbd3q~?format=svg)
+
+---
+
+## Missingness
+
+<center>
+![](https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png){width=30%}
+<center/>
+
+:::{.notes}
+- missing data are a problem to solve
+- we would have perfect results if it was not for those pesky missing values
+:::
+
+:::{.footer}
+The Turing Way (DOI: 10.5281/zenodo.3332807)
+:::
+
+
+## A problem to fix
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::: {.fragment}
+
+- unit non-response 
+
+:::
+
+::: {.fragment}
+  $\rightarrow$ weighting etc.
+:::
+
+::: {.fragment}
+
+- item non-response 
+
+:::
+
+::: {.fragment}
+  $\rightarrow$ deletion etc.
+:::
+
+:::
+
+
+::: {.column width="30%"}
+
+
+::: {.fragment}
+
+::: {.callout-tip icon=false title=""}
+
+## <br>
+
+What is your gender?
+
+- [ ] male
+- [ ] female
+
+:::
+
+:::
+
+:::
+
+::::
+
+<!-- - unit non-response $\rightarrow$ weighting  -->
+<!-- - item non-response $\rightarrow$ deletion or imputation -->
+<!-- - 'missed' missing values $\rightarrow$ ignored -->
+
+:::{.notes}
+- unit non-resp: hard to reach populations, low trust --> under-representation
+- item non-resp: skipped sensitive questions, drop-out --> over-estimation of effects
+- missing data are a nuisance, but they can be informative too
+- it may tell us there's a mismatch between our data collection and 'real world' (e.g. lived experience of respondents)
+:::
+
+## Take aways
+
+Missing data are 
+
+  - a pervasive problem
+  - visualizable & analyzable
+  - informative!
+
+<!-- ## Missing values... -->
+
+<!-- - ...are those values that are not observed -->
+<!-- - ...do exist in theory, but we are unable to see them -->
+
+
+## Missing data in `R`
+
+```{r}
+#| echo: false
+dat <- data.frame(x = 1:5, y = c(0.1, 0.6, 0.8, NA, 0.3))
+ggmice::ggmice(dat, ggplot2::aes(x, y)) + #, shape = is.na(y)
+  ggplot2::geom_point(size = 3) +
+  # scale_shape_manual(limits = T:F, values = 1:2) +
+  ggplot2::labs(x = "", y = "")
+```
+
+## Case study
+
+```{r}
+#| code-line-numbers: "11|12"
+# set-up
+library(ggplot2)
+library(mice)
+library(ggmice)
+library(dplyr)
+set.seed(123)
+
+# data-generation
+n <- 20
+dat <- tibble(
+  r_use = sample(1:5, size = n, replace = TRUE),
+  happy = 0.5 * r_use + rnorm(n, mean = 6)
+)
+```
+
+
+<!-- attr(dat$r_use, "label") <- "R use (days/week)" -->
+<!-- attr(dat$happy, "label") <- "Happiness" -->
+
+## Complete data
+
+```{r}
+ggmice(dat, aes(r_use, happy)) + 
+  geom_point()
+```
+
+## Incomplete data
+
+```{r}
+#| code-line-numbers: "1"
+dat <- rbind(dat, c(r_use = 7, happy = NA))
+ggmice(dat, aes(r_use, happy)) + 
+  geom_point()
+```
+
+
+::: {.notes}
+- risk biasing results by ignoring
+- retrieve failed
+- imputing
+:::
+
+## Plausible values
+
+```{r}
+ggmice(dat, aes(r_use, happy)) + 
+  geom_point() +
+  geom_smooth(method = "lm", fullrange = TRUE)
+```
+
+
+::: {.notes}
+- replacing missing values with plausible 
+- use observed part of the data to 'guestimate'
+:::
+
+## Mean imputation
+
+```{r}
+#| code-line-numbers: "1"
+imp <- mice(dat, meth = "mean", print = FALSE)
+ggmice(imp, aes(r_use, happy)) + 
+  geom_point() +
+  geom_smooth(method = "lm", fullrange = TRUE)
+```
+
+
+## Regression imputation
+
+```{r}
+#| code-line-numbers: "1"
+imp <- mice(dat, meth = "norm.predict", print = FALSE)
+ggmice(imp, aes(r_use, happy)) + 
+  geom_point() +
+  geom_smooth(method = "lm", fullrange = TRUE)
+```
+
+
+## Multiple imputation
+
+```{r}
+#| code-line-numbers: "1"
+imp <- mice(dat, meth = "norm", print = FALSE)
+ggmice(imp, aes(r_use, happy)) + 
+  geom_point() +
+  geom_smooth(method = "lm", fullrange = TRUE)
+```
+
+
+## Multiple imputation workflow
+
+<center>![](flow.png){height="600"}</center>
+
+## Imputation models
+
+
+
+
+## Take aways
+
+Missing data are 
+
+  - a pervasive problem
+  - visualizable & analyzable
+  - informative!
+
+## Thank you!
+
+![](https://edu.nl/nbd3q~?format=svg)
+
 
