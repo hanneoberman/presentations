@@ -33,7 +33,22 @@ format:
 
 ![](2026/rainbowRconf/conference-banner.png)
 
-- Presentation rainbowR conference 2026, online, *Seeing What's Missing*. Slides available [here](https://hanneoberman.github.io/presentations/2026/rainbowRconf/rainbowRconf.html), materials available [here](https://github.com/hanneoberman/presentations/tree/main/2026/rainbowRconf).
+- Presentation rainbowR conference 2026, online, *Seeing What's Missing*. Slides available [here](https://hanneoberman.github.io/presentations/2026/rainbowRconf/rainbowRconf.html), materials available [here](https://github.com/hanneoberman/presentations/tree/main/2026/rainbowRconf). <br>$\rightarrow$ Or use the arrow keys to page through the embedded Quarto presentation below️ ⬇️
+
+
+<style>
+.slide-deck {
+    border: 3px solid #dee2e6;
+    width: 100%;
+    height: 475px;
+}
+</style>
+
+<div>
+```{=html}
+<iframe class="slide-deck" src="./2026/rainbowRconf/rainbowRconf.html"></iframe>
+```
+</div>
 
 
 ## 2025
