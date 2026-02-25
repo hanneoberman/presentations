@@ -29,6 +29,13 @@ format:
 
 </center>
 
+## 2026
+
+![](2026/rainbowRconf/conference-banner.png)
+
+- Presentation rainbowR conference 2026, online, *Seeing What's Missing*. Slides available [here](https://hanneoberman.github.io/presentations/2026/rainbowRconf/rainbowRconf.html), materials available [here](https://github.com/hanneoberman/presentations/tree/main/2026/rainbowRconf).
+
+
 ## 2025
 
 - Presentation ISI 2025, Utrecht, *Data visualization for incomplete datasets in `R`*. Slides available [here](https://hanneoberman.github.io/presentations/2025/ISI/Data_visualization_for_incomplete_datasets_in_R.html), materials available [here](https://github.com/hanneoberman/presentations/tree/main/2025/ISI).

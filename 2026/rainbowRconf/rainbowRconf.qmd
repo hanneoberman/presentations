@@ -1,0 +1,565 @@
+---
+title: "Seeing What’s Missing"
+subtitle: "visualization of incomplete and imputed data"
+author: 
+  - name: "Hanne Oberman"
+    orcid: "0000-0003-3276-2141"
+institute: "Utrecht University"
+# date: last-modified
+# date-format: long
+logo: logo.png
+footer: "Hanne Oberman, hanneoberman.github.io/presentations"
+# footer: <https://rainbowr.org>
+format:
+  rainbowrpres-revealjs: default
+# To remove logo from title slide, comment out the following line in
+# in `"_extensions/Warwick-Stats-Resources/warwickpres/_extension.yml"`: 
+#   `data-background-image: warwick-logo-white.png`
+---
+
+## `NA`s in R
+
+```{r}
+c(1, 3, NA) |> mean()
+```
+
+<br>
+
+::: {.fragment}
+
+```{r}
+c(1, 3, NA) |> mean(na.rm = TRUE)
+```
+
+:::
+
+<br>
+
+::: {.fragment}
+
+::: {.callout-warning}
+Warning message:
+Removed 1 row containing missing values or values outside the scale range (`geom_point()`). 
+:::
+
+:::
+
+::: {.notes}
+- R is quite strict wrt missing values
+- it will correctly tell you that the average is undefined if miss is present
+- fortunately we can tell R to ignore those pesky miss vals
+- many workflows do this for you by default
+:::
+
+## Ignoring `NA`s
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+![](NAs.png){height="600"}
+
+:::
+
+::: {.column width="50%"}
+<br>
+:::
+
+::::
+
+::: {.notes}
+- ignoring miss vals makes sense pragmatically: not available, so we cannot use them
+- but ignoring incomplete rows is wasteful, especially if there are many var with missingness
+:::
+
+## Ignoring `NA`s
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+![](noNAs.png){height="600"}
+:::
+
+
+::: {.column width="50%"}
+
+::: {.fragment}
+
+![](pop.png){height="600"}
+
+:::
+
+:::
+
+::::
+
+::: {.notes}
+- but more importantly, ignoring incomplete rows may bias your analyses
+- if the rows you ignore are in any way different from the completely observed rows, you introduce bias in your estimates, even the column means
+- for example, when there is drop-out in clinical trials due to side effects of the treatment, or when respondents skip a sensitive question due to the...
+- then, complete case analysis is not just resource waste, but also leads to wrong conclusions
+:::
+
+
+
+<!-- library(ggplot2) -->
+<!-- dat <- data.frame(x = 1:5, y = c(0.1, 0.6, 0.8, NA, 0.3)) -->
+<!-- ggplot(dat, aes(x,y)) + -->
+<!--   geom_point() -->
+
+## 'Lost' data {visibility="hidden"}
+
+<center>
+![](https://raw.githubusercontent.com/alan-turing-institute/turing-commons/main/docs/assets/images/illustrations/missing-data.png){width=30%}
+<center/>
+
+:::{.notes}
+- missing data are a problem to solve
+- we would have perfect results if it was not for those pesky missing values
+:::
+
+:::{.footer}
+The Turing Way (DOI: 10.5281/zenodo.3332807)
+:::
+
+
+## A problem to fix {visibility="hidden"}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::: {.fragment}
+
+- unit non-response 
+
+:::
+
+::: {.fragment}
+  $\rightarrow$ weighting etc.
+:::
+
+::: {.fragment}
+
+- item non-response 
+
+:::
+
+::: {.fragment}
+  $\rightarrow$ deletion etc.
+:::
+
+:::
+
+
+::: {.column width="30%"}
+
+
+::: {.fragment}
+
+::: {.callout-tip icon=false title=""}
+
+## <br> 
+
+What is your gender?
+
+- [ ] male
+- [ ] female
+
+:::
+
+:::
+
+:::
+
+::::
+
+<!-- - unit non-response $\rightarrow$ weighting  -->
+<!-- - item non-response $\rightarrow$ deletion or imputation -->
+<!-- - 'missed' missing values $\rightarrow$ ignored -->
+
+:::{.notes}
+- unit non-resp: hard to reach populations, low trust --> under-representation
+- item non-resp: skipped sensitive questions, drop-out --> over-estimation of effects
+- missing data are a nuisance, but they can be informative too
+- it may tell us there's a mismatch between our data collection and 'real world' (e.g. lived experience of respondents)
+:::
+
+
+## Missing data are... {.inverse .center-h .center .larger125}
+
+::::: {columns}
+:::: {.column width="49%"}
+:::{.col-box-blue-short .center-h .center .larger125}
+
+<br>
+
+<br>
+
+:::
+
+:::{.col-box-pink-short .center-h .center .larger125}
+
+<br>
+
+<br>
+
+:::
+
+::::
+
+:::: {.column .col-box-red-tall width="49%" .center-h .center .larger125}
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+
+::::
+
+:::::
+
+## Missing data are... {.inverse .center-h .center .larger125}
+
+::::: {columns}
+:::: {.column width="49%"}
+:::{.col-box-blue-short .center-h .center .larger125}
+
+<br>
+
+a pervasive problem 
+
+:::
+
+:::{.col-box-pink-short .center-h .center .larger125}
+
+<br>
+
+<br>
+
+:::
+
+::::
+
+:::: {.column .col-box-red-tall width="49%" .center-h .center .larger125}
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+
+::::
+
+:::::
+
+<!-- Missing data are  -->
+
+<!--   - a pervasive problem -->
+<!--   - visualizable & analyzable -->
+<!--   - informative! -->
+
+:::{.notes}
+- in this presentation, i'll convince you that
+- miss is interesting
+- can be resolved
+- and might even lead to new insights
+:::
+
+## Missing data are... {.inverse .center-h .center .larger125}
+
+::::: {columns}
+:::: {.column width="49%"}
+:::{.col-box-blue-short .center-h .center .larger125}
+
+<br>
+
+a pervasive problem 
+
+:::
+
+:::{.col-box-pink-short .center-h .center .larger125}
+
+<br>
+
+<br>
+
+:::
+
+::::
+
+:::: {.column .col-box-red-tall width="49%" .center-h .center .larger125}
+
+<br>
+
+visualizable
+
+&
+
+analyzable
+
+::::
+
+:::::
+
+## Missing data are... {.inverse .center-h .center .larger125}
+
+::::: {columns}
+:::: {.column width="49%"}
+:::{.col-box-blue-short .center-h .center .larger125}
+
+<br>
+
+a pervasive problem 
+
+:::
+
+:::{.col-box-pink-short .center-h .center .larger125}
+
+<br>
+
+informative!
+
+:::
+
+::::
+
+:::: {.column .col-box-red-tall width="49%" .center-h .center .larger125}
+
+<br>
+
+visualizable
+
+&
+
+analyzable
+
+::::
+
+:::::
+
+<!-- ## Missing values... -->
+
+<!-- - ...are those values that are not observed -->
+<!-- - ...do exist in theory, but we are unable to see them -->
+
+
+## Missing data in `R` {visibility="hidden"}
+
+```{r}
+#| echo: false
+dat <- data.frame(x = 1:5, y = c(0.1, 0.6, 0.8, NA, 0.3))
+ggmice::ggmice(dat, ggplot2::aes(x, y)) + #, shape = is.na(y)
+  ggplot2::geom_point(size = 3) +
+  # scale_shape_manual(limits = T:F, values = 1:2) +
+  ggplot2::labs(x = "", y = "")
+```
+
+
+## R set-up
+
+```{r}
+#| code-line-numbers: "1|2|3-4"
+library(dplyr)
+library(ggplot2)
+library(mice)
+library(ggmice)
+set.seed(123)
+```
+
+::: {.fragment}
+
+<center>![](mice.png){height="300"}</center>
+:::
+
+## Data generation
+
+```{r}
+#| code-line-numbers: "3"
+n <- 20
+dat <- tibble(
+  r_use = sample(1:5, size = n, replace = TRUE),
+  happy = rnorm(n, mean = 6) + 0.5 * r_use
+)
+```
+
+```{r}
+#| echo: false
+ggmice(dat, aes(r_use)) +
+  geom_histogram(fill = "white") +
+  theme(legend.position = "none")
+```
+
+## Data generation
+
+```{r}
+#| eval: false
+#| code-line-numbers: "4"
+n <- 20
+dat <- tibble(
+  r_use = sample(1:5, size = n, replace = TRUE),
+  happy = rnorm(n, mean = 6) + 0.5 * r_use
+)
+```
+
+```{r}
+#| echo: false
+ggmice(dat, aes(happy)) +
+  geom_histogram(fill = "white") +
+  theme(legend.position = "none")
+```
+
+<!-- attr(dat$r_use, "label") <- "R use (days/week)" -->
+<!-- attr(dat$happy, "label") <- "Happiness" -->
+
+## Complete data 
+
+<!--  -->
+
+```{r}
+ggmice(dat, aes(r_use, happy)) + 
+  geom_point(size = 3) 
+```
+
+
+## Complete data {visibility="hidden"}
+
+```{r}
+ggmice(dat, aes(r_use, happy)) + 
+  geom_point(size = 3)  +
+  geom_smooth(method = "lm")
+```
+
+## Incomplete data 
+
+```{r}
+#| code-line-numbers: "1"
+dat <- rbind(dat, c(r_use = 7, happy = NA))
+ggmice(dat, aes(r_use, happy)) + 
+  geom_point(size = 3)
+```
+
+
+::: {.notes}
+- risk biasing results by ignoring
+- retrieve failed
+- imputing
+:::
+
+## Plausible values 
+
+```{r}
+#| code-line-numbers: "3"
+ggmice(dat, aes(r_use, happy)) + 
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", fullrange = TRUE)
+```
+
+
+::: {.notes}
+- replacing missing values with plausible 
+- use observed part of the data to 'guestimate'
+:::
+
+## Mean imputation  {visibility="hidden"}
+
+```{r}
+#| code-line-numbers: "1"
+imp <- mice(dat, meth = "mean", print = FALSE)
+ggmice(imp, aes(r_use, happy)) + 
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", fullrange = TRUE)
+```
+
+
+## Regression imputation 
+
+```{r}
+#| code-line-numbers: "1"
+imp <- mice(dat, meth = "norm.predict", print = FALSE)
+ggmice(imp, aes(r_use, happy)) + 
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", fullrange = TRUE)
+```
+
+
+## Multiple imputation 
+
+```{r}
+#| code-line-numbers: "1"
+imp <- mice(dat, meth = "norm", print = FALSE)
+ggmice(imp, aes(r_use, happy)) + 
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", fullrange = TRUE)
+```
+
+
+## Multiple imputation workflow  {visibility="hidden"}
+
+<center>![](flow.png){height="600"}</center>
+
+## Informative missingness
+
+::: {.callout-tip icon=false title=""}
+
+## <br> 
+
+What is your gender?
+
+- [ ] male
+- [ ] female
+
+:::
+
+
+## Missing data are... {.inverse .center-h .center .larger125}
+
+::::: {columns}
+:::: {.column width="49%"}
+:::{.col-box-blue-short .center-h .center .larger125}
+
+<br>
+
+a pervasive problem 
+
+:::
+
+:::{.col-box-pink-short .center-h .center .larger125}
+
+<br>
+
+informative!
+
+:::
+
+::::
+
+:::: {.column .col-box-red-tall width="49%" .center-h .center .larger125}
+
+<br>
+
+visualizable
+
+&
+
+analyzable
+
+::::
+
+:::::
+
+
+## Thank you!
+
+<center>![](https://edu.nl/nbd3q~?format=svg){height="600"}</center>
+
+
+
