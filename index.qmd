@@ -31,7 +31,9 @@ format:
 
 ## 2026
 
-![](2026/rainbowRconf/conference-banner.png)
+- Lecture Applied Data Analysis and Visualization, Utrecht University,  *Building interactive web apps with the `R` package `shiny`*. Slides available [here](https://hanneoberman.github.io/presentations/2026/adav/lecture.pdf), materials available [here](https://github.com/hanneoberman/presentations/2026/adav).
+
+<!-- ![](2026/rainbowRconf/conference-banner.png) -->
 
 - Presentation rainbowR conference 2026, online, *Seeing What's Missing*. Slides available [here](https://hanneoberman.github.io/presentations/2026/rainbowRconf/rainbowRconf.html), materials available [here](https://github.com/hanneoberman/presentations/tree/main/2026/rainbowRconf). <br>$\rightarrow$ Or use the arrow keys to page through the embedded Quarto presentation below️ ⬇️
 
