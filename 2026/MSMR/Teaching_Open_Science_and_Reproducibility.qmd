@@ -5,6 +5,8 @@ author:
   - name: "Hanne Oberman"
     orcid: "0000-0003-3276-2141"
 institute: "Junior assistant professor at Utrecht University"
+title-slide-attributes:
+    data-background-color: "#FFCD00"
 format:
   revealjs:
     logo: logo.png
@@ -196,7 +198,7 @@ set.seed(3)
 ## Teaching reproducibility
 
 
-![](../../UU_logo.png){fig-width="3"}
+![](img/UU_logo.svg){fig-width="3"}
 
 <!-- We teach ‘Markup Languages and Reproducible Programming in Statistics’ in the second year of the Master’s programme ‘Methodology and Statistics for the Behavioural, Biomedical and Social Sciences’ at Utrecht University (UU). -->
 
