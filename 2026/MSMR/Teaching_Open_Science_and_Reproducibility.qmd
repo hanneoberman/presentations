@@ -19,6 +19,10 @@ format:
 css: ../../styles.css
 ---
 
+```{r, include=FALSE, eval=FALSE}
+renderthis::to_pdf(from = "2026/MSMR/Teaching_Open_Science_and_Reproducibility.qmd")
+```
+
 <!-- If we want methodologists to produce reproducible research, they should learn how to—sooner -->
 <!-- rather than later.  -->
 <!-- In this session, I want to: -->
@@ -61,6 +65,50 @@ css: ../../styles.css
 <!-- 6. The Carpentries. The Carpentires. n.d. https://carpentries.org/ (8 Apr. 2026, date last -->
 <!-- accessed). -->
 
+## TODOs
+
+For this session, I wanted to:
+
+- discuss how Open Science was adopted as core principle for education at Utrecht University (UU);
+- showcase how our department of Methodology & Statistics (M&S) teaches reproducibility in statistics and data science; and
+- engage with the audience to exchange ideas about teaching reproducibility.
+
+. . . 
+
+I might have over-promised... so let's vote! 
+
+## Option 1: Open Science at UU
+
+At Utrecht University, ‘Open Science’ was recently added to the educational model, making it a core characteristic of our teaching. This means that students should encounter reproducibility at every stage of their academic career. In practice, however, each course coordinator may have to ‘reinvent the wheel’. That’s why the Community for Open Science in Education (COSiE) is developing a quality model for reusing teaching materials about Open Science and reproducibility.
+
+## Option 2: Reproducibility in M&S education
+
+In our statistics and data science education for the social sciences, learning about reproducibility is already part of the course aims all throughout the curriculum. Students first encounter the practices in their very first course at our university, then again in the two subsequent Bachelor level courses, and we even offer dedicated (post-)graduate courses about markup languages and reproducible programming in statistics.
+
+## Option 3: Exchange of ideas
+
+Ideally, I would like to have more of an ‘unconference’ setting to discuss reproducibility as an educational topic. For example, how can we best make use of ‘Open Educational Resources’? There are so many great initiatives to make use of (such as FORRT, The Turing Way, The Carpentries, etc.), but administrators often prefer to stick with textbooks and peer-reviewed journal articles. How can we ensure that our teaching materials are both up to date, as well as trustworthy? And how can materials be (re)used across disciplines?
+
+## ☝️
+
+# Open Science at UU {background-color="#FFCD00"}
+
+## Open Science Programme
+
+![](img/OS.png)
+
+## COSiE
+
+![](img/cosie.png)
+
+## Open Education Restaurant
+
+![](img/owf.png){height=450}
+![](img/qualitymod.jpg){height=450}
+![](img/qualitymod2.png){height=450}
+
+
+# Mini lecture: Reproducibility {background-color="#FFCD00"}
 
 ## Why bother?
 
@@ -326,7 +374,7 @@ e. They can produce publications up to the typesetting standards of internationa
 6. Re-usable R code (with R packages and Shiny)
 
 
-## Reusable course elements
+## Reusable course elements  {visibility="hidden"}
 
 <!-- Our course materials draw from resources about the tools and languages that we teach, e.g. software manuals. In principle, these materials are reusable by others who teach reproducibility. But, of course, this is heavily reliant on the specific software framework: in our case, the statistical programming language R. -->
 
@@ -334,7 +382,7 @@ e. They can produce publications up to the typesetting standards of internationa
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/330px-R_logo.svg.png)
 
-## Missing element(s)?
+## Missing element(s)?  {visibility="hidden"}
 
 <!-- We do not yet make use of many domain agnostic initiatives for reproducible research. Just to name a few relevant collections: FORRT, Project TIER, and the Carpentries. But more importantly, we could implement CODECHECK-ing in our course to teach about computational reproducibility. -->
 
@@ -347,6 +395,13 @@ e. They can produce publications up to the typesetting standards of internationa
 ## Poster
 
 ![](../../2024/NLRN/poster.png)
+
+
+
+# Discussion {background-color="#FFCD00"}
+
+
+# Outro {background-color="#FFCD00"}
 
 ## Take aways
 
@@ -367,7 +422,32 @@ e. They can produce publications up to the typesetting standards of internationa
 
 ![](../../QR.png)
 
-# Research Compendiums
+## References
+
+COSiE: Community for Open Science in Education (n.d.). Open Science Community Utrecht. URL: <https://openscience-utrecht.com/cosie/> 
+
+Eglen, S., & Nüst, D. (2024). CODECHECK. URL: <https://codecheck.org.uk>
+
+FORRT - Framework for Open and Reproducible Research Training (n.d.). URL: <https://forrt.org/> 
+
+Mosteiro P., Oberman H.I. (2026). Markup Languages and Reproducible Programming in Statistics (2024). Course materials. URL: <https://www.mlarpis.github.io/markup>
+
+The Carpentries (n.d.). The Carpentires. URL: <https://carpentries.org/> 
+
+The Turing Way Community (2025). The Turing Way: A handbook for reproducible, ethical and collaborative research. URL: <https://doi.org/10.5281/zenodo.15213042>
+
+Utrecht University (2023). Best Practices for Writing Reproducible Code. URL: <https://utrechtuniversity.github.io/workshop-computational-reproducibility>
+
+Utrecht University (2023). Writing Reproducible Manuscripts in R & Python. URL: <https://utrechtuniversity.github.io/workshop-reproducible-manuscripts>
+
+
+## References (cont.)
+
+Utrecht University (2024). The educational model. URL:  <https://www.uu.nl/en/education/educational-vision/the-educational-model>
+
+Utrecht University (2026). Markup languages and reproducible programming in statistics (202000010). Osiris course catalogue. URL: <https://osiris-student.uu.nl/#/onderwijscatalogus/extern/cursus?cursuscode=202000010&taal=en&collegejaar=huidig>
+
+# Lecture: Research Compendiums {background-color="#FFCD00"}
 
 ## Research compendium
 ::: columns
@@ -537,18 +617,4 @@ Adapted from [The Turing Way](https://the-turing-way.netlify.app/reproducible-re
 
 
 
-
-## References
-
-Markup Languages and Reproducible Programming in Statistics team (2024). Course materials. URL: www.gerkovink.com/markup
-
-Utrecht University (2024). Course description. URL: https://osiris-student.uu.nl/#/onderwijscatalogus/extern/cursus?cursuscode=202000010&taal=en&collegejaar=huidig
-
-The Turing Way Community (2022). The Turing Way: A handbook for reproducible, ethical and collaborative research (1.0.2). DOI: 10.5281/ZENODO.3233853
-
-Utrecht University (2023). Best Practices for Writing Reproducible Code. URL: utrechtuniversity.github.io/workshop-computational-reproducibility
-
-Utrecht University (2023). Writing Reproducible Manuscripts in R & Python. URL: utrechtuniversity.github.io/workshop-reproducible-manuscripts
-
-Eglen, S., & Nüst, D., (2024). CODECHECK. URL: codecheck.org.uk
 
