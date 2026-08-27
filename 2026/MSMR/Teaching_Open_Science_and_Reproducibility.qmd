@@ -400,6 +400,7 @@ e. They can produce publications up to the typesetting standards of internationa
 
 # Discussion {background-color="#FFCD00"}
 
+## 🗣️
 
 # Outro {background-color="#FFCD00"}
 
@@ -447,7 +448,7 @@ Utrecht University (2024). The educational model. URL:  <https://www.uu.nl/en/ed
 
 Utrecht University (2026). Markup languages and reproducible programming in statistics (202000010). Osiris course catalogue. URL: <https://osiris-student.uu.nl/#/onderwijscatalogus/extern/cursus?cursuscode=202000010&taal=en&collegejaar=huidig>
 
-# Lecture: Research Compendiums {background-color="#FFCD00"}
+# Mini lecture: Research Compendiums {background-color="#FFCD00"}
 
 ## Research compendium
 ::: columns
