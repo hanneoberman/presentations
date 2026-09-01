@@ -19,6 +19,8 @@ format:
 css: ../../styles.css
 ---
 
+## TODOs:
+
 ```{r, include=FALSE, eval=FALSE}
 renderthis::to_pdf(from = "2026/MSMR/Teaching_Open_Science_and_Reproducibility.qmd", to = "2026/MSMR/5-Oberman-Hanne.pdf")
 ```
@@ -64,8 +66,6 @@ renderthis::to_pdf(from = "2026/MSMR/Teaching_Open_Science_and_Reproducibility.q
 <!-- Research. Zenodo, 14 Apr. 2025. https://doi.org/10.5281/zenodo.15213042. -->
 <!-- 6. The Carpentries. The Carpentires. n.d. https://carpentries.org/ (8 Apr. 2026, date last -->
 <!-- accessed). -->
-
-## TODOs:
 
 <!-- For this session, I wanted to: -->
 
@@ -120,7 +120,7 @@ Ideally, I would like to have more of an ‘unconference’ setting to discuss r
 [openscience-utrecht.com/cosie](https://openscience-utrecht.com/cosie/)
 :::
 
-# Teaching reproducibility in M&S courses {background-color="#FFCD00"}
+# Teaching reproducibility <br>in M&S courses {background-color="#FFCD00"}
 
 ## OS as mandatory element
 
@@ -128,13 +128,21 @@ Ideally, I would like to have more of an ‘unconference’ setting to discuss r
 
 <!-- We teach ‘Markup Languages and Reproducible Programming in Statistics’ in the second year of the Master’s programme ‘Methodology and Statistics for the Behavioural, Biomedical and Social Sciences’ at Utrecht University (UU). -->
 
+. . . 
+
+<br>
+ 
 Showcase: Markup Languages and Reproducible Programming in Statistics
 
 ::: footer
 [mlarpis.github.io/markup](https://mlarpis.github.io/markup/)
 :::
 
-## Course aims
+## Markup Languages and Reproducible Programming in Statistics
+
+In our course, students are taught various tools and languages, such as Quarto markdown, version control with git, reproducible environments for `R` with `renv`, code sharing for reuse.
+
+. . . 
 
 Course aims include the development of a publication-ready reproducible research compendium that contains:
 
@@ -142,12 +150,9 @@ Course aims include the development of a publication-ready reproducible research
 - **data and code**, 
 - everything that allows for successful **reproduction and reuse** of the materials (e.g. a license).
 
-. . . 
-
-
-In our course, students are taught various tools and languages, such as Quarto markdown, version control with git, and reproducible environments for `R` with `renv`.
-
 ## Full course aims {.nonincremental}
+
+::: {.nonincremental}
 
 a. Students develop fundamental knowledge and understanding in the state of the art in statistical markup languages and reproducible programming and development 
 
@@ -165,6 +170,7 @@ e. They can produce publications up to the typesetting standards of internationa
 <!-- - ... you have *applied* this knowledge by *critiquing* the reproducibility of case study -->
 <!-- - ... you will be able to *produce* a reproducible research archive from scratch -->
 
+:::
 
 
 ## Markup languages
@@ -349,12 +355,13 @@ The Carpentries (n.d.). The Carpentires. URL: <https://carpentries.org/>
 
 The Turing Way Community (2025). The Turing Way: A handbook for reproducible, ethical and collaborative research. URL: <https://doi.org/10.5281/zenodo.15213042>
 
-Utrecht University (2023). Best Practices for Writing Reproducible Code. URL: <https://utrechtuniversity.github.io/workshop-computational-reproducibility>
-
-Utrecht University (2023). Writing Reproducible Manuscripts in R & Python. URL: <https://utrechtuniversity.github.io/workshop-reproducible-manuscripts>
 
 
 ## References (cont.)
+
+Utrecht University (2023). Best Practices for Writing Reproducible Code. URL: <https://utrechtuniversity.github.io/workshop-computational-reproducibility>
+
+Utrecht University (2023). Writing Reproducible Manuscripts in R & Python. URL: <https://utrechtuniversity.github.io/workshop-reproducible-manuscripts>
 
 Utrecht University (2024). The educational model. URL:  <https://www.uu.nl/en/education/educational-vision/the-educational-model>
 
