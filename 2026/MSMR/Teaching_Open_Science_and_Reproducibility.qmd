@@ -22,7 +22,7 @@ css: ../../styles.css
 ## TODOs:
 
 ```{r, include=FALSE, eval=FALSE}
-renderthis::to_pdf(from = "2026/MSMR/Teaching_Open_Science_and_Reproducibility.qmd", to = "2026/MSMR/5-Oberman-Hanne.pdf")
+renderthis::to_pdf(from = "2026/MSMR/Teaching_Open_Science_and_Reproducibility.qmd", to = "2026/MSMR/5-Oberman-Hanne.pdf", keep_intermediates = TRUE)
 ```
 
 <!-- If we want methodologists to produce reproducible research, they should learn how to—sooner -->
@@ -113,8 +113,8 @@ Ideally, I would like to have more of an ‘unconference’ setting to discuss r
 
 
 ![](img/qualitymod.jpg){height=450}
-![](img/qualitymod2.png){height=450}
 ![](img/owf.png){height=450}
+![](img/qualitymod2.png){height=450}
 
 ::: footer
 [openscience-utrecht.com/cosie](https://openscience-utrecht.com/cosie/)
@@ -140,11 +140,10 @@ Showcase: Markup Languages and Reproducible Programming in Statistics
 
 ## Markup Languages and Reproducible Programming in Statistics
 
-In our course, students are taught various tools and languages, such as Quarto markdown, version control with git, reproducible environments for `R` with `renv`, code sharing for reuse.
+<!-- In our course, students are taught various tools and languages, such as Quarto markdown, version control with git, reproducible environments for `R` with `renv`, code sharing for reuse. -->
 
-. . . 
 
-Course aims include the development of a publication-ready reproducible research compendium that contains:
+Course aims include the development of a publication-ready reproducible **research compendium** that contains:
 
 - a typeset **manuscript** following a markup language,
 - **data and code**, 
