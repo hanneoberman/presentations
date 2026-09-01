@@ -31,8 +31,32 @@ format:
 
 ## 2026
 
+- Presentation Meta Science for Methods Research, University of Zurich,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/MSMR/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://hanneoberman.github.io/presentations/2026/MSMR).  <br>$\rightarrow$ Or use the arrow keys to page through the embedded Quarto presentation below️ ⬇️
+
+<style>
+.slide-deck {
+    border: 3px solid #dee2e6;
+    width: 100%;
+    height: 475px;
+}
+</style>
+
+<div>
+```{=html}
+<iframe class="slide-deck" src="./2026/MSMR/Teaching_Open_Science_and_Reproducibility.html"></iframe>
+```
+</div>
+
 - Poster Meta Science for Methods Research, University of Zurich,  *Toward a standardized evaluation of imputation methodology*. Poster available [here](https://hanneoberman.github.io/presentations/2026/MSMR/poster.pdf), study materials available [here](https://doi.org/10.5281/zenodo.7468677).
-- Presentation Meta Science for Methods Research, University of Zurich,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/MSMR/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://hanneoberman.github.io/presentations/2026/MSMR).
+
+```{=html}
+<object data="./2026/MSMR/poster.pdf" type="application/pdf" width="100%" height="100%" style="min-height:100vh;">
+    <p>It appears you don't have a PDF plugin for this browser.
+    No biggie... you can <a href="./2026/MSMR/poster.pdf">click here to
+    download the PDF file.</a></p>
+</object>
+```
+
 - Lecture Applied Data Analysis and Visualization, Utrecht University,  *Building interactive web apps with the `R` package `shiny`*. Slides available [here](https://hanneoberman.github.io/presentations/2026/adav/lecture.pdf), materials available [here](https://github.com/hanneoberman/presentations/2026/adav).
 <!-- - KEN, Utrecht University,  *Building interactive web apps with the `R` package `shiny`*. Slides available [here](https://hanneoberman.github.io/presentations/2026/adav/lecture.pdf), materials available [here](https://github.com/hanneoberman/presentations/2026/adav). -->
 <!-- ![](2026/rainbowRconf/conference-banner.png) -->
