@@ -20,7 +20,7 @@ format:
     fontsize: "24pt"
     scrollable: true
     reference-location: margin
-    footer: "© [Hanne Oberman](https://hanneoberman.github.io/), [Shannon Pileggi](https://github.com/rstats-wtf/wtf-debugging-slides), [Jon Harmon](https://github.com/r4ds/bookclub-advr)"
+    footer: "© [Hanne Oberman](https://hanneoberman.github.io/), [Shannon Pileggi](https://github.com/rstats-wtf/wtf-debugging-slides), [Jon Harmon](https://github.com/r4ds/bookclub-advr), [Danielle Navarro](https://djnavarro.net/slides-project-structure)"
     incremental: true
     code-link: true
     echo: false
@@ -35,7 +35,7 @@ format:
 
 This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/) (CC BY-SA4.0).
 
-These materials have been developed in part by [Hanne Oberman](https://hanneoberman.github.io/), [Shannon Pileggi](https://github.com/rstats-wtf/wtf-debugging-slides), and [Jon Harmon](https://github.com/r4ds/bookclub-advr).
+These materials have been developed in part by [Hanne Oberman](https://hanneoberman.github.io/), [Shannon Pileggi](https://github.com/rstats-wtf/wtf-debugging-slides), [Jon Harmon](https://github.com/r4ds/bookclub-advr), and [Danielle Navarro](https://djnavarro.net/slides-project-structure).
 
 When using these materials, you *must* ensure that the content is not used for generative AI model training.
 <br>
@@ -85,6 +85,308 @@ Explanation: `df` is a closure, in this case, the function `stats::df()`, the de
 It does not have elements that you could subset. 
 :::
 
+
+
+
+## Learning objectives:
+
+- Overall: Find and fix errors.
+- Locate exactly where an error occurred with the `traceback()` function.
+- Pause the execution of a function and launch an environment to interactively explore what's happening.
+- Debug non-interactively executed code.
+- Recognize other (non-error) problems that occasionally also need debugging.
+
+# Preventing errors {background-color="#FFCD00"}
+
+::: fragment
+
+> The best way to deal with errors is not to have any at all
+
+:::
+
+## Use an IDE
+
+Popular [IDEs](https://en.wikipedia.org/wiki/Integrated_development_environment) for R:
+
+-   **RStudio**: Ideal for R programming with features tailored for data analysis and visualization
+-   **Positron**/**Visual Studio Code (VS Code)**: A versatile code editor with a vast ecosystem of extensions for various languages
+<!-- -   **Eclipse (with StatET)**: Eclipse StatET is an integrated development environment (IDE) for R, offering features for R programming and data analysis -->
+
+::: fragment
+$\rightarrow$ visual feedback (e.g., rainbow parentheses)
+
+$\rightarrow$ use [tab] for code completion
+
+```r
+seq(1, 10)
+```
+:::
+
+
+## Code style and naming
+
+- Keep your code clear and legible with a [code style](https://style.tidyverse.org/) <br>
+  $\rightarrow$ Auto-format using [ctrl]/[cmd] + [shift] + A
+- Adhere to naming conventions/rules
+  - Object names in R cannot start with a digit and cannot contain certain other characters such as a comma or a space
+  - Adopt a [convention](https://en.wikipedia.org/wiki/Snake_case) for demarcating words in names
+
+:::fragment
+```r
+i_use_snake_case
+other.people.use.periods
+evenOthersUseCamelCase
+```
+:::
+
+
+::: fragment
+  $\rightarrow$ [tab] for code completion
+
+```r
+this_is_a_really_long_name <- 2.5
+```
+:::
+
+
+## Always start with a blank slate
+
+- Code in a fresh R session
+- Load only the necessary packages and objects
+- Save objects for code that takes a long time to execute
+
+::: fragment
+``` r
+saveRDS(my_precious, here("results", "my_precious.rds"))
+```
+:::
+
+- Access previously saved objects
+
+::: fragment
+
+``` r
+my_precious <- readRDS(here("results", "my_precious.rds"))
+```
+:::
+
+## File naming {.nonincremental}
+
+Some file names are good ✅
+
+- reading01_shakespeare_romeo-and-juliet_act01.docx
+- reading01_shakespeare_romeo-and-juliet_act02.docx
+- reading02_shakespeare_othello.docx
+- reading19_plath_the-bell-jar.docx
+
+::: fragment
+Other file names are bad ❌
+
+- Romeo and Juliet Act 1.docx
+- Shakespeare RJ act2.docx
+- shakespeare othello I think?.docx
+- belljar plath (1).docx
+:::
+
+## Three principles for file naming
+
+- Be nice to machines
+- Be nice to humans
+- Make sorting and searching easy
+
+## Names machines like
+
+- Don't leave white space
+  - Machines sometimes get confused by spaces
+  - ✅ romeo-and-juliet_act01.docx <br>
+    ❌ romeo and juliet act 1.docx
+    
+<!-- - Easier to write code when files don't have spaces -->
+
+- Only use letters, numbers, hyphens and underscores
+  - Don't assume case is meaningful (some operating systems treat `a` and `A` the same)
+  - Machines sometimes get confused by special characters
+  - If you can, avoid accents `ñ` (but consider accessibility!)
+  - ✅ essay_romeo-and-juliet_draft01.docx <br>
+    ❌ essay "romeo and juliet" draft01(1).docx
+
+  <!-- - Some characters have special meaning, e.g., `^.*?+|$` -->
+
+## Names machines like
+
+- Use separator characters
+  - Use hyphen `-` to mean "different words that are part of the same chunk"
+  - Use underscore `_` to separate different chunks
+  - Chunks: [`identifier`] [`author`] [`title`] [`section` (optional)]
+  - ✅ reading01_shakespeare_romeo-and-juliet_act01.docx
+  - ✅ reading01_shakespeare_romeo-and-juliet_act02.docx
+  - ✅ reading02_shakespeare_othello.docx
+  - ✅ reading19_plath_the-bell-jar.docx
+
+## Names humans like
+
+- Love the slug 🐌
+
+  - "analysis01_**descriptive-statistics**.R"
+  - "analysis02_**preregistered-analysis**.R"
+  - "notes01_**realising-the-problem**.txt"
+  - "analysis03_**departing-from-the-plan**.R"
+  - "notes02_**tentative-write-up**.docx"
+
+- Concise, meaningful description
+- Usually appended to the end
+
+## Easy to sort and search names
+
+- File names sometimes need to include dates
+- ... but these dates don't sort in chronological order
+
+  - 1-April-2012.R
+  - 1-Jan-2009.R
+  - 12-Jan-2012.R
+  - 2-Jan-2012.R
+
+- Happily, these dates do! 
+
+  - 2009-01-01.R
+  - 2012-01-01.R
+  - 2012-01-02.R
+  - 2012-04-01.R
+
+<!-- - Dates should follow the YYYY-MM-DD format -->
+<!--   - Known as the ISO 8601 standard -->
+
+<!-- ::: fragment -->
+<!-- ![](images/iso-date.png){fig-align="right"} -->
+<!-- ::: -->
+
+## Easy to sort and search names
+
+![](images/xkcd_iso.png){height="80%"}
+
+<!-- https://xkcd.com/1179/ -->
+
+## Easy to sort and search names {.nonincremental}
+
+- Use numbers as a prefix to order files 
+
+  - 01_preface.docx
+  - 02_introduction.docx
+  - 03_method.docx
+  - etc...
+  - 19_appendix-09.docx
+  - 20_appendix-10.docx
+  - 21_appendix-11.docx
+
+- Left pad with 0 so that all numbers have same length
+- Numbers are more robust than letters (alphabetical order varies)
+
+## Project structure
+
+```r
+setwd("path/that/only/works/on/my/machine")
+```
+
+- Use R project (`.Rproj`) files to organize your files
+  - No more need for `setwd()`
+  - All relative paths from `.Rproj` file
+
+- Use `here::here()`
+  - Create paths relative to the R script
+  - Grab files from folders inside top-level directory `here("data", "file_i_want.csv")`
+
+## File paths {.nonincremental}
+
+Three files inside one folder
+
+- 📂 project
+  - 📄 01_initial-plan.docx
+  - 📄 02_data-collection.R
+  - 📄 03_initial-analysis.R
+
+::: fragment
+The "file paths" are written like this
+
+`project/01_initial-plan.docx` <br>
+`project/02_data-collection.R` <br>
+`project/03_initial-analysis.R`
+:::
+
+## File paths {.nonincremental}
+
+Three files inside one folder
+
+::: nonincremental
+- 📂 project
+  - 📄 01_initial-plan.docx
+  - 📄 02_data-collection.R
+  - 📄 03_initial-analysis.R
+:::
+
+Except on Windows... 
+
+`project\01_initial-plan.docx` <br>
+`project\02_data-collection.R` <br>
+`project\03_initial-analysis.R`
+
+## File tree
+
+<!-- Folders inside folders creates a "file tree"... -->
+
+::: smaller
+- 📂 project
+  - 📄 overview.docx
+- 📂 data
+  - 📄 data_ex01.csv
+  - 📄 data_ex02.csv
+- 📂 analysis
+  - 📄 ex01_01_descriptive-statistics.R
+  - 📄 ex01_02_inferential-statistics.R
+  - 📄 ex02_01_descriptive-statistics.R
+  - 📄 ex02_02_inferential-statistics.R
+- 📂 report
+  - 📄 2021-03-11_report_getting-started.docx
+:::
+
+## File tree {.nonincremental}
+
+<!-- Paths for all files in this tree -->
+
+  - `project/overview.docx`
+  - `project/data/data_ex01.csv`
+  - `project/data/data_ex02.csv`
+  - `project/analysis/ex01_01_descriptive-statistics.R`
+  - `project/analysis/ex01_02_inferential-statistics.R`
+  - `project/analysis/ex02_01_descriptive-statistics.R`
+  - `project/analysis/ex02_02_inferential-statistics.R`
+  - `project/report/2021-03-11_report_getting-started.docx`
+
+## Three principles 
+
+- Be nice to machines
+- Be nice to humans
+- Make sorting and searching easy
+
+## But what if
+
+![](images/swat-bugs.gif)
+
+::: footer
+<https://giphy.com/gifs/TreehouseDirect-agent-binky-8UabbehIqkR0akDt1y>
+:::
+
+
+# Strategies for finding and fixing errors {background-color="#FFCD00"}
+
+:::: fragment
+
+> Debugging is like being the detective in a crime movie where you're also the murderer. 
+
+::: {style="text-align: right;"}
+**-Filipe Fortes**
+:::
+
+::::
 
 ## Types of errors
 
@@ -139,26 +441,6 @@ $\rightarrow$ you may need `identical()` or `all()`, or form the condition more 
 
 :::
 
-## Learning objectives:
-
-- Overall: Find and fix errors.
-- Locate exactly where an error occurred with the `traceback()` function.
-- Pause the execution of a function and launch an environment to interactively explore what's happening.
-- Debug non-interactively executed code.
-- Recognize other (non-error) problems that occasionally also need debugging.
-
-
-# Strategies for finding and fixing errors {background-color="#FFCD00"}
-
-:::: fragment
-
-> Debugging is like being the detective in a crime movie where you're also the murderer. 
-
-::: {style="text-align: right;"}
-**-Filipe Fortes**
-:::
-
-::::
 
 ## Troubleshooting
 
@@ -180,7 +462,7 @@ $\rightarrow$ you may need `identical()` or `all()`, or form the condition more 
   - [{searcher}](https://r-pkg.thecoatlessprofessor.com/searcher/)
   - Probably AI agents after 2026
 
-## 2. Resetting R
+## 2. Resetting R {.nonincremental}
 
 <brshort>
 
@@ -189,6 +471,8 @@ Have you tried turning it `OFF` and `ON` again?
 :::
 
 <brshort>
+
+:::::: {.nonincremental}
 
 ::::: columns
 ::: {.column width="50%"}
@@ -200,13 +484,17 @@ Have you tried turning it `OFF` and `ON` again?
 :::
 
 ::: {.column width="50%"}
+
+::: fragment
 `usethis::use_blank_slate()`
 
 or `Tools -> Global Options -> Workspace`
 
 ![](images/workspace-options.PNG)
 :::
+:::
 :::::
+::::::
 
 ## Why reset?
 
@@ -240,9 +528,18 @@ countdown(
 | E. `x <- 1:5` | `r fontawesome::fa("xmark", fill = "white")` |
 | F. `attach(iris)` | `r fontawesome::fa("check", fill = fa_fill)` |
 
-## Instead, reset.
+## `rm(list = ls())`
 
-And/or use `sessioncheck()`.
+- 'object-nuking' command: delete user-created objects from the global workspace
+- makes your script vulnerable to hidden dependencies
+  - loaded packages
+  - settings such as `stringsAsFactors`
+  - relative paths
+- deceptive 'reproducibility'
+
+::: fragment
+
+Instead, save objects, reset and/or use `sessioncheck()`
 
 ```{r}
 #| echo: true
@@ -250,6 +547,8 @@ And/or use `sessioncheck()`.
 #| warning: true
 sessioncheck::sessioncheck()
 ```
+
+:::
 
 ## Your turn, exercise 00
 
@@ -360,13 +659,6 @@ mean(a)
 Being systematic often saves time in the end.
 
 
-## But what if
-
-![](images/swat-bugs.gif)
-
-::: footer
-<https://giphy.com/gifs/TreehouseDirect-agent-binky-8UabbehIqkR0akDt1y>
-:::
 
 
 # Debugging in practice {background-color="#FFCD00"}
@@ -450,6 +742,7 @@ for the best debugging experience 😎
 <!-- formal `debugging` techniques. -->
 <!-- ::: -->
 
+
 ## Key concepts
 
 <br>
@@ -499,13 +792,9 @@ These tools achieve similar objectives slightly differently.
 People don't generally use *all* of these tools at once. They pick and choose the ones they like.
 
 
-## Debugging tools
+## Debugging *your* code
 
 ![](images/debugging_yours.svg)
-
-# `r fontawesome::fa("road", fill = "black")` traceback
-
-<!-- Use `traceback()` to locate the error -->
 
 ## Set up
 
@@ -520,6 +809,12 @@ g <- function(x) f(x)
 
 g("a")
 ```
+
+
+# `r fontawesome::fa("road", fill = "black")` traceback
+
+<!-- Use `traceback()` to locate the error -->
+
 
 ## traceback()
 
@@ -562,19 +857,6 @@ rlang::last_trace()
 
 `options(error = rlang::entrace)` <br> could go in your `.Rprofile`
 
-## traceback vs rlang functions
-
-<br>
-
-Numbering and ordering differs between `traceback()` and rlang functions.
-
-<brshort>
-
-![](images/traceback-ordering.PNG)
-
-::: footer
-<https://adv-r.hadley.nz/debugging.html#call-stack-ordering>
-:::
 
 ## Example: Chained functions
 
@@ -594,16 +876,20 @@ Read bottom to top.
 - `rlang::global_handle()` for better traceback.
 :::
 
-##  `traceback()` is confusing with lazy evaluation
+## traceback vs rlang functions
 
-![](images/lazy-evaluation.png)
+<br>
 
-![](images/traceback.png)
+Numbering and ordering differs between `traceback()` and rlang functions.
 
-::: notes
-- `j()` isn't evaluated until it gets to `i()`.
-- I honestly don't find this example all that confusing.
+<brshort>
+
+![](images/traceback-ordering.PNG)
+
+::: footer
+<https://adv-r.hadley.nz/debugging.html#call-stack-ordering>
 :::
+
 
 ## `traceback()` limits
 
@@ -618,14 +904,14 @@ In real world, traceback may look like [25 layers](https://stbl.wrangle.zone/dev
   in `...`, `.x` and `envir`...
 - ... and you are still left wondering what's going on.
 
-## `rlang::global_handle()` in `.Rprofile` makes traceback better
+<!-- ## `rlang::global_handle()` in `.Rprofile` makes traceback better -->
 
-![](images/global_handle.png)
+<!-- ![](images/global_handle.png) -->
 
-::: notes
-- `rlang::with_abort()` from book no longer exists
-- I'm now experimenting with turning this off, because it breaks "rerun with debug"!
-:::
+<!-- ::: notes -->
+<!-- - `rlang::with_abort()` from book no longer exists -->
+<!-- - I'm now experimenting with turning this off, because it breaks "rerun with debug"! -->
+<!-- ::: -->
 
 # `r fontawesome::fa("bug", fill = "black")` interactive debugger
 
@@ -652,11 +938,24 @@ g <- function(x) f(x)
 
 3.  Execute the function.
 
+
 ## Interactive debugger
 
 ![](images/interactive-debugger.PNG)
 
-## Interactive debugger tips
+## `browser()` provides special commands
+
+These commands work in the Console; RStudio also makes the toolbar buttons available.
+
+![](images/debug-toolbar.png)
+
+- Next (`n`): Execute the next step
+- Step into (`s`): Dive into function (or `n`)
+- Finish (`f`): Finish execution of the current loop/function
+- Continue (`c`): Continue regular execution of the function (leave interactive) 
+- Stop (`Q`): Stop debugging, terminate the function, and return to the global workspace 
+
+## Interactive debugger overview
 
 ::::::: columns
 ::: {.column width="35%"}
@@ -699,17 +998,6 @@ that would be turned off or disappear in production code
 if (exists("my_debugging_flag")) browser()
 ```
 
-## `browser()` provides special commands
-
-These commands work in the Console; RStudio also makes the toolbar buttons available.
-
-![](images/debug-toolbar.png)
-
-- Next (`n`): Execute the next step
-- Step into (`s`): Dive into function (or `n`)
-- Finish (`f`): Finish execution of the current loop/function
-- Continue (`c`): Continue regular execution of the function (leave interactive) 
-- Stop (`Q`): Stop debugging, terminate the function, and return to the global workspace 
 
 ## `browser()` practical tips
 
@@ -1255,16 +1543,28 @@ options(warn = 0, error = NULL)
 
 ![](images/non-interractive-debugging.png)
 
+
+
+## Watch out!
+
+Functions can fail without errors
+
+- Unexpected warning: `options(warn = 2)` turns warnings into errors.
+- Unexpected message: Proposed solution in book no longer available.
+- Function might never return. Terminate & `traceback()`.
+- Crashed R = bug in compiled (C, C++, etc) code.
+
 ## Print debugging can help if nothing else works
 
 ![](images/print-debugging.png)
 
-
 # Wrap up {background-color="#FFCD00"}
+
 
 ## Pick your favorite
 
 ![](images/debugging_pick.svg)
+
 
 ## Go forth, <br> and learn from your bugs!
 
@@ -1330,12 +1630,6 @@ Some useful resources on debugging:
 ## References
 
 
-## Advanced: Functions can fail without errors
-
-- Unexpected warning: `options(warn = 2)` turns warnings into errors.
-- Unexpected message: Proposed solution in book no longer available.
-- Function might never return. Terminate & `traceback()`.
-- Crashed R = bug in compiled (C, C++, etc) code. 
 
 
 ## Advanced: Automated tests help
@@ -1399,6 +1693,17 @@ Live example in `{devtools}` <https://github.com/r-lib/devtools/actions/workflow
 
 See also ["Markdown test drive"](https://happygitwithr.com/rmd-test-drive.html?q=knit_exit#rmd-troubleshooting)
 in Jenny Bryan's _Happy Git With R_ book.
+
+## Advanced: `traceback()` is confusing with lazy evaluation
+
+![](images/lazy-evaluation.png)
+
+![](images/traceback.png)
+
+::: notes
+- `j()` isn't evaluated until it gets to `i()`.
+- I honestly don't find this example all that confusing.
+:::
 
 ## Advanced: RStudio vs Positron 
 
