@@ -281,7 +281,13 @@ Other file names are bad ❌
 - Left pad with 0 so that all numbers have same length
 - Numbers are more robust than letters (alphabetical order varies)
 
-## Project structure
+## Three principles 
+
+- Be nice to machines
+- Be nice to humans
+- Make sorting and searching easy
+
+## Use an explicit project structure
 
 ```r
 setwd("path/that/only/works/on/my/machine")
@@ -329,11 +335,12 @@ Except on Windows...
 `project\02_data-collection.R` <br>
 `project\03_initial-analysis.R`
 
-## File tree
+## File tree {.nonincremental .smaller}
 
 <!-- Folders inside folders creates a "file tree"... -->
 
-::: smaller
+::: {{.nonincremental}}
+
 - 📂 project
   - 📄 overview.docx
 - 📂 data
@@ -346,6 +353,7 @@ Except on Windows...
   - 📄 ex02_02_inferential-statistics.R
 - 📂 report
   - 📄 2021-03-11_report_getting-started.docx
+
 :::
 
 ## File tree {.nonincremental}
@@ -360,12 +368,6 @@ Except on Windows...
   - `project/analysis/ex02_01_descriptive-statistics.R`
   - `project/analysis/ex02_02_inferential-statistics.R`
   - `project/report/2021-03-11_report_getting-started.docx`
-
-## Three principles 
-
-- Be nice to machines
-- Be nice to humans
-- Make sorting and searching easy
 
 ## But what if
 
@@ -705,6 +707,10 @@ $\rightarrow$ Recommended R ≥ 4.4.0
 
 $\rightarrow$ I'm on 2026.08.1+195
 
+<br>
+
+Optional: 
+
 `r fontawesome::fa("check", fill = fa_fill)` Ready to build packages?
 
 $\rightarrow$ `devtools::has_devel()`<br> $\rightarrow$ *Your system is ready to build packages!*
@@ -791,6 +797,8 @@ These tools achieve similar objectives slightly differently.
 
 People don't generally use *all* of these tools at once. They pick and choose the ones they like.
 
+
+# Debugging `r fontawesome::fa("magnifying-glass", fill = "black")` your code 
 
 ## Debugging *your* code
 
@@ -880,7 +888,8 @@ Read bottom to top.
 
 <br>
 
-Numbering and ordering differs between `traceback()` and rlang functions.
+- Call stacks printed by `traceback()`, `browser()` & `where`, and `recover()` are not consistent
+- Numbering and ordering differs between `traceback()` and rlang functions.
 
 <brshort>
 
@@ -890,6 +899,12 @@ Numbering and ordering differs between `traceback()` and rlang functions.
 <https://adv-r.hadley.nz/debugging.html#call-stack-ordering>
 :::
 
+## traceback vs rlang functions
+
+![](images/print-debug.png)
+
+- RStudio displays calls in the same order as `traceback()`
+- {rlang} functions use the same ordering & numbering as `recover()`
 
 ## `traceback()` limits
 
@@ -938,8 +953,14 @@ g <- function(x) f(x)
 
 3.  Execute the function.
 
+<!-- ## Use `browser()` to set a break point in code -->
+
+<!-- ![](images/browser.png) -->
+
 
 ## Interactive debugger
+
+Use `browser()` to set a break point in code
 
 ![](images/interactive-debugger.PNG)
 
@@ -983,21 +1004,6 @@ Control execution
 ::::
 :::::::
 
-## Use `browser()` to set a break point in code
-
-![](images/browser.png)
-
-## `browser()` can be conditional
-
-![](images/browser2.png)
-
-A better practice would be to define your own debugging flags 
-that would be turned off or disappear in production code
-
-```
-if (exists("my_debugging_flag")) browser()
-```
-
 
 ## `browser()` practical tips
 
@@ -1007,51 +1013,7 @@ if (exists("my_debugging_flag")) browser()
 - That means you can select the code and `Ctrl+Enter` to execute it
     * if in doubt about the source of the error, do that rather than hitting `n` "Next"
     * especially if the computations leading to this point in your code are costly in terms of time
-    
-## `debug(fn_name)` to insert `browser()` in first line of `fn_name()`
 
-- `undebug(fn_name)` to remove it
-- `debugonce(fn_name)` to do it once (similar to rerun with debug) 
-- `utils::setBreakpoint("file_name", line_number)`
-
-::: notes
-- Pronounce `debugonce()` [like "Beyonce"](https://www.youtube.com/watch?v=JThd3YYQXGg)
-:::
-
-## Call stacks printed by `traceback()`, `browser()` & `where`, and `recover()` are not consistent
-
-![](images/print-debug.png)
-
-- RStudio displays calls in the same order as `traceback()`
-- {rlang} functions use the same ordering & numbering as `recover()`
-  - Also indent to reinforce hierarchy
-
-## RStudio has tools for debugging
-
-- Click "Rerun with Debug" in error message
-- Enable `Debug > On Error > Break in Code` to always jump to error
-
-## Set breakpoints in RStudio for virtual `browser()`
-
-Activate:
-
-- Click to left of line number, or
-- Press **Shift + F9**
-
-. . . 
-
-Downsides:
-
-- Fail in [unusual situations](https://support.posit.co/hc/en-us/articles/200534337-Breakpoint-Troubleshooting)
-- Can't be conditional
-
-## Use `options(error = recover)` for interactive debugging prompt
-
-![](images/recover.png)
-
-Turn off with `options(error = NULL)`
-
-# `r fontawesome::fa("magnifying-glass", fill = "black")` your code vs `r fontawesome::fa("hat-wizard", fill = "black")` their code
 
 ## Debugging your code
 
@@ -1109,6 +1071,26 @@ countdown(
 ## Debugging in RStudio
 
 ![](images/debugging_ide.svg)
+
+
+## RStudio has tools for debugging
+
+- Click "Rerun with Debug" in error message
+- Enable `Debug > On Error > Break in Code` to always jump to error
+
+## Set breakpoints in RStudio for virtual `browser()`
+
+Activate:
+
+- Click to left of line number, or
+- Press **Shift + F9**
+
+. . . 
+
+Downsides:
+
+- Fail in [unusual situations](https://support.posit.co/hc/en-us/articles/200534337-Breakpoint-Troubleshooting)
+- Can't be conditional
 
 ## Editor breakpoints
 
@@ -1236,6 +1218,7 @@ To have RStudio invoke the debugger on any error,
 *uncheck* `Use debug error handler only when my code contains errors.`
 :::
 
+
 ## Debugging in the RStudio IDE
 
 ![](images/debugging_ide.svg)
@@ -1260,7 +1243,11 @@ countdown(
 
 <!-- # Debugging *their* code -->
 
-## Debugging their code
+<!-- # `r fontawesome::fa("magnifying-glass", fill = "black")` your code vs `r fontawesome::fa("hat-wizard", fill = "black")` their code -->
+
+# Debugging `r fontawesome::fa("hat-wizard", fill = "black")` their code
+
+## Debugging *their* code
 
 ![](images/debugging_theirs.svg)
 
@@ -1300,6 +1287,16 @@ g("a")
 
 - interactive debugger initiated a **single** time when `g()` is executed
 
+`debug(fn_name)` to insert `browser()` in first line of `fn_name()`
+
+- `undebug(fn_name)` to remove it
+- `debugonce(fn_name)` to do it once (similar to rerun with debug) 
+- `utils::setBreakpoint("file_name", line_number)`
+
+::: notes
+- Pronounce `debugonce()` [like "Beyonce"](https://www.youtube.com/watch?v=JThd3YYQXGg)
+:::
+
 ## options(error = recover)
 
 `r fontawesome::fa("check", fill = fa_fill)` we already discussed <br> `options(error = rlang::entrace)`<br> for a richer traceback on error
@@ -1311,6 +1308,13 @@ g("a")
 1.  displays an interactive prompt with frames
 
 2.  you select the frame to enter the debugger
+
+
+## Use `options(error = recover)` for interactive debugging prompt
+
+![](images/recover.png)
+
+Turn off with `options(error = NULL)`
 
 ## recover example
 
@@ -1526,7 +1530,7 @@ options(warn = 0, error = NULL)
 
 ![](images/debugging_special.svg)
 
-# Non-interactive debugging
+# Advanced: Non-interactive debugging
 
 ## Use `callr::r()` or fresh start to look for differences
 
@@ -1545,6 +1549,13 @@ options(warn = 0, error = NULL)
 
 
 
+# Wrap up {background-color="#FFCD00"}
+
+
+## Pick your favorite
+
+![](images/debugging_pick.svg)
+
 ## Watch out!
 
 Functions can fail without errors
@@ -1554,17 +1565,10 @@ Functions can fail without errors
 - Function might never return. Terminate & `traceback()`.
 - Crashed R = bug in compiled (C, C++, etc) code.
 
+
 ## Print debugging can help if nothing else works
 
 ![](images/print-debugging.png)
-
-# Wrap up {background-color="#FFCD00"}
-
-
-## Pick your favorite
-
-![](images/debugging_pick.svg)
-
 
 ## Go forth, <br> and learn from your bugs!
 
@@ -1630,6 +1634,37 @@ Some useful resources on debugging:
 ## References
 
 
+## Advanced: `traceback()` is confusing with lazy evaluation
+
+![](images/lazy-evaluation.png)
+
+![](images/traceback.png)
+
+::: notes
+- `j()` isn't evaluated until it gets to `i()`.
+- I honestly don't find this example all that confusing.
+:::
+
+## Advanced: `browser()` can be conditional
+
+![](images/browser2.png)
+
+A better practice would be to define your own debugging flags 
+that would be turned off or disappear in production code
+
+```
+if (exists("my_debugging_flag")) browser()
+```
+
+## Advanced: RStudio vs Positron 
+
+Debugging tools in Positron are still under active development. `browser()` and `debugonce()` are supported, but breakpoints aren't.
+
+- [Positron facilitates debugging C++ code](https://youtu.be/8uRcB34Hhsw?si=yzfiNvViVRj8gRXj&t=2827) posit::conf(2024), Davis Vaughn, Aug 2024
+
+- [Positron IDE Debugger for R Demo with Nested Functions (Public Beta)](https://www.youtube.com/watch?v=p_4ZS-nnQ2Q&t=53s) YouTube, James Balamuta, Jun 2024
+
+- [Positron: current joys and pains](https://drmowinckels.io/blog/2025/positron-debugging/), blog post, Athanasia Mowinckel, Apr 2025
 
 
 ## Advanced: Automated tests help
@@ -1694,25 +1729,5 @@ Live example in `{devtools}` <https://github.com/r-lib/devtools/actions/workflow
 See also ["Markdown test drive"](https://happygitwithr.com/rmd-test-drive.html?q=knit_exit#rmd-troubleshooting)
 in Jenny Bryan's _Happy Git With R_ book.
 
-## Advanced: `traceback()` is confusing with lazy evaluation
-
-![](images/lazy-evaluation.png)
-
-![](images/traceback.png)
-
-::: notes
-- `j()` isn't evaluated until it gets to `i()`.
-- I honestly don't find this example all that confusing.
-:::
-
-## Advanced: RStudio vs Positron 
-
-Debugging tools in Positron are still under active development. `browser()` and `debugonce()` are supported, but breakpoints aren't.
-
-- [Positron facilitates debugging C++ code](https://youtu.be/8uRcB34Hhsw?si=yzfiNvViVRj8gRXj&t=2827) posit::conf(2024), Davis Vaughn, Aug 2024
-
-- [Positron IDE Debugger for R Demo with Nested Functions (Public Beta)](https://www.youtube.com/watch?v=p_4ZS-nnQ2Q&t=53s) YouTube, James Balamuta, Jun 2024
-
-- [Positron: current joys and pains](https://drmowinckels.io/blog/2025/positron-debugging/), blog post, Athanasia Mowinckel, Apr 2025
 
 
