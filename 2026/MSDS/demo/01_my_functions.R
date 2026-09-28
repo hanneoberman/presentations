@@ -1,4 +1,5 @@
 f <- function(x) {
+  browser()
   x + 1
 }
 

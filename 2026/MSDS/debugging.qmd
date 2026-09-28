@@ -26,6 +26,13 @@ format:
     echo: false
 ---
 
+<!-- TODO for 2027-2028 -->
+<!-- - lecture was way too long: 50 min until 'Trouble shooting', 60 min until 'Their code' (without any live exercises) -->
+<!-- - move 'Their code' to advanced topics -->
+<!-- - add more live demo, fix size of Rstudio windows (now either too small or no way to type and read source) -->
+<!-- - add much more info on wd -->
+<!-- - add exercise with wd? -->
+<!-- - shorten file naming part? -->
 
 ## Attribution and reuse 
 

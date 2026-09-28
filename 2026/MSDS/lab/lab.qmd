@@ -16,7 +16,7 @@ Download the zip folder with this week's exercises. The folder contains three su
 
 * `02_exercise` practice debugging your own code with RStudio IDE features
 
-* `03_exercise` practice debugging others' code
+* `03_exercise` (*optional!*) practice debugging others' code
 
 
 For each exercise, you can 'choose your own adventure' by selecting the R script with more or with less hints:
@@ -25,6 +25,9 @@ For each exercise, you can 'choose your own adventure' by selecting the R script
 
 * `0X_debugging_comfy.R` (directions to explore with suggested code)
 
+Your homework is to hand in a version of exercises `01` and `02`. 
+This may be either the `spartan` or `comfy` version of each exercise.
+The third exercise does not need to be handed in.
 
 Next week, the solutions will be added:
 
