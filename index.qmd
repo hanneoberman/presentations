@@ -31,6 +31,7 @@ format:
 
 ## 2026
 
+- Lecture MSDS, Utrecht University, *Debugging R*. Slides available [here](https://hanneoberman.github.io/presentations/2026/MSDS/debugging.html).
 - Presentation Meta Science for Methods Research, University of Zurich,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/MSMR/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://hanneoberman.github.io/presentations/2026/MSMR).  <br>$\rightarrow$ Or use the arrow keys to page through the embedded Quarto presentation below️ ⬇️
 
 <style>

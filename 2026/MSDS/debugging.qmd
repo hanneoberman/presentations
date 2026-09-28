@@ -819,12 +819,14 @@ g("a")
 ```
 
 
-# `r fontawesome::fa("road", fill = "black")` traceback
+<!-- # `r fontawesome::fa("road", fill = "black")` traceback -->
 
 <!-- Use `traceback()` to locate the error -->
 
 
-## traceback()
+## `r fontawesome::fa("road", fill = "black")` traceback
+
+Use `traceback()` to locate the error
 
 <br>
 
@@ -884,27 +886,7 @@ Read bottom to top.
 - `rlang::global_handle()` for better traceback.
 :::
 
-## traceback vs rlang functions
 
-<br>
-
-- Call stacks printed by `traceback()`, `browser()` & `where`, and `recover()` are not consistent
-- Numbering and ordering differs between `traceback()` and rlang functions.
-
-<brshort>
-
-![](images/traceback-ordering.PNG)
-
-::: footer
-<https://adv-r.hadley.nz/debugging.html#call-stack-ordering>
-:::
-
-## traceback vs rlang functions
-
-![](images/print-debug.png)
-
-- RStudio displays calls in the same order as `traceback()`
-- {rlang} functions use the same ordering & numbering as `recover()`
 
 ## `traceback()` limits
 
@@ -928,11 +910,13 @@ In real world, traceback may look like [25 layers](https://stbl.wrangle.zone/dev
 <!-- - I'm now experimenting with turning this off, because it breaks "rerun with debug"! -->
 <!-- ::: -->
 
-# `r fontawesome::fa("bug", fill = "black")` interactive debugger
+<!-- # `r fontawesome::fa("bug", fill = "black")` interactive debugger -->
 
 <!-- Interactive debugger -->
 
-## browser()
+## `r fontawesome::fa("bug", fill = "black")` interactive debugger
+
+<!-- Use `browser()` to start the interactive debugger -->
 
 ```{r, eval=FALSE, echo=TRUE, `code-line-numbers`="2"}
 f <- function(x) {
@@ -1023,8 +1007,9 @@ Control execution
 
 Download the exercises 
 
-- with `usethis::use_course("rstats-wtf/wtf-debugging")`, or 
-- download the zip folder from <https://github.com/rstats-wtf/wtf-debugging>
+<!-- - with `usethis::use_course("rstats-wtf/wtf-debugging")`, or  -->
+- download the zip folder from Brightspace
+<!-- <https://github.com/rstats-wtf/wtf-debugging> -->
 
 <brshort>
 
@@ -1060,13 +1045,13 @@ countdown(
 ```
 
 ::: footer
-
-<https://github.com/rstats-wtf/wtf-debugging>
-
+Remember to restart R as indicated: <br>
+Session -> Restart R (in RStudio IDE), or <br>
+[ctrl]/[cmd] + [shift] + [F10]
 :::
 
 
-<!-- # Debugging in RStudio -->
+# Debugging `r fontawesome::fa("magnifying-glass", fill = "black")` in the IDE
 
 ## Debugging in RStudio
 
@@ -1077,20 +1062,19 @@ countdown(
 
 - Click "Rerun with Debug" in error message
 - Enable `Debug > On Error > Break in Code` to always jump to error
+- Set breakpoints in RStudio for virtual `browser()`
 
-## Set breakpoints in RStudio for virtual `browser()`
+<!-- Activate: -->
 
-Activate:
+<!-- - Click to left of line number, or -->
+<!-- - Press **Shift + F9** -->
 
-- Click to left of line number, or
-- Press **Shift + F9**
+<!-- . . .  -->
 
-. . . 
+<!-- Downsides: -->
 
-Downsides:
-
-- Fail in [unusual situations](https://support.posit.co/hc/en-us/articles/200534337-Breakpoint-Troubleshooting)
-- Can't be conditional
+<!-- - Fail in [unusual situations](https://support.posit.co/hc/en-us/articles/200534337-Breakpoint-Troubleshooting) -->
+<!-- - Can't be conditional -->
 
 ## Editor breakpoints
 
@@ -1287,6 +1271,8 @@ g("a")
 
 - interactive debugger initiated a **single** time when `g()` is executed
 
+. . . 
+
 `debug(fn_name)` to insert `browser()` in first line of `fn_name()`
 
 - `undebug(fn_name)` to remove it
@@ -1434,9 +1420,8 @@ untrace(colSums)
 <br>
 
 ```{r, eval=FALSE, echo=TRUE}
-# already installed in the Posit Cloud work space
-# install.packages("devtools")
-# devtools::install_github("rstats-wtf/wtfdbg")
+# install.packages("pak")
+# pak::pak("rstats-wtf/wtfdbg")
 ```
 
 <br>
@@ -1455,7 +1440,7 @@ countdown(
 <https://github.com/rstats-wtf/wtf-debugging>
 :::
 
-# Advanced topics {background-color="#FFCD00"}
+<!-- # Advanced topics {background-color="#FFCD00"} -->
 
 # Special cases
 
@@ -1530,24 +1515,6 @@ options(warn = 0, error = NULL)
 
 ![](images/debugging_special.svg)
 
-# Advanced: Non-interactive debugging
-
-## Use `callr::r()` or fresh start to look for differences
-
-`callr::r(f, list(1, 2))` calls `f(1, 2)` in a fresh session
-
-- Global env 
-- Packages
-- Object
-- Working directory
-- `PATH` environment variable
-- `R_LIBS` environment variable
-
-## `dump.frames()` is the equivalent to `recover()` for non-interactive code.
-
-![](images/non-interractive-debugging.png)
-
-
 
 # Wrap up {background-color="#FFCD00"}
 
@@ -1565,6 +1532,34 @@ Functions can fail without errors
 - Function might never return. Terminate & `traceback()`.
 - Crashed R = bug in compiled (C, C++, etc) code.
 
+## traceback vs rlang functions
+
+<br>
+
+- Call stacks printed by `traceback()`, `browser()` & `where`, and `recover()` are not consistent
+- Numbering and ordering differs between `traceback()` and rlang functions.
+
+<brshort>
+
+::: fragment
+
+![](images/traceback-ordering.PNG)
+
+:::
+
+::: footer
+<https://adv-r.hadley.nz/debugging.html#call-stack-ordering>
+:::
+
+- RStudio displays calls in the same order as `traceback()`
+- {rlang} functions use the same ordering & numbering as `recover()`
+
+<!-- ## traceback vs rlang functions -->
+
+<!-- ![](images/print-debug.png) -->
+
+<!-- - RStudio displays calls in the same order as `traceback()` -->
+<!-- - {rlang} functions use the same ordering & numbering as `recover()` -->
 
 ## Print debugging can help if nothing else works
 
@@ -1631,7 +1626,24 @@ Some useful resources on debugging:
 ::: footer
 :::
 
-## References
+# Advanced topics {background-color="#FFCD00"}
+
+<!-- # Non-interactive debugging -->
+
+## Use `callr::r()` or fresh start to look for differences
+
+`callr::r(f, list(1, 2))` calls `f(1, 2)` in a fresh session
+
+- Global env 
+- Packages
+- Object
+- Working directory
+- `PATH` environment variable
+- `R_LIBS` environment variable
+
+## `dump.frames()` is the equivalent to `recover()` for non-interactive code.
+
+![](images/non-interractive-debugging.png)
 
 
 ## Advanced: `traceback()` is confusing with lazy evaluation
@@ -1724,10 +1736,17 @@ Live example in `{devtools}` <https://github.com/r-lib/devtools/actions/workflow
     * downside: the content of your current environment propagates into the markdown code
 - Use `sink()` for tricksy error handling 
 
+. . . 
+
 ![](images/print-recover.png){height="110"}
 
 See also ["Markdown test drive"](https://happygitwithr.com/rmd-test-drive.html?q=knit_exit#rmd-troubleshooting)
 in Jenny Bryan's _Happy Git With R_ book.
 
 
+## References
+
+- Harmon, J., (2026). R4ds/bookclub-advr. (2026, June 8). <https://github.com/r4ds/bookclub-advr> (Original work published 2022)
+- Navarro, D. (n.d.). Project structure. Retrieved September 25, 2026, from <https://slides.djnavarro.net/project-structure/>
+- Pileggi, S., (2026). Rstats-wtf/wtf-debugging-slides. (2026, January 30). <https://github.com/rstats-wtf/wtf-debugging-slides> (Original work published 2022)
 
