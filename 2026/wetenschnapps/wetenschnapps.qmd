@@ -1,0 +1,97 @@
+---
+title: "Open Science resources at Utrecht University"
+format: pptx
+fontsize: 0.2em
+---
+
+## Significance of Open Science at Utrecht University
+Open Science holds central strategic importance at Utrecht University, representing a paradigm shift to enhance research quality, societal impact, and relationships with society through an "open mind, open attitude."
+
+It forms a cornerstone of the university's [Strategic Plan 2030](https://www.uu.nl/en/organisation/strategic-plan-2030), which positions Open Science as essential for translating public investments into relevant knowledge and skills that benefit society. The university committed to this transition in 2017 within its Strategic Plan 2016-2021, aiming to fundamentally transform research and education practices by making results freely available early, promoting team science, fostering an open academic culture, and reducing individual competition.
+
+The [Utrecht University Open Science Office](https://www.uu.nl/en/research/open-science/about-us/project-team) works on the implementation of open science in the organisation. It stimulates and facilitates researchers to put open science into practice. 
+
+### Key focus areas of putting open science into practice include:
+
+- __Societal relevance and public engagement__: Drives co-creation with stakeholders from problem identification through implementation, ensuring research addresses real societal needs rather than stopping at publications.
+- __Research integrity and evaluation__: Integrated into national protocols like the Strategic Evaluation Protocol (SEP), assessing units on Open Science practices, academic culture, PhD training, and human resource policy.
+- __Educational integration__: Supports open educational resources (OER) and communities like [COSiE](https://teaching-and-learning-collection.sites.uu.nl/project/transferable-pedagogies-for-an-open-science-mindset-and-skillset/) to teach Open Science mindsets across disciplines.
+- __Institutional momentum__: Backed by the Open Science Programme (2018-2021 and beyond), vision documents, task forces, and bottom-up initiatives like OSCU, with leadership from vice-rectors and faculty teams to shift mindsets organization-wide.
+
+## Education resources to look at for gaining skills
+
+Utrecht University's [Open Science webpage](https://www.uu.nl/en/research/open-science) and its links primarily provide workshops, training initiatives, and educational projects focused on open science skills like open access publishing, FAIR data management, collaborative research tools, and integrating open science into curricula.
+
+A selected (non-exhaustive) list of trainings include:
+
++ __Library Workshops__: Two main interactive sessions—"Open Science: a general introduction" (covering open access, FAIR data, incorporating open practices into routines, barriers, and motivations) and "Open Science: opening up your research workflow" (practical tips on collaborative writing, code sharing, altmetrics, pre-registration, and open tools/platforms, customizable for groups).
++ __Educational Integration Project__: "Transferable pedagogies for an Open Science mindset and skillset" builds an interdisciplinary teacher community, pilots Open Science resources across education levels, creates open educational resources (OER), and applies scholarly evaluation to embed OS values like transparency and collaboration into curricula.
++ __Data Management Trainings__: Specific [guidance on writing Data Management Plans](https://www.uu.nl/en/research/research-data-management/training-workshops/online-training-learn-to-write-your-dmp) (DMPs), using platforms like Yoda and DataverseNL for data handling.
++ __Broader Supports__: Advice across the research cycle on open access, data management, visibility, and evolving topics like open peer review; program facilitation for accountability, replicability, and integrity via tracks like FAIR data/software and public engagement.
++ __Related Courses__: Summer school options in data science (e.g., Python programming, text mining, handling missing data) and an open online course on professional performance (covering professions in transition, quality control, lifelong learning), which align with open science themes but are not exclusively OS-focused.
+
+
+## Open Science roles and activities encouraged by the university
+
+Utrecht University recommends that researchers develop skills across several key open science areas:
+Core competencies include:
+
++ Collaborative writing and code sharing – ability to work on documents and software collaboratively with peers
++	Data management – writing Data Management Plans (DMPs) and using platforms like Yoda or DataverseNL
++	Open access publishing – understanding and implementing open access dissemination practices
++	FAIR principles – making research data and software Findable, Accessible, Interoperable, and Reusable
++	Pre-registration – knowing how and where to register studies in advance
++	Public engagement – collaborating with external stakeholders, including non-academic partners, and managing public scrutiny while maintaining scientific independence
++	Open peer review – participating in transparent peer review processes
++	Research integrity and responsible conduct – understanding ethical practices in open research contexts
++	Handling differing values and diverse perspectives in collaborative settings
++	Personal and team development skills
++	Supervision and mentoring capabilities
++	Interdisciplinary communication
+
+These skills are intended to be embedded throughout researchers' careers, from early training through ongoing professional development, with the goal of making open science practices the standard rather than supplementary activities.
+
+## People to know; places to visit:
+
++ [Open Science Community Utrecht](https://www.osc-utrecht.nl) (OSCU): Bottom-up group founded in 2018 for knowledge exchange, workshops, symposia, OSCoffee hours, podcasts, and policy input; over 300 members across faculties and career stages; financially supported by UU; has faculty ambassadors and inspired national/international networks like INOSC. 
++ Faculty Open Science Team (FOST): Operates at faculty level (e.g., [Faculty of Science](https://www.uu.nl/en/organisation/faculty-of-science/about-us/open-science), UMC Utrecht) to implement OS themes like FAIR data, open access, reproducibility; collects ideas, removes barriers, provides tools; Their roles include:
+
+  + Advisory function: Provide advice to the Faculty Board on translating university strategic open science principles into faculty context. 
+  + Action initiation: Propose and start open science actions and projects within the faculty. 
+  + Coordination and connection: Link horizontally/vertically between university Open Science Programme, tracks, and faculty activities; include at least one Fellow per track (Open Access, FAIR data/software, Public Engagement, Recognition & Rewards), a Utrecht University Open Science Platform member, and OSCU Faculty Ambassador.
+  + Leadership commitment: Chaired by the Dean, who appoints members with relevant expertise across disciplines; at UMC Utrecht, members focus on specific OS topics and act as go-to contacts for questions, ideas, or promotion of OS principles.
+  + Expert support: Open Science Fellows act as role models, drivers of OS in the faculty, and provide track-specific input
+
+
+## Financial support from the university
+
+#### Open Science impulses
++ [Open Science Fund](https://www.uu.nl/en/research/open-science/about-us/open-science-fund) is the primary funding mechanism providing grants of €10,000–€15,000 for research teams and employees (scientific and non-scientific staff) from UU and UMC Utrecht to initiate, expand, or share open science practices. Projects are evaluated based on alignment with the university's five open science themes: open access, FAIR data & software, recognition and appreciation, public engagement, and open education. Preference is given to projects with potential for wide application across research areas, university education, or operations. Multiple application rounds occur annually, with decisions made by an independent panel of open science experts.
++ [Public Engagement Seed Fund](https://www.uu.nl/organisatie/publiekenwetenschap/zelf-aan-de-slag/fondsen) {until 2025} dedicated to public engagement activities, this fund supports projects bringing researchers and general audiences together around research questions, methods, and results. Grants up to €10,000 are available, with application deadlines typically in March and October each year.
++ Open Access Funding several faculties offer full reimbursement of publication costs under certain conditions. Faculty-specific funds may also support Article Processing Charges (APCs) or Book Processing Charges (BPCs) for open access publishing, though availability varies by faculty.
++ {potentially discontinued} FAIR Research IT Innovation Fund This separate fund awards grants of €25,000–€50,000 specifically for staff pursuing research IT projects aligned with FAIR principles.
+
+
+## Other forms of rewarding and encouragement
+
+Beyond financial grants, Utrecht University provides several other rewards and recognition mechanisms to encourage open science practices:
+### Structural and Career Recognition
+Utrecht University has implemented a new Recognition and Rewards system (based on the TRIPLE model) that evaluates and values all contributions according to open science principles. This system guides recruitment and selection procedures, meaning open science engagement can influence hiring and career advancement decisions. The university also facilitates mixed-role positions combining research with other tasks such as research IT, analytical laboratory work, or teaching innovation, creating alternative career pathways for those contributing to open science infrastructure.
+
+### Workforce Integration and Collaboration
+Starting from the 2023/24 academic year, the university shifted from a strict division between academic and support staff to viewing all employees as university staff. This approach encourages more frequent collaboration across traditional boundaries and recognizes the vital contributions of non-academic staff—such as data managers, research IT specialists, and laboratory staff—to research and education, making their open science work more visible and valued.
+
+### System-wide Cultural Change
+The university aims to normalize public engagement and stakeholder collaboration as standard research practice rather than supplementary activities. Collaborating with primary schools on education research or consulting with patients' associations will receive the same recognition as attending academic conferences or publishing textbook chapters, fundamentally reshaping how impact and contribution are evaluated.
+
+### Potential Future Rewards
+While under development, Utrecht University considers implementing additional recognition mechanisms such as open science badges or labels on PhD degree certificates, data champion schemes, sabbatical time for active open science contributors, and awards or gifts to researchers demonstrating exceptional open science engagement.
+
+
+
+::: {.callout-note collapse="true"}
+## About this document
+This page was created on April 1st 2026, by Sanli Faez.
+Contributors: Sanli Faez, Rashmi Shetti
+Last updated: April 1st 2026.
+:::
