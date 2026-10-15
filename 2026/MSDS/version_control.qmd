@@ -135,18 +135,6 @@ Think of it as 'track changes' for an entire research project.
 
 :::
 
-## Git vs GitHub
-
-Git is software on your own computer.
-
-- It tracks the history of files in a project folder.
-
-::: fragment
-GitHub is an online platform.
-
-- It can store Git projects, back them up, and help people collaborate.
-:::
-
 ## Git as snail mail
 
 :::: columns
@@ -240,6 +228,19 @@ GitHub is an online platform.
 :::
 ::::
 
+## Git vs GitHub
+
+Git is software on your own computer.
+
+- It tracks the history of files in a project folder.
+
+::: fragment
+GitHub is an online platform.
+
+- It can store Git projects, back them up, and help people collaborate.
+:::
+
+
 ## Repo
 
 A repository, often shortened to 'repo', is a project folder that Git manages.
@@ -247,16 +248,16 @@ A repository, often shortened to 'repo', is a project folder that Git manages.
 ::: fragment
 For example:
 
-survey-project/
-  README.md
-  data/
-  scripts/
-    01-clean-data.R
-    02-analysis.R
-  output/
-    figures/
-  manuscript/
-    article.qmd
+- survey-project/ <br>
+-   README.md <br>
+-   data/ <br>
+-   scripts/ <br>
+-     01-clean-data.R <br>
+-     02-analysis.R <br>
+-   output/ <br>
+-     figures/ <br>
+-   manuscript/ <br>
+-     article.qmd
 :::
 
 ::: fragment
@@ -270,8 +271,10 @@ A README is a short document that introduces and explains a project.
 - Usually in `.md` format, a simple text format that can include headings, lists, links, and code blocks.
 - Think of the `README.md` as the cover page plus user guide for your research project.
 
-::: fragment
+. . . 
+
 ::: aside
+::: fragment
 | What?    |  Why?          |
 |----------------------|----------------------------------------------------|
 | Project   title      | Makes clear what the project is   about            |
@@ -283,7 +286,6 @@ A README is a short document that introduces and explains a project.
 |                      |                                                    |
 :::
 :::
-
 
 ## Git 'commit'
 
@@ -486,6 +488,13 @@ Think of it as checking your inbox to see whether the mail was delivered.
 :::
 ::::
 
+## Local vs remote {visibility="hidden"}
+
+A Git project often exists in two places:
+
+- Local repository: the copy of the project on your own computer. This is where you edit files and create commits.
+- Remote repository: the shared online copy, usually hosted on GitHub. This is where collaborators can access and contribute to the project.
+
 ## Git workflow
 
 With GitHub, the project usually exists in two places:
@@ -505,6 +514,7 @@ Common actions:
 
 ::: fragment
 Always:
+
 - Pull before you start working.
 - Push after completing a coherent piece of work.
 :::
@@ -541,7 +551,9 @@ A branch lets you:
 - Compare its results with the main analysis.
 - Keep the experiment if it is useful.
 - Discard it if it does not work out.
+:::
 
+::: fragment
 Your main project remains safe while you explore.
 :::
 
@@ -592,8 +604,9 @@ It is a prompt to review and make a conscious decision.
 - Communicate before rewriting the same section.
 - Merge changes regularly rather than waiting until the end.
 
+::: fragment
 Small and frequent coordination is much easier than one huge final merge.
-
+:::
 
 ## Collaboration example
 
@@ -626,7 +639,9 @@ It lets colleagues:
 - Approve the work.
 - Merge it into the main project.
 
+::: fragment
 It is like sending a draft for feedback—except comments are attached directly to the exact changes.
+:::
 
 ## PRs as review
 
@@ -648,7 +663,6 @@ Reviewing via PRs can help a team:
 
 - Pull: downloading updates from the shared online repository.
 
-<br>
 
 - Clone: copying an online repository to your computer.
 
@@ -665,10 +679,8 @@ Reviewing via PRs can help a team:
 
 ## References
 
-- Harmon, J., (2026). R4ds/bookclub-advr. (2026, June 8). <https://github.com/r4ds/bookclub-advr> (Original work published 2022)
-- Navarro, D. (n.d.). Project structure. Retrieved September 25, 2026, from <https://slides.djnavarro.net/project-structure/>
-- Pileggi, S., (2026). Rstats-wtf/wtf-debugging-slides. (2026, January 30). <https://github.com/rstats-wtf/wtf-debugging-slides> (Original work published 2022)
-
+- Hester, J. B., the STAT 545 TAs, Jim. (n.d.). Chapter 6 Install Git | Happy Git and GitHub for the useR. Retrieved October 15, 2026, from https://happygitwithr.com/install-git.html
+- jennybc/happy-git-with-r: Using Git and GitHub with R, Rstudio, and R Markdown. (n.d.). Retrieved October 15, 2026, from https://github.com/jennybc/happy-git-with-r?tab=License-1-ov-file
 
 
 # Part {background-color="#FFCD00" visibility="hidden"}

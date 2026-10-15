@@ -1944,17 +1944,6 @@ Hanne Oberman <a href="https://orcid.org/0000-0003-3276-2141" class="quarto-titl
 <!-- **—Norm Matloff** (emphasis added) -->
 <!-- ::: -->
 </div>
-</section><section id="git-vs-github" class="slide level2"><h2>Git vs GitHub</h2>
-<p>Git is software on your own computer.</p>
-<ul>
-<li class="fragment">It tracks the history of files in a project folder.</li>
-</ul>
-<div class="fragment">
-<p>GitHub is an online platform.</p>
-<ul>
-<li class="fragment">It can store Git projects, back them up, and help people collaborate.</li>
-</ul>
-</div>
 </section><section id="git-as-snail-mail" class="slide level2"><h2>Git as snail mail</h2>
 <div class="columns">
 <div class="column" style="width:7%;">
@@ -2008,11 +1997,39 @@ Hanne Oberman <a href="https://orcid.org/0000-0003-3276-2141" class="quarto-titl
 <p><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:black;overflow:visible;position:relative;"><path d="M215.4 96H144 107.8 96v8.8V144v40.4 89L.2 202.5c1.6-18.1 10.9-34.9 25.7-45.8L48 140.3V96c0-26.5 21.5-48 48-48h76.6l49.9-36.9C232.2 3.9 243.9 0 256 0s23.8 3.9 33.5 11L339.4 48H416c26.5 0 48 21.5 48 48v44.3l22.1 16.4c14.8 10.9 24.1 27.7 25.7 45.8L416 273.4v-89V144 104.8 96H404.2 368 296.6 215.4zM0 448V242.1L217.6 403.3c11.1 8.2 24.6 12.7 38.4 12.7s27.3-4.4 38.4-12.7L512 242.1V448v0c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64v0zM176 160H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16z" /></svg></p>
 </div>
 </div></div>
+</section><section id="git-vs-github" class="slide level2"><h2>Git vs GitHub</h2>
+<p>Git is software on your own computer.</p>
+<ul>
+<li class="fragment">It tracks the history of files in a project folder.</li>
+</ul>
+<div class="fragment">
+<p>GitHub is an online platform.</p>
+<ul>
+<li class="fragment">It can store Git projects, back them up, and help people collaborate.</li>
+</ul>
+</div>
 </section><section id="repo" class="slide level2"><h2>Repo</h2>
 <p>A repository, often shortened to ‘repo’, is a project folder that Git manages.</p>
 <div class="fragment">
 <p>For example:</p>
-<p>survey-project/ README.md data/ scripts/ 01-clean-data.R 02-analysis.R output/ figures/ manuscript/ article.qmd</p>
+<ul>
+<li class="fragment">survey-project/ <br>
+</li>
+<li class="fragment">README.md <br>
+</li>
+<li class="fragment">data/ <br>
+</li>
+<li class="fragment">scripts/ <br>
+</li>
+<li class="fragment"><pre><code>01-clean-data.R &lt;br&gt;</code></pre></li>
+<li class="fragment"><pre><code>02-analysis.R &lt;br&gt;</code></pre></li>
+<li class="fragment">output/ <br>
+</li>
+<li class="fragment"><pre><code>figures/ &lt;br&gt;</code></pre></li>
+<li class="fragment">manuscript/ <br>
+</li>
+<li class="fragment"><pre><code>article.qmd</code></pre></li>
+</ul>
 </div>
 <div class="fragment">
 <p>A repository contains both your files and a history of their changes.</p>
@@ -2027,6 +2044,7 @@ Hanne Oberman <a href="https://orcid.org/0000-0003-3276-2141" class="quarto-titl
 
 </div>
 <aside><div>
+<div class="fragment">
 <table class="caption-top">
 <colgroup>
 <col style="width: 29%">
@@ -2067,6 +2085,7 @@ Hanne Oberman <a href="https://orcid.org/0000-0003-3276-2141" class="quarto-titl
 </tr>
 </tbody>
 </table>
+</div>
 </div></aside></section><section id="git-commit" class="slide level2"><h2>Git ‘commit’</h2>
 <p>A commit is a labelled snapshot of your work.</p>
 <div class="fragment">
@@ -2210,7 +2229,11 @@ Hanne Oberman <a href="https://orcid.org/0000-0003-3276-2141" class="quarto-titl
 </ul>
 </div>
 <div class="fragment">
-<p>Always: - Pull before you start working. - Push after completing a coherent piece of work.</p>
+<p>Always:</p>
+<ul>
+<li class="fragment">Pull before you start working.</li>
+<li class="fragment">Push after completing a coherent piece of work.</li>
+</ul>
 </div>
 </section><section id="cloning" class="slide level2"><h2>Cloning</h2>
 <p>Cloning means copying an online repository—such as one on GitHub—to your own computer.</p>
@@ -2237,6 +2260,8 @@ Hanne Oberman <a href="https://orcid.org/0000-0003-3276-2141" class="quarto-titl
 <li class="fragment">Keep the experiment if it is useful.</li>
 <li class="fragment">Discard it if it does not work out.</li>
 </ul>
+</div>
+<div class="fragment">
 <p>Your main project remains safe while you explore.</p>
 </div>
 </section><section id="merging" class="slide level2"><h2>Merging</h2>
@@ -2268,7 +2293,9 @@ Hanne Oberman <a href="https://orcid.org/0000-0003-3276-2141" class="quarto-titl
 <li class="fragment">Communicate before rewriting the same section.</li>
 <li class="fragment">Merge changes regularly rather than waiting until the end.</li>
 </ul>
+<div class="fragment">
 <p>Small and frequent coordination is much easier than one huge final merge.</p>
+</div>
 </section><section id="collaboration-example" class="slide level2"><h2>Collaboration example</h2>
 <p>Three researchers share one repository.</p>
 <ul>
@@ -2295,7 +2322,9 @@ Hanne Oberman <a href="https://orcid.org/0000-0003-3276-2141" class="quarto-titl
 <li class="fragment">Approve the work.</li>
 <li class="fragment">Merge it into the main project.</li>
 </ul>
+<div class="fragment">
 <p>It is like sending a draft for feedback—except comments are attached directly to the exact changes.</p>
+</div>
 </section><section id="prs-as-review" class="slide level2"><h2>PRs as review</h2>
 <p>Reviewing via PRs can help a team:</p>
 <ul>
@@ -2310,9 +2339,6 @@ Hanne Oberman <a href="https://orcid.org/0000-0003-3276-2141" class="quarto-titl
 <li class="fragment"><p>Commit: a labelled snapshot of selected changes.</p></li>
 <li class="fragment"><p>Push: uploading your commits to the shared online repository.</p></li>
 <li class="fragment"><p>Pull: downloading updates from the shared online repository.</p></li>
-</ul>
-<p><br></p>
-<ul>
 <li class="fragment"><p>Clone: copying an online repository to your computer.</p></li>
 <li class="fragment"><p>Branch: a separate line of work or experiment.</p></li>
 <li class="fragment"><p>Fork: an independent copy of someone else’s repository.</p></li>
@@ -2321,10 +2347,8 @@ Hanne Oberman <a href="https://orcid.org/0000-0003-3276-2141" class="quarto-titl
 <li class="fragment"><p>Pull request: a request to review and merge proposed changes.</p></li>
 </ul></section><section id="references" class="slide level2"><h2>References</h2>
 <ul>
-<li class="fragment">Harmon, J., (2026). R4ds/bookclub-advr. (2026, June 8). <a href="https://github.com/r4ds/bookclub-advr" class="uri">https://github.com/r4ds/bookclub-advr</a> (Original work published 2022)</li>
-<li class="fragment">Navarro, D. (n.d.). Project structure. Retrieved September 25, 2026, from <a href="https://slides.djnavarro.net/project-structure/" class="uri">https://slides.djnavarro.net/project-structure/</a>
-</li>
-<li class="fragment">Pileggi, S., (2026). Rstats-wtf/wtf-debugging-slides. (2026, January 30). <a href="https://github.com/rstats-wtf/wtf-debugging-slides" class="uri">https://github.com/rstats-wtf/wtf-debugging-slides</a> (Original work published 2022)</li>
+<li class="fragment">Hester, J. B., the STAT 545 TAs, Jim. (n.d.). Chapter 6 Install Git | Happy Git and GitHub for the useR. Retrieved October 15, 2026, from https://happygitwithr.com/install-git.html</li>
+<li class="fragment">jennybc/happy-git-with-r: Using Git and GitHub with R, Rstudio, and R Markdown. (n.d.). Retrieved October 15, 2026, from https://github.com/jennybc/happy-git-with-r?tab=License-1-ov-file</li>
 </ul></section></section><section></section>
 </div>
   <div class="quarto-auto-generated-content" style="display: none;">
