@@ -248,16 +248,16 @@ A repository, often shortened to 'repo', is a project folder that Git manages.
 ::: fragment
 For example:
 
-- survey-project/ <br>
--   README.md <br>
--   data/ <br>
--   scripts/ <br>
--     01-clean-data.R <br>
--     02-analysis.R <br>
--   output/ <br>
--     figures/ <br>
--   manuscript/ <br>
--     article.qmd
+survey-project/ <br>
+  README.md <br>
+  data/ <br>
+  scripts/ <br>
+    01-clean-data.R <br>
+    02-analysis.R <br>
+  output/ <br>
+    figures/ <br>
+  manuscript/ <br>
+    article.qmd
 :::
 
 ::: fragment
