@@ -113,6 +113,19 @@ It lets you:
 Think of it as 'track changes' for an entire research project.
 :::
 
+## Git vs GitHub
+
+`r fontawesome::fa("code-merge", fill = "black")` Git is software on your own computer.
+
+- It tracks the history of files in a project folder.
+
+::: fragment
+`r fontawesome::fa("github", fill = "black")` GitHub is an online platform.
+
+- It can store Git projects, back them up, and help people collaborate.
+:::
+
+
 ## Learning objectives
 
 - Understand the use and usefulness of Git for version control and collaboration in R.
@@ -228,18 +241,6 @@ Think of it as 'track changes' for an entire research project.
 :::
 ::::
 
-## Git vs GitHub
-
-Git is software on your own computer.
-
-- It tracks the history of files in a project folder.
-
-::: fragment
-GitHub is an online platform.
-
-- It can store Git projects, back them up, and help people collaborate.
-:::
-
 
 ## Repo
 
@@ -248,21 +249,50 @@ A repository, often shortened to 'repo', is a project folder that Git manages.
 ::: fragment
 For example:
 
-survey-project/ <br>
-  README.md <br>
-  data/ <br>
-  scripts/ <br>
-    01-clean-data.R <br>
-    02-analysis.R <br>
-  output/ <br>
-    figures/ <br>
-  manuscript/ <br>
+```
+survey-project/
+  README.md
+  data/
+    01_raw_data.csv
+    02_clean_data.csv
+  scripts/
+    01_clean-data.R
+    02_analysis.R
+  output/
+    figures/
+  manuscript/
     article.qmd
+```
 :::
 
 ::: fragment
 A repository contains both your files and a history of their changes.
 :::
+
+## Repo
+
+A repository, often shortened to 'repo', is a project folder that Git manages.
+
+For example:
+
+```
+survey-project/
+  README.md
+  data/
+    01_raw_data.csv
+    02_clean_data.csv
+  scripts/
+    01_clean-data.R
+    02_analysis.R
+  output/
+    figures/
+  manuscript/
+    article.qmd
+  .git/
+```
+
+A repository contains both your files and a history of their changes.
+
 
 ## README
 
@@ -292,21 +322,6 @@ A README is a short document that introduces and explains a project.
 A commit is a labelled snapshot of your work.
 
 ::: fragment
-Instead of making copies called:
-
-  `analysis_new_final_revised.R`
-
-you create a commit with a meaningful message:
-
-  `Handle missing values in income variable`
-
-or:
-
-  `Add robustness check with alternative model`
-
-:::
-
-::: fragment
 A commit records:
 
 - What changed?
@@ -314,46 +329,76 @@ A commit records:
 - When and by whom did it happen?
 :::
 
+
+::: fragment
+Instead of making copies called...
+
+```
+  analysis_new_final_revised.R
+```
+:::
+
+::: fragment
+
+... you create a commit with a meaningful message
+
+```
+  Handle missing values in income variable
+```
+
+:::
+
+::: fragment
+... or
+
+```
+  Add robustness check with alternative model
+```
+:::
+
 ## Commit messages
 
 Commit messages are notes to your collaborators (incl. your future self).
 
 ::: fragment
+A good commit message is short and specific.
+
+For example: `Add descriptive table for sample characteristics`
+:::
+
+<br>
+
+::: fragment
 
 Imagine reopening your project in six months.
 
+
 Which message is more useful?
-
-“changes”
-
-or:
-
-“Correct reverse coding for trust scale”
-
-“final version”
-
-or:
-
-“Add Figure 2 for subgroup analysis”
 :::
 
 ::: fragment
-A good commit message is short and specific.
-
-For example: “Add descriptive table for sample characteristics”
-
+- `changes`, or 
+- `Correct reverse coding for trust scale`
 :::
 
-## Commits as memo/lab note archive
+::: fragment
+- `final version`, or 
+- `Add Figure 2 for subgroup analysis`
+:::
+
+
+## Commits as memo/lab note archive {.smaller}
 
 A Git history might look like this:
 
-- Add project README
-- Import survey data
-- Document data-cleaning rules
-- Run initial descriptive analysis
-- Add regression model
-- Revise model after supervisor feedback
+::: smaller
+- `Add project README`
+- `Import survey data`
+- `Document data-cleaning rules`
+- `Run initial descriptive analysis`
+- `Add regression model`
+- `Revise model after supervisor feedback`
+:::
 
 ::: fragment
 This helps answer questions such as:
