@@ -113,6 +113,8 @@ The following links may also be very useful:
 How to install a Git client? And which one to choose? 
 
 ::: {.callout-tip}
+# GUI or terminal?
+
 Ultimately, you'll want to learn how to use Git through the command line interface (CLI). It offers better and more comprehensive functionality. Take [this 15-minute course](https://learngitbranching.js.org) to get a gentle introduction. But do not be afraid that you miss out on the CLI if you don't study this link: in 'Markup Languages and Reproducible Programming in Statistics' we'll explore in detail how to handle Git when things go haywire. You'll be a CLI-wizard by then.
 :::
 
