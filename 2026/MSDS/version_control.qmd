@@ -37,7 +37,7 @@ format:
 
 This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/) (CC BY-SA4.0).
 
-These materials have been developed in part by [Hanne Oberman](https://hanneoberman.github.io/).
+These materials have been developed by [Hanne Oberman](https://hanneoberman.github.io/).
 
 When using these materials, you *must* ensure that the content is not used for generative AI model training.
 <br>
@@ -115,7 +115,7 @@ Think of it as 'track changes' for an entire research project.
 
 ## Git vs GitHub
 
-`r fontawesome::fa("code-merge", fill = "black")` Git is software on your own computer.
+`r fontawesome::fa("git-alt", fill = "black")` Git is software on your own computer.
 
 - It tracks the history of files in a project folder.
 
@@ -317,7 +317,7 @@ A README is a short document that introduces and explains a project.
 :::
 :::
 
-## Git 'commit'
+## Git 'commit' `r fontawesome::fa("code-commit", fill = "black")`
 
 A commit is a labelled snapshot of your work.
 
@@ -424,7 +424,7 @@ The basic cycle is:
 Committing changes is like putting selected documents in an envelope before sending it.
 :::
 
-## Git 'push'
+## Git 'push' `r fontawesome::fa("arrow-up", fill = "black")`
 
 Pushing means uploading commits from your local repository on your computer to the shared remote repository, for example on GitHub.
 
@@ -432,7 +432,7 @@ Pushing means uploading commits from your local repository on your computer to t
 Think of it as posting your mail(s) at the post office.
 :::
 
-## Git 'pull'
+## Git 'pull' `r fontawesome::fa("arrow-down", fill = "black")`
 
 Pulling means downloading the latest commits from a shared remote repository, such as GitHub, into your local repository on your computer.
 
@@ -564,7 +564,7 @@ Always:
 - Push after completing a coherent piece of work.
 :::
 
-## Cloning
+## Cloning `r fontawesome::fa("clone", fill = "black")`
 
 Cloning means copying an online repository—such as one on GitHub—to your own computer.
 
@@ -576,8 +576,7 @@ The copy includes:
 - information about the original online repository.
 :::
 
-
-## Branching
+## Branching `r fontawesome::fa("code-branch", fill = "black")`
 
 A branch is a separate line of work.
 
@@ -586,14 +585,17 @@ If the main branch is the 'production' version, a branch is a sandbox where you 
 :::
 
 ::: fragment
-Suppose your main analysis uses linear regression.
+Example: suppose your main analysis uses linear regression.
+:::
 
+::: fragment
 You want to explore a multilevel model, but you are not yet sure it is appropriate.
+:::
 
+::: fragment
 A branch lets you:
 
 - Try the new model.
-- Compare its results with the main analysis.
 - Keep the experiment if it is useful.
 - Discard it if it does not work out.
 :::
@@ -602,20 +604,40 @@ A branch lets you:
 Your main project remains safe while you explore.
 :::
 
-## Merging
+## Forking `r fontawesome::fa("code-fork", fill = "black")`
 
-A merge combines changes from one branch into another branch.
+A fork is copy of somebody else’s repository.
+
+::: fragment
+Unlike a branch, a fork is a separate repository under your own GitHub account.
+
+The original project remains unchanged.
+:::
+
+::: fragment
+A fork is useful when you want to:
+
+- explore or adapt an existing project
+- make changes without needing direct access to the original repository
+- contribute improvements to an open-source project
+- use someone else’s code as a starting point for your own work
+:::
+
+## Merging `r fontawesome::fa("code-merge", fill = "black")`
+
+A merge combines changes from one branch into another.
 
 ::: fragment
 For example:
 
-You try an alternative model on a separate branch.
-The model is accepted by the research team.
-You merge that work into the main branch.
+- You try an alternative model on a separate branch.
+- The model is accepted by the research team.
+- You merge that work into the main branch.
+:::
+
+::: fragment
 
 Merging is how separate work becomes part of the shared project.
-
-It is a bit like integrating a revised section into the final version of a jointly written paper.
 :::
 
 ## Merge conflicts
@@ -624,13 +646,17 @@ A merge conflict occurs when Git cannot automatically combine two edits.
 
 ::: fragment
 For example, two people rewrite the same sentence in different ways.
+:::
 
+::: fragment
 Git does not know which wording the team prefers.
+:::
 
-It pauses and effectively says:
+::: fragment
+It pauses and effectively says: 'I see two possible edits. A human needs to decide.'
+:::
 
-“I see two possible edits. A human needs to decide.”
-
+::: fragment
 A merge conflict is not a disaster.
 
 It is a prompt to review and make a conscious decision.
@@ -653,29 +679,11 @@ It is a prompt to review and make a conscious decision.
 Small and frequent coordination is much easier than one huge final merge.
 :::
 
-## Collaboration example
-
-Three researchers share one repository.
-
-- Noor cleans the survey data.
-- Sam runs the statistical analysis.
-- Eli writes the methods and results sections.
-
-::: fragment
-They can work on different files or branches.
-
-- Git helps them combine their work and see what has changed.
-
-- But Git does not replace communication.
-
-- The team still needs agreements about tasks, deadlines, and decisions.
-:::
-
-## Pull request
+## Pull request `r fontawesome::fa("code-pull-request", fill = "black")`
 
 A pull request (PR) is a request to merge proposed changes into a shared branch.
 
-It lets colleagues:
+It lets colleagues/maintainers:
 
 - Inspect the changes.
 - Comment on specific lines.
@@ -685,7 +693,7 @@ It lets colleagues:
 - Merge it into the main project.
 
 ::: fragment
-It is like sending a draft for feedback—except comments are attached directly to the exact changes.
+Once accepted, the proposed version becomes the 'main' version.
 :::
 
 ## PRs as review
@@ -721,6 +729,23 @@ Reviewing via PRs can help a team:
 
 - Pull request: a request to review and merge proposed changes.
 
+## Collaboration workflow
+
+Three researchers share one repository.
+
+- Noor cleans the survey data.
+- Sam runs the statistical analysis.
+- Eli writes the methods and results sections.
+
+::: fragment
+They can work on different files or branches.
+
+- Git helps them combine their work and see what has changed.
+
+- Git does not replace communication. The team still needs agreements about tasks, deadlines, and decisions, and (probably) merge conflicts.
+
+- Git facilitates the annotated project archive and provenance.
+:::
 
 ## References
 
