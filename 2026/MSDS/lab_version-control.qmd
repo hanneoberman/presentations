@@ -60,9 +60,9 @@ You can download certain GitHub repositories directly in R.
 For example, the most up-to-date version of the `mice` package in `R` can be directly installed from the `mice` repository with the following code:
 
 ```r
-pak::pak("stefvanbuuren/mice")
+pak::pak("amices/mice")
 ```
-*Note.* this requires installing [pak](https://pak.r-lib.org/#arrow_down-installation) first.
+*Note.* this may require installing [pak](https://pak.r-lib.org/#arrow_down-installation) first.
 
 Loading packages in `R` directly from their respective GitHub repositories allows you to obtain the latest - often improved and less buggy - iteration of that software even before it is published on [`CRAN`](https://cran.r-project.org).
 :::
@@ -153,7 +153,7 @@ With an SSH key you can identify yourself to an online server (in this case the 
 
 ### Personal access tokens
 
-Because GitHub requires Two-Factor Authentication (2FA), your username and password are not sufficient to `push` `commits` to GitHub through RStudio. To solve this, follow these steps on [github.com](https://github.com) as detailed in [this walkthrough video](https://www.gerkovink.com/oldmarkup/Wk1/Link%20Git%20and%20RStudio.mp4):
+Because GitHub requires Two-Factor Authentication (2FA), your username and password are not sufficient to `push` `commits` to GitHub through RStudio. To solve this, follow these steps on [github.com](https://github.com) as detailed in [Happy Git with R](https://happygitwithr.com/https-pat) (and [this walkthrough video](https://www.gerkovink.com/oldmarkup/Wk1/Link%20Git%20and%20RStudio.mp4)):
 
 1.  Log in to your account
 2.  Click on your profile photo (upper right corner) and select `Settings`
@@ -194,5 +194,6 @@ In RStudio, paste the generated token in the password field when RStudio asks fo
 
 # Instructions for handing in your work
 
-- This week, there is no hand-in via Brightspace. Instead, you hand in your work via GitHub, as described above. 
-- Submit your pull request at least one day before the next class session. Make sure to resolve any merge conflicts. 
+- This week, there are no documents to hand-in via Brightspace. Instead, you submit your work via GitHub, as described above. Make sure to resolve any merge conflicts. 
+- Then, on Brightspace, post a link to your GitHub pull request (PR).
+- Submit your work at least one day before the next class session. 
