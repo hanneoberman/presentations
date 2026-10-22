@@ -747,6 +747,19 @@ They can work on different files or branches.
 - Git facilitates the annotated project archive and provenance.
 :::
 
+## Walk-through
+
+1. New GitHub [repository](https://github.com/orgs/mlarpis/repositories)
+2. Add README, `.gitignore` and license
+3. Fork online
+4. Clone locally
+5. Add Quarto, render
+6. Edit Quarto, render
+7. Commit
+8. Push
+9. Pull request
+10. Review, merge
+
 ## References
 
 - Hester, J. B., the STAT 545 TAs, Jim. (n.d.). Chapter 6 Install Git | Happy Git and GitHub for the useR. Retrieved October 15, 2026, from https://happygitwithr.com/install-git.html
