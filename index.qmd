@@ -11,11 +11,20 @@ format:
       light: [lux, theme-light.scss]
 ---
 
-<center>
-
+<!-- set-up -->
 <link rel=stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <link rel=stylesheet href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 <a rel="me" href="https://mastodon.social/@oberman"></a>
+<style>
+.slide-deck {
+    border: 3px solid #dee2e6;
+    width: 100%;
+    height: 475px;
+}
+</style>
+
+<!-- logos -->
+<center>
 
 <a href=https://hanneoberman.github.io/ class="fa fa-home"></a>
 <a href=https://www.uu.nl/staff/HIOberman class="fa fa-building"></a>
@@ -31,23 +40,16 @@ format:
 
 ## 2026
 
-- Lecture MSDS, Utrecht University, *Debugging R*. Slides available [here](https://hanneoberman.github.io/presentations/2026/MSDS/debugging.html).
-- Presentation Meta Science for Methods Research, University of Zurich,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/MSMR/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://hanneoberman.github.io/presentations/2026/MSMR).  <br>$\rightarrow$ Or use the arrow keys to page through the embedded Quarto presentation below️ ⬇️
-
-<style>
-.slide-deck {
-    border: 3px solid #dee2e6;
-    width: 100%;
-    height: 475px;
-}
-</style>
+- Presentation Meta Science for Methods Research, University of Zurich,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/odissei/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://hanneoberman.github.io/presentations/2026/odissei).  <br>$\rightarrow$ Or use the arrow keys to page through the embedded Quarto presentation below️ ⬇️
 
 <div>
 ```{=html}
-<iframe class="slide-deck" src="./2026/MSMR/Teaching_Open_Science_and_Reproducibility.html"></iframe>
+<iframe class="slide-deck" src="./2026/odissei/Teaching_Open_Science_and_Reproducibility.html"></iframe>
 ```
 </div>
 
+- Lecture MSDS, Utrecht University, *Debugging R*. Slides available [here](https://hanneoberman.github.io/presentations/2026/MSDS/debugging.html).
+- Presentation Meta Science for Methods Research, University of Zurich,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/MSMR/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://hanneoberman.github.io/presentations/2026/MSMR).  
 - Poster Meta Science for Methods Research, University of Zurich,  *Toward a standardized evaluation of imputation methodology*. Poster available [here](https://hanneoberman.github.io/presentations/2026/MSMR/poster.pdf), study materials available [here](https://doi.org/10.5281/zenodo.7468677).
 
 ```{=html}
@@ -62,15 +64,6 @@ format:
 <!-- - KEN, Utrecht University,  *Building interactive web apps with the `R` package `shiny`*. Slides available [here](https://hanneoberman.github.io/presentations/2026/adav/lecture.pdf), materials available [here](https://github.com/hanneoberman/presentations/2026/adav). -->
 <!-- ![](2026/rainbowRconf/conference-banner.png) -->
 - Presentation rainbowR conference 2026, online, *Seeing What's Missing*. Slides available [here](https://hanneoberman.github.io/presentations/2026/rainbowRconf/rainbowRconf.html), materials available [here](https://github.com/hanneoberman/presentations/tree/main/2026/rainbowRconf). <br>$\rightarrow$ Or use the arrow keys to page through the embedded Quarto presentation below️ ⬇️
-
-
-<style>
-.slide-deck {
-    border: 3px solid #dee2e6;
-    width: 100%;
-    height: 475px;
-}
-</style>
 
 <div>
 ```{=html}
