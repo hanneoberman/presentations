@@ -40,7 +40,7 @@ format:
 
 ## 2026
 
-- Presentation Meta Science for Methods Research, University of Zurich,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/odissei/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://hanneoberman.github.io/presentations/2026/odissei).  <br>$\rightarrow$ Or use the arrow keys to page through the embedded Quarto presentation below️ ⬇️
+- Presentation ODISSEI Conference, Utrecht, NL,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/odissei/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://hanneoberman.github.io/presentations/2026/odissei).  <br>$\rightarrow$ Or use the arrow keys to page through the embedded Quarto presentation below️ ⬇️
 
 <div>
 ```{=html}
