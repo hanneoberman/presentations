@@ -40,7 +40,7 @@ format:
 
 ## 2026
 
-- Presentation ODISSEI Conference, Utrecht, NL,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/odissei/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://hanneoberman.github.io/presentations/2026/odissei).  <br>$\rightarrow$ Or use the arrow keys to page through the embedded Quarto presentation below️ ⬇️
+- Presentation ODISSEI Conference, Utrecht, NL,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/odissei/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://github.com/hanneoberman/presentations/tree/main/2026/odissei).  <br>$\rightarrow$ Or use the arrow keys to page through the embedded Quarto presentation below️ ⬇️
 
 <div>
 ```{=html}
@@ -49,7 +49,7 @@ format:
 </div>
 
 - Lecture MSDS, Utrecht University, *Debugging R*. Slides available [here](https://hanneoberman.github.io/presentations/2026/MSDS/debugging.html).
-- Presentation Meta Science for Methods Research, University of Zurich,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/MSMR/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://hanneoberman.github.io/presentations/2026/MSMR).  
+- Presentation Meta Science for Methods Research, University of Zurich,  *Teaching Open Science and Reproducibility*. Presentation available [here](https://hanneoberman.github.io/presentations/2026/MSMR/Teaching_Open_Science_and_Reproducibility.html), materials available [here](https://github.com/hanneoberman/presentations/tree/main/2026/MSMR).  
 - Poster Meta Science for Methods Research, University of Zurich,  *Toward a standardized evaluation of imputation methodology*. Poster available [here](https://hanneoberman.github.io/presentations/2026/MSMR/poster.pdf), study materials available [here](https://doi.org/10.5281/zenodo.7468677).
 
 ```{=html}
